@@ -1,0 +1,23 @@
+html
+   body
+      form.well(name='myForm')
+         .control-group(ng-class='{error: myForm.Name.$invalid}')
+            label First Name
+            input(type='text', name='FirstName', ng-model='contact.FirstName')
+            label Last Name
+            input(type='text', name='LastName', ng-model='contact.LastName', required='')
+            span.help-inline(ng-show='myForm.LastName.$error.required')
+               | Required
+            label Title
+            input(type='text', name='Title', ng-model='contact.Title')
+            label Email
+            input(type='text', name='Email', ng-model='contact.Email')
+            label Phone
+            input(type='text', name='Phone', ng-model='contact.Phone')
+            input(type='hidden', disabled='disabled', name='Id', ng-model='contact.Id')
+         p(style='text-align: center;padding-bottom: 30px;padding-top: 40px;')
+            button.btn.btn-primary(ng-click='save()', ng-disabled='isClean() || myForm.$invalid')
+               | Save
+            button.btn.btn-danger(ng-click='destroy()', ng-show='contact.Id')
+               | Delete
+            button.btn(ng-click='doCancel()') Cancel

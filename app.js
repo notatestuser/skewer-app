@@ -37,6 +37,12 @@ app.get('/', function (req, res) {
 app.get('/index.html', function (req, res) {
    res.render("index", { client_id: client_id, app_url: app_url});
 });
+app.get('/partials/:filename.html', function (req, res) {
+   res.render("partials/"+req.params.filename);
+});
+app.get('/partials/:folder/:filename.html', function (req, res) {
+   res.render("partials/"+req.params.folder+"/"+req.params.filename);
+});
 
 
 app.all('/proxy/?*', function (req, res) {

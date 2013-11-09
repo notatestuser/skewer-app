@@ -1,0 +1,46 @@
+html
+   body
+      div(ng-show='isWorking()')
+         p Working
+      div(ng-show='!isWorking()')
+         // This div is only displayed in deskcops (see below for mobile phones)
+         .hidden-phone
+            div(style='float: left')
+               div(style='margin-bottom: 10px;')
+                  input.search-query(type='text', ng-model='searchTerm', placeholder='Search')
+                  p.btn.btn-primary(ng-click='doSearch(searchString)') Go
+            div(style='float: right')
+               a.btn.btn-primary(href='#/new') New
+            table.table(width='80%')
+               thead
+                  tr
+                     th.hidden-phone Id
+                     th Full Name
+                     th Company
+                     th.hidden-phone Title
+                     th Phone
+                     th.hidden-phone Email
+               tbody
+                  tr(ng-repeat='contact in contacts')
+                     td.hidden-phone &lcub;&lcub;contact&period;Id&rcub;&rcub;
+                     td
+                        a(href='#/view/{{contact.Id}}') &lcub;&lcub;contact&period;FirstName&rcub;&rcub; &lcub;&lcub;contact&period;LastName&rcub;&rcub;
+                     td &lcub;&lcub;contact&period;Account&period;Name&rcub;&rcub;
+                     td.hidden-phone &lcub;&lcub;contact&period;Title&rcub;&rcub;
+                     td &lcub;&lcub;contact&period;Phone&rcub;&rcub;
+                     td.hidden-phone &lcub;&lcub;contact&period;Email&rcub;&rcub;
+         // This div is only displayed in mobile phones (see above for desktops)
+         .visible-phone
+            form.form-inline
+               input.input-medium.search-query(type='text', ng-model='searchTerm', placeholder='Search')
+               button.btn.btn-primary(ng-click='doSearch(searchString)') Go
+               button.btn.btn-default(ng-click='doCreate()') &NonBreakingSpace;&plus;&NonBreakingSpace;
+            table.table
+               tr(ng-click='doView(contact.Id)', ng-repeat='contact in contacts')
+                  td
+                     | &lcub;&lcub;contact&period;FirstName&rcub;&rcub; &lcub;&lcub;contact&period;LastName&rcub;&rcub;
+                     br
+                     small
+                        i &lcub;&lcub;contact&period;Account&period;Name&rcub;&rcub;
+                  td
+                     i.icon-chevron-right
