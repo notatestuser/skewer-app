@@ -1,0 +1,46 @@
+!!! 5
+html
+   head
+      meta(name='viewport', content='width=device-width, initial-scale=1.0')
+
+      style.
+         body {
+            padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+         }
+         .button {
+            text-align: center;
+         }
+
+      link(href='css/bootstrap.min.css', rel='stylesheet')
+      link(href='css/bootstrap-responsive.min.css', rel='stylesheet')
+
+   body(ng-app='AngularSFDemo')
+      .navbar.navbar-inverse.navbar-fixed-top(ng-controller='LoginCtrl')
+         .navbar-inner
+            .container
+               a.brand(href='#') Skewer
+               .btn-group.pull-right(ng-show='isLoggedIn()')
+                  a.btn.dropdown-toggle
+                     i.icon-wrench
+                  ul.dropdown-menu
+                     li(ng-click='logout()')
+                        a Log Out
+      .container
+         div(ng-view='')
+
+      script(type='text/javascript')
+         //Get configuration from environment variables (via heroku or localhost env)
+         var configFromEnv = {};
+         configFromEnv.app_url   = '#{app_url}';
+         configFromEnv.client_id = '#{client_id}';
+
+      script(src='js/vendor/jquery-2.0.0.min.js')
+      script(src='js/vendor/underscore-1.4.4.min.js')
+      script(src='js/vendor/angular.1.0.6.min.js')
+      script(src='js/vendor/dropdownToggle.js')
+      script(src='js/sdk/forcetk.mobilesdk.js')
+      script(src='js/sdk/smartsync.js')
+      script(src='js/sdk/angular-force.js')
+      script(src='js/sdk/forcetk.ui.js')
+      script(src='js/init.js')
+      script(src='js/app.js')
