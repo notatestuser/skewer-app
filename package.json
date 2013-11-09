@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "./node_modules/coffee-script/bin/coffee -c -b -o public/js src; node app"
+    "start": "./node_modules/coffee-script/bin/coffee -c -o public/js src; node app"
   },
   "dependencies": {
     "request": "*",

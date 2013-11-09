@@ -2,9 +2,11 @@
 This initializes AngularJS app. Place this file BEFORE app.js (where your actual app is located).
 ###
 
-#var app = angular.module('AngularSFDemo', ['AngularForce', 'AngularForceObjectFactory', 'Contact', 'ui.bootstrap.dropdownToggle']);
-#app.constant('SFConfig', getSFConfig());
-initApp = (options, forcetkClient) ->
+globals = window.SFGlobals = {}
+
+# ⚑
+# TODO: Figure out why this has to be attached to the window
+window.initApp = globals.initApp = (options, forcetkClient) ->
    options = options or {}
    options.loginUrl = SFConfig.sfLoginURL
    options.clientId = SFConfig.consumerKey
@@ -66,7 +68,7 @@ Note: Please configure SFConfig Salesforce consumerkey, proxyUrl etc in getSFCon
 @returns SFConfig object depending on where (localhost v/s heroku v/s visualforce) the app is running.
 ###
 
-getSFConfig = ->
+getSFConfig = globals.getSFConfig = ->
    location = document.location
    href = location.href
    if href.indexOf("file:") >= 0 #Phonegap

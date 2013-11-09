@@ -1,2 +1,2 @@
 ./start.sh &
-./node_modules/coffee-script/bin/coffee -c -w -b -o public/js src
+./node_modules/coffee-script/bin/coffee -c -w -o public/js src

@@ -6,45 +6,47 @@ app = angular.module('AngularSFDemo', [
    'SFModels',
    'ui.bootstrap.dropdownToggle'])
 
-SFConfig = getSFConfig()
-SFConfig.maxListSize = 25
+# ⚑
+# TODO: Figure out why this has to be attached to the window
+window.SFConfig = SFGlobals.getSFConfig()
+window.SFConfig.maxListSize = 25
 
 app.constant "SFConfig", SFConfig
 
 app.config ($routeProvider) ->
-   $routeProvider.when("/",
-      controller: HomeCtrl
-      templateUrl: "partials/home.html"
+   $routeProvider.when('/',
+      controller: 'HomeCtrl'
+      templateUrl: 'partials/home.html'
    )
-   .when("/login",
-      controller: LoginCtrl
-      templateUrl: "partials/login.html"
+   .when('/login',
+      controller: 'LoginCtrl'
+      templateUrl: 'partials/login.html'
    )
-   .when("/logout",
-      controller: LoginCtrl
-      templateUrl: "partials/logout.html"
+   .when('/logout',
+      controller: 'LoginCtrl'
+      templateUrl: 'partials/logout.html'
    )
-   .when("/callback",
-      controller: CallbackCtrl
-      templateUrl: "partials/callback.html"
+   .when('/callback',
+      controller: 'CallbackCtrl'
+      templateUrl: 'partials/callback.html'
    )
-   .when("/contacts",
-      controller: ContactListCtrl
-      templateUrl: "partials/contact/list.html"
+   .when('/contacts',
+      controller: 'ContactListCtrl'
+      templateUrl: 'partials/contact/list.html'
    )
-   .when("/view/:contactId",
-      controller: ContactViewCtrl
-      templateUrl: "partials/contact/view.html"
+   .when('/view/:contactId',
+      controller: 'ContactViewCtrl'
+      templateUrl: 'partials/contact/view.html'
    )
-   .when("/edit/:contactId",
-      controller: ContactDetailCtrl
-      templateUrl: "partials/contact/edit.html"
+   .when('/edit/:contactId',
+      controller: 'ContactDetailCtrl'
+      templateUrl: 'partials/contact/edit.html'
    )
-   .when("/new",
-      controller: ContactDetailCtrl
-      templateUrl: "partials/contact/edit.html"
+   .when('/new',
+      controller: 'ContactDetailCtrl'
+      templateUrl: 'partials/contact/edit.html'
    )
-   .otherwise redirectTo: "/"
+   .otherwise redirectTo: '/'
 
 #####
 
@@ -55,8 +57,9 @@ create an 'Contact' object. And then set its type, fields, where-clause etc.
 PS: This module is injected into ListCtrl, EditCtrl etc. controllers to further consume the object.
 ###
 
-#Describe the contact object
-HomeCtrl = ($scope, AngularForce, $location, $route) ->
+app
+
+.controller('HomeCtrl', ($scope, AngularForce, $location, $route) ->
    isOnline = AngularForce.isOnline()
    isAuthenticated = AngularForce.authenticated()
 
@@ -79,8 +82,9 @@ HomeCtrl = ($scope, AngularForce, $location, $route) ->
 
    else
       $location.path "/login"
+)
 
-LoginCtrl = ($scope, AngularForce, $location) ->
+.controller('LoginCtrl', ($scope, AngularForce, $location) ->
    #Usually happens in Cordova
    return $location.path("/contacts/")  if AngularForce.authenticated()
    $scope.login = ->
@@ -102,8 +106,9 @@ LoginCtrl = ($scope, AngularForce, $location) ->
          #Now go to logout page
          $location.path "/logout"
          $scope.$apply()
+)
 
-CallbackCtrl = ($scope, AngularForce, $location) ->
+.controller('CallbackCtrl', ($scope, AngularForce, $location) ->
    AngularForce.oauthCallback document.location.href
 
    #Note: Set hash to empty before setting path to /contacts to keep the url clean w/o oauth info.
@@ -111,8 +116,9 @@ CallbackCtrl = ($scope, AngularForce, $location) ->
    # and another from oauth)
    $location.hash ""
    $location.path "/contacts"
+)
 
-ContactListCtrl = ($scope, AngularForce, $location, Contact) ->
+.controller('ContactListCtrl', ($scope, AngularForce, $location, Contact) ->
    return $location.path("/home")  unless AngularForce.authenticated()
    $scope.searchTerm = ""
    $scope.working = false
@@ -137,15 +143,17 @@ ContactListCtrl = ($scope, AngularForce, $location, Contact) ->
 
    $scope.doCreate = ->
       $location.path "/new"
+)
 
-ContactCreateCtrl = ($scope, $location, Contact) ->
+.controller('ContactCreateCtrl', ($scope, $location, Contact) ->
    $scope.save = ->
       Contact.save $scope.contact, (contact) ->
          c = contact
          $scope.$apply ->
             $location.path "/view/" + c.Id
+)
 
-ContactViewCtrl = ($scope, AngularForce, $location, $routeParams, Contact) ->
+.controller('ContactViewCtrl', ($scope, AngularForce, $location, $routeParams, Contact) ->
    AngularForce.login ->
       Contact.get
          id: $routeParams.contactId
@@ -153,8 +161,9 @@ ContactViewCtrl = ($scope, AngularForce, $location, $routeParams, Contact) ->
          self.original = contact
          $scope.contact = new Contact(self.original)
          $scope.$apply() #Required coz sfdc uses jquery.ajax
+)
 
-ContactDetailCtrl = ($scope, AngularForce, $location, $routeParams, Contact) ->
+.controller('ContactDetailCtrl', ($scope, AngularForce, $location, $routeParams, Contact) ->
    self = this
    if $routeParams.contactId
       AngularForce.login ->
@@ -196,3 +205,4 @@ ContactDetailCtrl = ($scope, AngularForce, $location, $routeParams, Contact) ->
       else
          $location.path "/contacts"
 
+)
