@@ -32,4 +32,5 @@ window.app
          $scope.$apply()
       # on resize figure out what our aspect ratio is
       $(window).resize setRatioFn
+      setRatioFn()
 ])

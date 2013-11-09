@@ -81,7 +81,7 @@ window.app
 
    $scope.editorContext =
       inEditMode: yes
-      aspectRatio: 2
+      aspectRatio: 1.777
 
    compactComponents = ->
       $scope.components = $scope.components.filter (item) -> item?
