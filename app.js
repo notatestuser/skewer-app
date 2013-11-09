@@ -89,5 +89,6 @@ function getAsUriParameters(data) {
 
 
 http.createServer(app).listen(app.get('port'), function () {
+    console.log("Environment variables set. app_url="+app_url+", client_id="+client_id);
     console.log("Express server listening on port " + app.get('port'));
 });
