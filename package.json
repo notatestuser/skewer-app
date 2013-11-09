@@ -4,12 +4,13 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node app"
+    "start": "./node_modules/coffee-script/bin/coffee -c -b -o public/js src; node app"
   },
   "dependencies": {
     "request": "*",
-    "express": "3.1.0",
-    "jade": "~0.35.0"
+    "express": "3.1.x",
+    "jade": "~0.35.0",
+    "coffee-script": "~1.6.3"
   },
   "engines": {
     "node": "0.10.x",
