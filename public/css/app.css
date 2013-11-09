@@ -10,6 +10,11 @@
    }
 }
 
+.component {
+   height: 18%;
+   padding-bottom: 2%;
+}
+
 .component .control-buttons {
    position: absolute;
    left: -16px;
@@ -28,7 +33,7 @@
    background: transparent;
    background-position: center center;
    background-size: cover;
-   height: 20vw;
+   height: 100%;
 }
 
 .image-component-body {

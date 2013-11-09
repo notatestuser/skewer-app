@@ -1,3 +1,18 @@
+div.modal-body.clearfix
+
+   h4.pull-left(style='margin: 3px;')
+      | Aspect ratio: {{editorContext.aspectRatio}}
+      b(ng-hide='editorContext.inEditMode')
+         |  (LOCKED)
+
+   .pull-right(
+         ng-switch='editorContext.inEditMode',
+         ng-click='editorContext.inEditMode = !editorContext.inEditMode')
+      .btn.btn-small.btn-warning(ng-switch-when='true')
+         | Disable edit mode
+      .btn.btn-small(ng-switch-when='false')
+         | Enable edit mode
+
 section.pitch-editor
 
    .component(
@@ -5,7 +20,8 @@ section.pitch-editor
          ng-repeat='component in components',
          ng-switch='component.type')
 
-      aside.control-buttons.btn-group.btn-group-vertical.hidden-desktop
+      aside.control-buttons.fade.btn-group.btn-group-vertical.hidden-desktop(
+            ng-class='{"in": editorContext.inEditMode}')
          a.btn.btn-medium(
                ng-click='addComponent()')
             | +
@@ -13,7 +29,8 @@ section.pitch-editor
                ng-click='removeComponentAt($index)')
             | x
 
-      aside.control-buttons.btn-group.btn-group-vertical.visible-desktop
+      aside.control-buttons.fade.btn-group.btn-group-vertical.visible-desktop(
+            ng-class='{"in": editorContext.inEditMode}')
          a.btn.btn-large(
                ng-click='addComponent()')
             | +

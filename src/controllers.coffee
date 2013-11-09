@@ -79,6 +79,10 @@ window.app
       content: 'http://i.imgur.com/wdt4Ddz.jpg'
    ]
 
+   $scope.editorContext =
+      inEditMode: yes
+      aspectRatio: 2
+
    compactComponents = ->
       $scope.components = $scope.components.filter (item) -> item?
       undefined
