@@ -81,20 +81,19 @@ ContactListCtrl = ($scope, AngularForce, $location, Contact) ->
          $scope.$apply() #Required coz sfdc uses jquery.ajax
       ), (data) ->
 
-
    $scope.doView = (contactId) ->
       console.log "doView"
       $location.path "/view/" + contactId
 
    $scope.doCreate = ->
       $location.path "/new"
+
 ContactCreateCtrl = ($scope, $location, Contact) ->
    $scope.save = ->
       Contact.save $scope.contact, (contact) ->
          c = contact
          $scope.$apply ->
             $location.path "/view/" + c.Id
-
 
 ContactViewCtrl = ($scope, AngularForce, $location, $routeParams, Contact) ->
    AngularForce.login ->
@@ -130,35 +129,19 @@ ContactDetailCtrl = ($scope, AngularForce, $location, $routeParams, Contact) ->
       ), (errors) ->
          alert "Could not delete contact!\n" + JSON.parse(errors.responseText)[0].message
 
-
    $scope.save = ->
       if $scope.contact.Id
          $scope.contact.update ->
             $scope.$apply ->
                $location.path "/view/" + $scope.contact.Id
-
-
       else
          Contact.save $scope.contact, (contact) ->
             c = contact
             $scope.$apply ->
                $location.path "/view/" + c.Id or c.id
 
-
-
    $scope.doCancel = ->
       if $scope.contact.Id
          $location.path "/view/" + $scope.contact.Id
       else
          $location.path "/contacts"
-
-angular.module("Contact", []).factory "Contact", (AngularForceObjectFactory) ->
-   objDesc =
-      type: "Contact"
-      fields: ["FirstName", "LastName", "Title", "Phone", "Email", "Id", "Account.Name"]
-      where: ""
-      orderBy: "LastName"
-      limit: 20
-
-   Contact = AngularForceObjectFactory(objDesc)
-   Contact
