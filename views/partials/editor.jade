@@ -1,0 +1,37 @@
+section.pitch-editor
+
+   .component(
+         data-base-component,
+         ng-repeat='component in components',
+         ng-switch='component.type')
+
+      aside.control-buttons.btn-group.btn-group-vertical.hidden-desktop
+         a.btn.btn-medium(
+               ng-click='addComponent()')
+            | +
+         a.btn.btn-medium.btn-danger(
+               ng-click='removeComponentAt($index)')
+            | x
+
+      aside.control-buttons.btn-group.btn-group-vertical.visible-desktop
+         a.btn.btn-large(
+               ng-click='addComponent()')
+            | +
+         a.btn.btn-large.btn-danger(
+               ng-click='removeComponentAt($index)')
+            | x
+
+      div.component-body.image-component-body(
+            ng-switch-when='image',
+            data-index='{{$index}}',
+            data-is-first='{{$first}}',
+            data-type='{{component.type}}',
+            class='{{getComponentClass(component)}}')
+
+      div.component-body.text-component-body.well(
+            ng-switch-when='text',
+            data-index='{{$index}}',
+            data-is-first='{{$first}}',
+            data-type='{{component.type}}',
+            class='{{getComponentClass(component)}}')
+         {{component.content}}

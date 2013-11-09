@@ -23,6 +23,12 @@ app.config ($routeProvider) ->
       templateUrl: 'partials/home.html'
    )
 
+   # the editor
+   .when('/editor',
+      controller: 'PitchEditorCtrl'
+      templateUrl: 'partials/editor.html'
+   )
+
    # contacts editor routes
    .when('/contacts',
       controller: 'ContactListCtrl'

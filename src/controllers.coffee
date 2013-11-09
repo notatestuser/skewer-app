@@ -66,6 +66,40 @@ window.app
    $location.path "/contacts"
 )
 
+.controller('PitchEditorCtrl', ($scope) ->
+   # example component:
+   #  {
+   #     cols: 1
+   #     type: 'image'
+   #     source: '... sf file id? ...'
+   #  }
+   $scope.components = [
+      cols: 1
+      type: 'image'
+      content: 'http://i.imgur.com/wdt4Ddz.jpg'
+   ]
+
+   compactComponents = ->
+      $scope.components = $scope.components.filter (item) -> item?
+      undefined
+
+   $scope.getComponentClass = (component={}) ->
+      baseClasses =  ''
+      baseClasses += " #{component.type}-component"
+      baseClasses
+
+   $scope.addComponent = ->
+      $scope.components.push
+         cols: 1
+         type: 'image'
+         content: 'http://i.imgur.com/wdt4Ddz.jpg'
+
+   $scope.removeComponentAt = (index=-1) ->
+      return if not $scope.components[index]
+      delete $scope.components[index]
+      compactComponents()
+)
+
 .controller('ContactListCtrl', ($scope, AngularForce, $location, Contact) ->
    return $location.path("/home")  unless AngularForce.authenticated()
    $scope.searchTerm = ""
