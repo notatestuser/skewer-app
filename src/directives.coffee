@@ -21,19 +21,18 @@ window.app
 ])
 
 .directive('baseComponent', ['$compile', ($compile) ->
-   restrict: 'AC'
-   removeRowScaleClassesFn = (elem) ->
+   removeScaleClassesFn = (elem) ->
       for scale in [1..10]
-         elem.removeClass "row-scale-#{scale}"
+         elem.removeClass "row-scale-#{scale} col-divide-#{scale}"
    {
       restrict: 'AC'
       link: ($scope, elem) ->
          component = $scope.component
          return if not _.isObject(component)
          reconcileRowScaleClassFn = ->
-            removeRowScaleClassesFn(elem)
-            elem.addClass "row-scale-#{component.rowScale}"
-         $scope.$watch 'component.rowScale', (newValue, oldValue) ->
+            removeScaleClassesFn(elem)
+            elem.addClass "row-scale-#{component.rowScale} col-divide-#{component.colDivide}"
+         $scope.$watch 'component.rowScale+component.colDivide', (newValue, oldValue) ->
             return unless newValue isnt oldValue
             reconcileRowScaleClassFn()
          reconcileRowScaleClassFn()
@@ -74,6 +73,14 @@ window.app
       $scope.setRowToDefault = ->
          condition = $scope.component.rowScale isnt 1
          $scope.component.rowScale = 1 if condition
+         condition
+      $scope.splitColumn = ->
+         condition = $scope.component.colDivide <= 1
+         $scope.component.colDivide++ if condition
+         condition
+      $scope.mergeColumn = ->
+         condition = $scope.component.colDivide >= 2
+         $scope.component.colDivide-- if condition
          condition
    ]
    link: ($scope, elem) ->

@@ -31,10 +31,14 @@
       .adjustments-block
          label Set column span
          ul.component-adjustment-buttons.btn-group.twosie
-            li.btn.btn-link.btn-large
+            li.btn.btn-link.btn-large(
+                  ng-click='doAndClose(splitColumn)'
+                  ng-disabled='component.colDivide >= 2')
                i.fa.fa-indent
                | Split columns
-            li.btn.btn-link.btn-large
+            li.btn.btn-link.btn-large(
+                  ng-click='doAndClose(mergeColumn)'
+                  ng-disabled='component.colDivide <= 1')
                i.fa.fa-outdent
                | Merge columns
 

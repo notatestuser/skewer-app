@@ -26,11 +26,23 @@
 
 .pitch-component {
    height: 18%;
-   padding-bottom: 2%;
    cursor: pointer;
+   padding-bottom: 2%;
+   vertical-align: top;
+   display: inline-block;
    transition: all 0.3s ease;
    -moz-transition: all 0.3s ease;
    -webkit-transition: all 0.3s ease;
+}
+
+.pitch-component.col-divide-1 {
+   width: 100%;
+}
+
+.pitch-component.col-divide-2 {
+   width: 48%;
+   padding-left:  1%;
+   padding-right: 1%;
 }
 
 .pitch-component.row-scale-2 {
