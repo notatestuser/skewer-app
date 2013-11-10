@@ -49,7 +49,7 @@
    float: left;
    cursor: pointer;
    position: relative;
-   padding-bottom: 2%;
+   padding-bottom: 2.2%;
    transition: all 0.3s ease;
    -moz-transition: all 0.3s ease;
    -webkit-transition: all 0.3s ease;
@@ -122,10 +122,14 @@
 }
 
 .component-body {
-   background: transparent;
+   background: #f9f9f9;
    background-position: center center;
    background-size: cover;
    height: 100%;
+}
+
+.placeholder-component-body {
+
 }
 
 .image-component-body {
@@ -133,7 +137,7 @@
 }
 
 .text-component-body {
-   /* TODO */
+   background: transparent;
 }
 
 .modal-adjust-component .modal-body {
@@ -142,7 +146,7 @@
    white-space: nowrap;
 }
 
-.modal-adjust-component .modal-body > div {
+.modal-adjust-component .modal-body > .slide {
    width: 100%;
    position: relative;
    vertical-align: top;
@@ -152,8 +156,12 @@
    -webkit-transition: all 0.3s ease;
 }
 
-.modal-adjust-component .modal-body.second-column-visible > div {
+.modal-adjust-component .modal-body.showing-slide-2 > .slide {
    left: -100%;
+}
+
+.modal-adjust-component .modal-body.showing-slide-3 > .slide {
+   left: -200%;
 }
 
 .adjustments-block {
@@ -171,6 +179,18 @@
    letter-spacing: 4px;
    font-family: 'Oswald';
    font-weight: 200;
+}
+
+.adjustments-block.content-type-selection .active-type:after {
+   content: "\f00c";
+   font-family: FontAwesome;
+   float: left;
+   color: green;
+   margin-right: -16px;
+   -webkit-transform: scale(3);
+   -webkit-transform-origin: left center;
+   transform: scale(3);
+   transform-origin: left center;
 }
 
 ul.component-adjustment-buttons {
@@ -223,6 +243,12 @@ ul.component-adjustment-buttons.twosie {
    margin: auto;
    zoom: 2.55;
    margin-bottom: 7%;
+}
+
+.component-adjustment-buttons .btn i.fa-outdent,
+.component-adjustment-buttons .btn i.fa-indent {
+   -webkit-transform: rotateY(180deg);
+   transform: rotateY(180deg);
 }
 
 .modal-header {

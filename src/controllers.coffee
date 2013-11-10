@@ -90,21 +90,23 @@ window.app
       undefined
 
    $scope.getComponentClass = (component={}) ->
+      type = component.type or 'placeholder'
       baseClasses =  ''
-      baseClasses += " #{component.type}-component"
+      baseClasses += " #{type}-component"
       baseClasses
 
    $scope.addComponentAfter = (index) ->
       newComponents = [
          rowScale:  1
          colDivide: $scope.components[index].colDivide
-         type: 'image'
-         content: 'http://lorempixel.com/1024/768/'
+         type: null
+         content: null
       ]
       existingComponents = $scope.components
       allComponents = existingComponents.slice(0, index+1)
          .concat(newComponents.concat existingComponents.slice(index+1))
       $scope.components = allComponents
+      # $scope.$broadcast 'component:editme', newComponents[0], true
 
    $scope.removeComponentAt = (index=-1) ->
       return if not $scope.components[index]

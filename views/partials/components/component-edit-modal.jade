@@ -5,11 +5,12 @@ section.modal.modal-adjust-component.hide.fade(
       aria-hidden='true')
 
    header.modal-header
-      | {{component.type}} Component
+      | {{component.type || 'New'}} Component
       button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
 
-   .modal-body
-      div
+   .modal-body(
+         ng-class='{"showing-slide-2": choosingType || !component.type}')
+      .slide
          hr
          .adjustments-block
             label Change content
@@ -56,16 +57,30 @@ section.modal.modal-adjust-component.hide.fade(
                   i.fa.fa-outdent
                   | Merge columns
 
-      div
+      .slide
          hr
-         .adjustments-block
-            label Select a new content type
+         .adjustments-block.content-type-selection
+            label Select a content type
             ul.component-adjustment-buttons.btn-group.btn-group-vertical
-               li.btn.btn-link.btn-large.btn-block-level
+               li.btn.btn-link.btn-large.btn-block-level(
+                     ng-click='doAndClose(setType("placeholder"))'
+                     ng-class='{"active-type": component.type == "placeholder" || !component.type}')
+                  | Placeholder
+               li.btn.btn-link.btn-large.btn-block-level(
+                     ng-click='doAndClose(setType("text"))'
+                     ng-class='{"active-type": component.type == "text"}')
                   | Text content
-               li.btn.btn-link.btn-large.btn-block-level
+               li.btn.btn-link.btn-large.btn-block-level(
+                     ng-click='doAndClose(setType("document"))'
+                     ng-class='{"active-type": component.type == "document"}')
                   | Document content
-               li.btn.btn-link.btn-large.btn-block-level
+               li.btn.btn-link.btn-large.btn-block-level(
+                     ng-click='doAndClose(setType("image"))'
+                     ng-class='{"active-type": component.type == "image"}')
                   | Image content
-               li.btn.btn-link.btn-large.btn-block-level
+               li.btn.btn-link.btn-large.btn-block-level(
+                     ng-click='doAndClose(setType("carousel"))'
+                     ng-class='{"active-type": component.type == "carousel"}')
                   | Multiple images (carousel)
+
+

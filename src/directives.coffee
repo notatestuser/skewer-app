@@ -54,6 +54,14 @@ window.app
       elem.css backgroundImage: "url(#{$scope.component.content})"
 ])
 
+.directive('placeholderComponentBody', [->
+   restrict: 'AC'
+   link: ($scope, elem) ->
+      newBackgroundImage = "url(http://lorempixel.com/1024/768/)"
+      return if elem.css('background-image') is newBackgroundImage
+      elem.css backgroundImage: newBackgroundImage
+])
+
 .directive('componentEditModal', [->
    scope: {}
    restrict: 'A'
@@ -83,14 +91,16 @@ window.app
          $scope.component.colDivide-- if condition
          condition
       $scope.showChooseTypeList = ->
-         $scope.modalEl.find('.modal-body')
-            .addClass 'second-column-visible'
+         $scope.choosingType = true
+      $scope.setType = (contentType) -> ->
+         $scope.component.type = contentType
+         delete $scope.component.content if contentType isnt 'placeholder'
+         true
    ]
    link: ($scope, elem) ->
       modalEl = $scope.modalEl = elem.children('.modal').first()
-      $scope.$on 'component:editme', (ev, component) ->
+      $scope.$on 'component:editme', (ev, component, isNewComponent) ->
          $scope.component = component
-         $scope.modalEl.find('.modal-body')
-            .removeClass 'second-column-visible'
+         $scope.choosingType = isNewComponent
          modalEl.modal()
 ])
