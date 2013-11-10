@@ -12,21 +12,9 @@
    }
 }
 
-@media (min-width: 480px) {
-   ul.component-adjustment-buttons {
-      zoom: 0.87 !important;
-   }
-}
-
 @media (min-width: 480px) and (max-width: 640px) {
    html {
       font-size: 13px;
-   }
-}
-
-@media (min-width: 640px) {
-   ul.component-adjustment-buttons {
-      zoom: 1 !important;
    }
 }
 
@@ -58,11 +46,10 @@
 
 .pitch-component {
    height: 18%;
+   float: left;
    cursor: pointer;
    position: relative;
    padding-bottom: 2%;
-   vertical-align: top;
-   display: inline-block;
    transition: all 0.3s ease;
    -moz-transition: all 0.3s ease;
    -webkit-transition: all 0.3s ease;
@@ -175,7 +162,7 @@
 
 .adjustments-block > label {
    position: absolute;
-   top: -30px;
+   top: -32px;
    background: white;
    padding: 0 10px;
    text-transform: uppercase;
@@ -188,7 +175,6 @@
 
 ul.component-adjustment-buttons {
    display: block;
-   zoom: 0.6;
    margin: 0;
    box-sizing: border-box;
 }
@@ -215,10 +201,15 @@ ul.component-adjustment-buttons.twosie {
    width: 33%;
 }
 
+.component-adjustment-buttons li {
+   font-size: 1rem !important;
+   font-weight: 200;
+   padding: 1rem;
+}
+
 .component-adjustment-buttons li,
 .component-adjustment-buttons li:hover {
    color: inherit;
-   font-weight: 200;
    box-sizing: border-box;
 }
 
