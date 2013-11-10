@@ -14,7 +14,7 @@ window.app
             elem.height null
          else
             elem.height width * existingRatio
-         $scope.$apply()
+         $scope.$apply() if $scope.$$phase isnt '$digest'
       # on resize figure out what our aspect ratio is
       $(window).resize _.debounce(setRatioFn, 200)
       setRatioFn()

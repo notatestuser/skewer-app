@@ -97,6 +97,7 @@ window.app
    $scope.addComponent = ->
       $scope.components.push
          cols: 1
+         rowScale: 1
          type: 'image'
          content: 'http://i.imgur.com/wdt4Ddz.jpg'
 
@@ -106,6 +107,7 @@ window.app
       compactComponents()
 
    $scope.triggerEditComponent = (component) ->
+      return unless $scope.editorContext.inEditMode
       $scope.$broadcast 'component:editme', component
 )
 
