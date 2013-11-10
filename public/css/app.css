@@ -34,6 +34,22 @@
 .modal-header {
    font-family: 'Oswald';
    font-weight: 300;
+   font-size: 2rem;
+   padding: 2.9rem;
+   text-align: center;
+   text-transform: uppercase;
+   letter-spacing: 5px;
+   padding-bottom: 0.5rem;
+   border-bottom: none;
+}
+
+.modal-header > .close {
+   margin-top: 2px;
+   position: absolute;
+   font-size: 1.5rem;
+   right: 10px;
+   zoom: 1.4;
+   top: 2px;
 }
 
 /* *** */
@@ -249,23 +265,4 @@ ul.component-adjustment-buttons.twosie {
 .component-adjustment-buttons .btn i.fa-indent {
    -webkit-transform: rotateY(180deg);
    transform: rotateY(180deg);
-}
-
-.modal-header {
-   font-size: 2rem;
-   padding: 1.2em;
-   text-align: center;
-   text-transform: uppercase;
-   letter-spacing: 5px;
-   padding-bottom: 0.3em;
-   border-bottom: none;
-}
-
-.modal-header > .close {
-   margin-top: 2px;
-   position: absolute;
-   font-size: 1.5rem;
-   right: 10px;
-   zoom: 1.4;
-   top: 2px;
 }
