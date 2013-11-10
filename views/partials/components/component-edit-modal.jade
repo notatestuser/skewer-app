@@ -21,7 +21,9 @@
                   ng-disabled='component.rowScale <= 1')
                i.fa.fa-compress
                | Reduce up
-            li.btn.btn-link.btn-large
+            li.btn.btn-link.btn-large(
+                  ng-click='doAndClose(setRowToDefault)'
+                  ng-disabled='component.rowScale == 1')
                i.fa.fa-undo
                | Make default
 

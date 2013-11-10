@@ -71,6 +71,10 @@ window.app
          condition = $scope.component.rowScale > 1
          $scope.component.rowScale-- if condition
          condition
+      $scope.setRowToDefault = ->
+         condition = $scope.component.rowScale isnt 1
+         $scope.component.rowScale = 1 if condition
+         condition
    ]
    link: ($scope, elem) ->
       modalEl = $scope.modalEl = elem.children('.modal').first()
