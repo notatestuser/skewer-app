@@ -1,6 +1,26 @@
+@font-face {
+  font-family: 'Oswald';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Oswald Light'), local('Oswald-Light'), url(http://themes.googleusercontent.com/static/fonts/oswald/v7/HqHm7BVC_nzzTui2lzQTDbO3LdcAZYWl9Si6vvxL-qU.woff) format('woff');
+}
+
+@media (max-width: 479px) {
+   /* Root element font remmage */
+   html {
+      font-size: 10px;
+   }
+}
+
 @media (min-width: 480px) {
    ul.component-adjustment-buttons {
       zoom: 0.87 !important;
+   }
+}
+
+@media (min-width: 480px) and (max-width: 640px) {
+   html {
+      font-size: 13px;
    }
 }
 
@@ -14,6 +34,18 @@
    .pitch-editor {
       padding: 0 25px;
    }
+}
+
+/* *** */
+
+.modal {
+   border-radius: 0;
+   -webkit-border-radius: 0;
+}
+
+.modal-header {
+   font-family: 'Oswald';
+   font-weight: 300;
 }
 
 /* *** */
@@ -83,17 +115,23 @@
 }
 
 .pitch-component .control-buttons .btn-link {
-   color: black;
+   font-family: 'Helvetica Neue', Helvetica, Arial;
+   font-size: 1.5rem;
    font-weight: bold;
+   color: black;
    background: white;
-   padding: 10px;
    left: -8px;
    border-radius: 0px;
+   padding: 0.4rem 0.5rem;
 }
 
 .pitch-component .control-buttons > .btn {
    text-align: right;
    padding-right: 10px;
+}
+
+.pitch-component .control-buttons > .btn-remove {
+   color: rgb(196, 41, 70);
 }
 
 .component-body {
@@ -125,27 +163,42 @@
    background: white;
    padding: 0 10px;
    text-transform: uppercase;
-   left: 5%;
+   left: 4%;
    font-size: 12px;
    letter-spacing: 4px;
+   font-family: 'Oswald';
    font-weight: 200;
 }
 
 ul.component-adjustment-buttons {
    zoom: 0.6;
+   margin: 0;
+   box-sizing: border-box;
 }
 
 ul.component-adjustment-buttons.threesie {
-   margin: auto 9%;
+   width: 100%;
+   padding: 0 8%;
 }
 
 ul.component-adjustment-buttons.twosie {
-   margin: auto 18%;
+   width: 100%;
+   padding: 0 16%;
+}
+
+.component-adjustment-buttons.twosie li {
+   width: 50%;
+}
+
+.component-adjustment-buttons.threesie li {
+   width: 33%;
 }
 
 .component-adjustment-buttons li,
 .component-adjustment-buttons li:hover {
    color: inherit;
+   font-weight: 200;
+   box-sizing: border-box;
 }
 
 .component-adjustment-buttons li:hover {
@@ -158,4 +211,23 @@ ul.component-adjustment-buttons.twosie {
    margin: auto;
    zoom: 3;
    margin-bottom: 7%;
+}
+
+.modal-header {
+   font-size: 2rem;
+   padding: 1.2em;
+   text-align: center;
+   text-transform: uppercase;
+   letter-spacing: 5px;
+   padding-bottom: 0.3em;
+   border-bottom: none;
+}
+
+.modal-header > .close {
+   margin-top: 2px;
+   position: absolute;
+   font-size: 1.5rem;
+   right: 10px;
+   zoom: 1.4;
+   top: 2px;
 }

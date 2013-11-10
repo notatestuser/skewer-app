@@ -11,6 +11,7 @@ html
             text-align: center;
          }
 
+      link(href='http://fonts.googleapis.com/css?family=Oswald:400,700,300', rel='stylesheet')
       link(href='css/bootstrap.min.css', rel='stylesheet')
       link(href='css/bootstrap-responsive.min.css', rel='stylesheet')
       link(href='css/bootstrap-theme.min.css', rel='stylesheet')
@@ -21,7 +22,8 @@ html
       .navbar.navbar-inverse.navbar-fixed-top(ng-controller='LoginCtrl')
          .navbar-inner
             .container
-               a.brand(href='#') Skewer
+               a.brand(href='#')
+                  | Skewer
                .btn-group.pull-right(ng-show='isLoggedIn()')
                   a.btn.dropdown-toggle
                      i.icon-wrench

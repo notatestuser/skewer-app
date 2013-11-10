@@ -20,22 +20,11 @@ section.pitch-editor
          ng-repeat='component in components',
          ng-switch='component.type')
 
-      aside.control-buttons.fade.btn-group.btn-group-vertical.hidden-desktop(
+      aside.control-buttons.fade.btn-group.btn-group-vertical(
             ng-class='{"in": editorContext.inEditMode}')
-         a.btn.btn-medium.btn-danger(
-               ng-click='removeComponentAt($index)')
+         a.btn.btn-large.btn-link.btn-remove(ng-click='removeComponentAt($index)')
             | &times;
-         a.btn.btn-medium(
-               ng-click='addComponent()')
-            | +
-
-      aside.control-buttons.fade.btn-group.btn-group-vertical.visible-desktop(
-            ng-class='{"in": editorContext.inEditMode}')
-         a.btn.btn-large.btn-link(
-               ng-click='removeComponentAt($index)')
-            | &times;
-         a.btn.btn-large.btn-link(
-               ng-click='addComponent()')
+         a.btn.btn-large.btn-link(ng-click='addComponent()')
             | +
 
       div.component-body.image-component-body(

@@ -1,11 +1,24 @@
-.modal.modal-adjust-component.hide.fade(
+section.modal.modal-adjust-component.hide.fade(
       tabindex='-1',
       role='dialog',
       aria-labelledby='myModalLabel',
       aria-hidden='true')
 
-   .modal-body
+   header.modal-header
+      | {{component.type}} Component
       button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
+
+   .modal-body
+      hr
+      .adjustments-block
+         label Change content
+         ul.component-adjustment-buttons.btn-group.twosie
+            li.btn.btn-link.btn-large
+               i.fa.fa-magic
+               | Choose type
+            li.btn.btn-link.btn-large
+               i.fa.fa-pencil
+               | Edit content
 
       hr
       .adjustments-block
@@ -29,7 +42,7 @@
 
       hr
       .adjustments-block
-         label Set column span
+         label Column span
          ul.component-adjustment-buttons.btn-group.twosie
             li.btn.btn-link.btn-large(
                   ng-click='doAndClose(splitColumn)'
@@ -41,17 +54,3 @@
                   ng-disabled='component.colDivide <= 1')
                i.fa.fa-outdent
                | Merge columns
-
-      hr
-      .adjustments-block
-         label Change content
-         ul.component-adjustment-buttons.btn-group.threesie
-            li.btn.btn-link.btn-large
-               i.fa.fa-expand
-               | Extend down
-            li.btn.btn-link.btn-large
-               i.fa.fa-compress
-               | Reduce up
-            li.btn.btn-link.btn-large
-               i.fa.fa-undo
-               | Make default
