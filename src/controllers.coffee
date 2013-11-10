@@ -75,8 +75,8 @@ window.app
    #     source: '... sf file id? ...'
    #  }
    $scope.components = [
-      rowScale:  1
-      colDivide: 1
+      rowScale:  2
+      colDivide: 2
       type: 'image'
       content: 'http://i.imgur.com/wdt4Ddz.jpg'
    ]
