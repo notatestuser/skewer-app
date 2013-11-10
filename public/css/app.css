@@ -27,6 +27,7 @@
 .pitch-component {
    height: 18%;
    cursor: pointer;
+   position: relative;
    padding-bottom: 2%;
    vertical-align: top;
    display: inline-block;
@@ -75,11 +76,19 @@
 
 .pitch-component .control-buttons {
    position: absolute;
-   left: -16px;
 }
 
 .pitch-component .control-buttons.hidden-desktop {
-   left: -5px;
+   left: 8px;
+}
+
+.pitch-component .control-buttons .btn-link {
+   color: black;
+   font-weight: bold;
+   background: white;
+   padding: 10px;
+   left: -8px;
+   border-radius: 0px;
 }
 
 .pitch-component .control-buttons > .btn {

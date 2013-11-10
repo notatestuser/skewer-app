@@ -31,10 +31,10 @@ section.pitch-editor
 
       aside.control-buttons.fade.btn-group.btn-group-vertical.visible-desktop(
             ng-class='{"in": editorContext.inEditMode}')
-         a.btn.btn-large.btn-danger(
+         a.btn.btn-large.btn-link(
                ng-click='removeComponentAt($index)')
             | &times;
-         a.btn.btn-large(
+         a.btn.btn-large.btn-link(
                ng-click='addComponent()')
             | +
 
