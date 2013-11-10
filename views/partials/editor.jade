@@ -18,8 +18,7 @@ section.pitch-editor
    .pitch-component(
          data-base-component,
          ng-repeat='component in components',
-         ng-switch='component.type'
-         ng-click='triggerEditComponent(component)')
+         ng-switch='component.type')
 
       aside.control-buttons.fade.btn-group.btn-group-vertical.hidden-desktop(
             ng-class='{"in": editorContext.inEditMode}')
@@ -41,6 +40,7 @@ section.pitch-editor
 
       div.component-body.image-component-body(
             ng-switch-when='image',
+            ng-click='triggerEditComponent(component)',
             data-index='{{$index}}',
             data-is-first='{{$first}}',
             data-type='{{component.type}}',
@@ -48,6 +48,7 @@ section.pitch-editor
 
       div.component-body.text-component-body.well(
             ng-switch-when='text',
+            ng-click='triggerEditComponent(component)',
             data-index='{{$index}}',
             data-is-first='{{$first}}',
             data-type='{{component.type}}',

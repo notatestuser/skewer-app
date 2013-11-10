@@ -70,11 +70,13 @@ window.app
    # example component:
    #  {
    #     cols: 1
+   #     rowScale: 1
    #     type: 'image'
    #     source: '... sf file id? ...'
    #  }
    $scope.components = [
       cols: 1
+      rowScale: 1
       type: 'image'
       content: 'http://i.imgur.com/wdt4Ddz.jpg'
    ]

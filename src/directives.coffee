@@ -22,11 +22,31 @@ window.app
 
 .directive('baseComponent', ['$compile', ($compile) ->
    restrict: 'AC'
-   # compile: (elem, attrs) ->
-   #    elem.addClass "#{attrs.type}-component"
-   #    elem
-   link: ($scope, elem, attrs) ->
-      return unless typeof (component = $scope.component) is 'object'
+   removeRowScaleClassesFn = (elem) ->
+      for scale in [1..10]
+         elem.removeClass "row-scale-#{scale}"
+   {
+      restrict: 'AC'
+      link: ($scope, elem) ->
+         component = $scope.component
+         return if not _.isObject(component)
+         reconcileRowScaleClassFn = ->
+            removeRowScaleClassesFn(elem)
+            elem.addClass "row-scale-#{component.rowScale}"
+         $scope.$watch 'component.rowScale', (newValue, oldValue) ->
+            return unless newValue isnt oldValue
+            reconcileRowScaleClassFn()
+         reconcileRowScaleClassFn()
+   }
+])
+
+.directive('componentBody', [->
+   restrict: 'AC'
+   link: ($scope, elem) ->
+      component = $scope.component
+      return if not _.isObject(component)
+      # ⚑
+      # TODO: Write some code here!
 ])
 
 .directive('imageComponentBody', [->
@@ -36,12 +56,25 @@ window.app
 ])
 
 .directive('componentEditModal', [->
+   scope: {}
    restrict: 'A'
    templateUrl: '/partials/components/component-edit-modal.html'
-   scope: {}
+   controller: ['$scope', ($scope) ->
+      $scope.doAndClose = (fn) ->
+         result = fn() if fn
+         $scope.modalEl.modal 'hide' if result
+      $scope.extendRow = ->
+         condition = $scope.component.rowScale < 8
+         $scope.component.rowScale++ if condition
+         condition
+      $scope.reduceRow = ->
+         condition = $scope.component.rowScale > 1
+         $scope.component.rowScale-- if condition
+         condition
+   ]
    link: ($scope, elem) ->
-      modalEl = elem.children('.modal').first()
-      $scope.$on 'component:editme', (component) ->
+      modalEl = $scope.modalEl = elem.children('.modal').first()
+      $scope.$on 'component:editme', (ev, component) ->
          $scope.component = component
          modalEl.modal()
 ])

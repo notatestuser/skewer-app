@@ -13,6 +13,8 @@
    }
 }
 
+/* *** */
+
 .pitch-editor {
    width: 100%;
    height: 100vh;
@@ -23,6 +25,37 @@
    height: 18%;
    padding-bottom: 2%;
    cursor: pointer;
+   transition: all 0.3s ease;
+   -moz-transition: all 0.3s ease;
+   -webkit-transition: all 0.3s ease;
+}
+
+.pitch-component.row-scale-2 {
+   height: 23%;
+}
+
+.pitch-component.row-scale-3 {
+   height: 28%;
+}
+
+.pitch-component.row-scale-4 {
+   height: 33%;
+}
+
+.pitch-component.row-scale-5 {
+   height: 38%;
+}
+
+.pitch-component.row-scale-6 {
+   height: 43%;
+}
+
+.pitch-component.row-scale-7 {
+   height: 48%;
+}
+
+.pitch-component.row-scale-8 {
+   height: 53%;
 }
 
 .pitch-component .control-buttons {
@@ -47,11 +80,11 @@
 }
 
 .image-component-body {
-
+   /* TODO */
 }
 
 .text-component-body {
-
+   /* TODO */
 }
 
 .modal-adjust-component .modal-body {

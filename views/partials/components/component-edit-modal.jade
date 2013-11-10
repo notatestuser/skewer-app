@@ -11,10 +11,14 @@
       .adjustments-block
          label Size adjustment
          ul.component-adjustment-buttons.btn-group.threesie
-            li.btn.btn-link.btn-large
+            li.btn.btn-link.btn-large(
+                  ng-click='doAndClose(extendRow)'
+                  ng-disabled='component.rowScale >= 8')
                i.fa.fa-expand
                | Extend down
-            li.btn.btn-link.btn-large
+            li.btn.btn-link.btn-large(
+                  ng-click='doAndClose(reduceRow)'
+                  ng-disabled='component.rowScale <= 1')
                i.fa.fa-compress
                | Reduce up
             li.btn.btn-link.btn-large
