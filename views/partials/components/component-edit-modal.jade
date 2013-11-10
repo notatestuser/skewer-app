@@ -9,16 +9,19 @@ section.modal.modal-adjust-component.hide.fade(
       button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
 
    .modal-body(
-         ng-class='{"showing-slide-2": choosingType || !component.type}')
+         ng-class='{"showing-slide-2": choosingType || !component.type, "showing-slide-3": choosingContent}')
       .slide
          hr
          .adjustments-block
             label Change content
             ul.component-adjustment-buttons.btn-group.twosie
-               li.btn.btn-link.btn-large(ng-click='showChooseTypeList()')
+               li.btn.btn-link.btn-large(
+                     ng-click='showChooseTypeList()')
                   i.fa.fa-magic
                   | Choose type
-               li.btn.btn-link.btn-large
+               li.btn.btn-link.btn-large(
+                     ng-click='doAndShowEditContentSlide()'
+                     ng-disabled='component.type == "placeholder" || !component.type')
                   i.fa.fa-pencil
                   | Edit content
 
@@ -67,20 +70,31 @@ section.modal.modal-adjust-component.hide.fade(
                      ng-class='{"active-type": component.type == "placeholder" || !component.type}')
                   | Placeholder
                li.btn.btn-link.btn-large.btn-block-level(
-                     ng-click='doAndClose(setType("text"))'
+                     ng-click='doAndShowEditContentSlide(setType("text"))'
                      ng-class='{"active-type": component.type == "text"}')
                   | Text content
                li.btn.btn-link.btn-large.btn-block-level(
-                     ng-click='doAndClose(setType("document"))'
-                     ng-class='{"active-type": component.type == "document"}')
-                  | Document content
-               li.btn.btn-link.btn-large.btn-block-level(
-                     ng-click='doAndClose(setType("image"))'
+                     ng-click='doAndShowEditContentSlide(setType("image"))'
                      ng-class='{"active-type": component.type == "image"}')
                   | Image content
                li.btn.btn-link.btn-large.btn-block-level(
-                     ng-click='doAndClose(setType("carousel"))'
+                     ng-click='doAndShowEditContentSlide(setType("carousel"))'
                      ng-class='{"active-type": component.type == "carousel"}')
                   | Multiple images (carousel)
+               li.btn.btn-link.btn-large.btn-block-level(
+                     ng-click='doAndShowEditContentSlide(setType("document"))'
+                     ng-class='{"active-type": component.type == "document"}')
+                  | Document content
 
+      .slide
+         hr
+         .adjustments-block.content-type-selection
+            label Select some content
+            ul.component-adjustment-buttons.btn-group.btn-group-vertical
+               li.btn.btn-link.btn-large.btn-block-level(ng-click='doAndClose()')
+                  | Content item 1
+               li.btn.btn-link.btn-large.btn-block-level(ng-click='doAndClose()')
+                  | Content item 2
+               li.btn.btn-link.btn-large.btn-block-level(ng-click='doAndClose()')
+                  | Content item 3
 

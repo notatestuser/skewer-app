@@ -69,7 +69,12 @@ window.app
    controller: ['$scope', ($scope) ->
       $scope.doAndClose = (fn) ->
          result = fn() if fn
-         $scope.modalEl.modal 'hide' if result
+         $scope.modalEl.modal 'hide' if result or not fn
+      $scope.doAndShowEditContentSlide = (fn) ->
+         fn() if fn
+         component = $scope.component
+         if component.type and component.type isnt 'placeholder'
+            $scope.choosingContent = true
       $scope.extendRow = ->
          condition = $scope.component.rowScale < 8
          $scope.component.rowScale++ if condition
@@ -102,5 +107,6 @@ window.app
       $scope.$on 'component:editme', (ev, component, isNewComponent) ->
          $scope.component = component
          $scope.choosingType = isNewComponent
+         $scope.choosingContent = false
          modalEl.modal()
 ])
