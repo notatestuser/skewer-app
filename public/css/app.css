@@ -164,7 +164,7 @@
    padding: 0 10px;
    text-transform: uppercase;
    left: 4%;
-   font-size: 12px;
+   font-size: 0.8rem;
    letter-spacing: 4px;
    font-family: 'Oswald';
    font-weight: 200;
@@ -209,7 +209,7 @@ ul.component-adjustment-buttons.twosie {
 .component-adjustment-buttons .btn i {
    display: block;
    margin: auto;
-   zoom: 3;
+   zoom: 2.55;
    margin-bottom: 7%;
 }
 
