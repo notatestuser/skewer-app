@@ -82,10 +82,15 @@ window.app
          condition = $scope.component.colDivide >= 2
          $scope.component.colDivide-- if condition
          condition
+      $scope.showChooseTypeList = ->
+         $scope.modalEl.find('.modal-body')
+            .addClass 'second-column-visible'
    ]
    link: ($scope, elem) ->
       modalEl = $scope.modalEl = elem.children('.modal').first()
       $scope.$on 'component:editme', (ev, component) ->
          $scope.component = component
+         $scope.modalEl.find('.modal-body')
+            .removeClass 'second-column-visible'
          modalEl.modal()
 ])

@@ -9,48 +9,63 @@ section.modal.modal-adjust-component.hide.fade(
       button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
 
    .modal-body
-      hr
-      .adjustments-block
-         label Change content
-         ul.component-adjustment-buttons.btn-group.twosie
-            li.btn.btn-link.btn-large
-               i.fa.fa-magic
-               | Choose type
-            li.btn.btn-link.btn-large
-               i.fa.fa-pencil
-               | Edit content
+      div
+         hr
+         .adjustments-block
+            label Change content
+            ul.component-adjustment-buttons.btn-group.twosie
+               li.btn.btn-link.btn-large(ng-click='showChooseTypeList()')
+                  i.fa.fa-magic
+                  | Choose type
+               li.btn.btn-link.btn-large
+                  i.fa.fa-pencil
+                  | Edit content
 
-      hr
-      .adjustments-block
-         label Size adjustment
-         ul.component-adjustment-buttons.btn-group.threesie
-            li.btn.btn-link.btn-large(
-                  ng-click='doAndClose(extendRow)'
-                  ng-disabled='component.rowScale >= 8')
-               i.fa.fa-expand
-               | Extend down
-            li.btn.btn-link.btn-large(
-                  ng-click='doAndClose(reduceRow)'
-                  ng-disabled='component.rowScale <= 1')
-               i.fa.fa-compress
-               | Reduce up
-            li.btn.btn-link.btn-large(
-                  ng-click='doAndClose(setRowToDefault)'
-                  ng-disabled='component.rowScale == 1')
-               i.fa.fa-undo
-               | Make default
+         hr
+         .adjustments-block
+            label Size adjustment
+            ul.component-adjustment-buttons.btn-group.threesie
+               li.btn.btn-link.btn-large(
+                     ng-click='doAndClose(extendRow)'
+                     ng-disabled='component.rowScale >= 8')
+                  i.fa.fa-expand
+                  | Extend down
+               li.btn.btn-link.btn-large(
+                     ng-click='doAndClose(reduceRow)'
+                     ng-disabled='component.rowScale <= 1')
+                  i.fa.fa-compress
+                  | Reduce up
+               li.btn.btn-link.btn-large(
+                     ng-click='doAndClose(setRowToDefault)'
+                     ng-disabled='component.rowScale == 1')
+                  i.fa.fa-undo
+                  | Make default
 
-      hr
-      .adjustments-block
-         label Column span
-         ul.component-adjustment-buttons.btn-group.twosie
-            li.btn.btn-link.btn-large(
-                  ng-click='doAndClose(splitColumn)'
-                  ng-disabled='component.colDivide >= 2')
-               i.fa.fa-indent
-               | Split columns
-            li.btn.btn-link.btn-large(
-                  ng-click='doAndClose(mergeColumn)'
-                  ng-disabled='component.colDivide <= 1')
-               i.fa.fa-outdent
-               | Merge columns
+         hr
+         .adjustments-block
+            label Column span
+            ul.component-adjustment-buttons.btn-group.twosie
+               li.btn.btn-link.btn-large(
+                     ng-click='doAndClose(splitColumn)'
+                     ng-disabled='component.colDivide >= 2')
+                  i.fa.fa-indent
+                  | Split columns
+               li.btn.btn-link.btn-large(
+                     ng-click='doAndClose(mergeColumn)'
+                     ng-disabled='component.colDivide <= 1')
+                  i.fa.fa-outdent
+                  | Merge columns
+
+      div
+         hr
+         .adjustments-block
+            label Select the new content type
+            ul.component-adjustment-buttons.btn-group.btn-group-vertical
+               li.btn.btn-link.btn-large.btn-block-level
+                  | Text content
+               li.btn.btn-link.btn-large.btn-block-level
+                  | Document content
+               li.btn.btn-link.btn-large.btn-block-level
+                  | Image content
+               li.btn.btn-link.btn-large.btn-block-level
+                  | Multiple images (carousel)

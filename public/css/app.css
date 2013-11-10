@@ -151,6 +151,22 @@
 
 .modal-adjust-component .modal-body {
    max-height: 440px;
+   overflow: hidden;
+   white-space: nowrap;
+}
+
+.modal-adjust-component .modal-body > div {
+   width: 100%;
+   position: relative;
+   vertical-align: top;
+   display: inline-block;
+   transition: all 0.3s ease;
+   -moz-transition: all 0.3s ease;
+   -webkit-transition: all 0.3s ease;
+}
+
+.modal-adjust-component .modal-body.second-column-visible > div {
+   left: -100%;
 }
 
 .adjustments-block {
@@ -171,9 +187,14 @@
 }
 
 ul.component-adjustment-buttons {
+   display: block;
    zoom: 0.6;
    margin: 0;
    box-sizing: border-box;
+}
+
+ul.component-adjustment-buttons.btn-group-vertical .btn {
+   padding: 20px;
 }
 
 ul.component-adjustment-buttons.threesie {
