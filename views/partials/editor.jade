@@ -22,21 +22,21 @@ section.pitch-editor
 
       aside.control-buttons.fade.btn-group.btn-group-vertical.hidden-desktop(
             ng-class='{"in": editorContext.inEditMode}')
-         a.btn.btn-medium(
-               ng-click='addComponent()')
-            | +
          a.btn.btn-medium.btn-danger(
                ng-click='removeComponentAt($index)')
             | &times;
+         a.btn.btn-medium(
+               ng-click='addComponent()')
+            | +
 
       aside.control-buttons.fade.btn-group.btn-group-vertical.visible-desktop(
             ng-class='{"in": editorContext.inEditMode}')
-         a.btn.btn-large(
-               ng-click='addComponent()')
-            | +
          a.btn.btn-large.btn-danger(
                ng-click='removeComponentAt($index)')
             | &times;
+         a.btn.btn-large(
+               ng-click='addComponent()')
+            | +
 
       div.component-body.image-component-body(
             ng-switch-when='image',
