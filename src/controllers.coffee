@@ -106,7 +106,7 @@ window.app
       allComponents = existingComponents.slice(0, index+1)
          .concat(newComponents.concat existingComponents.slice(index+1))
       $scope.components = allComponents
-      # $scope.$broadcast 'component:editme', newComponents[0], true
+      $scope.$broadcast 'component:editme', newComponents[0], true
 
    $scope.removeComponentAt = (index=-1) ->
       return if not $scope.components[index]
