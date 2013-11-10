@@ -99,7 +99,7 @@ window.app
          rowScale:  1
          colDivide: 1
          type: 'image'
-         content: 'http://i.imgur.com/wdt4Ddz.jpg'
+         content: 'http://lorempixel.com/1024/768/'
 
    $scope.removeComponentAt = (index=-1) ->
       return if not $scope.components[index]
