@@ -14,7 +14,7 @@ window.SFConfig.maxListSize = 25
 
 app.constant "SFConfig", SFConfig
 
-app.config ($routeProvider) ->
+app.config ['$routeProvider', ($routeProvider) ->
    $routeProvider
 
    # app routes
@@ -62,3 +62,4 @@ app.config ($routeProvider) ->
    )
 
    .otherwise redirectTo: '/'
+]
