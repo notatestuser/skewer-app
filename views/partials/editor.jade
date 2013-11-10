@@ -24,7 +24,7 @@ section.pitch-editor
             ng-class='{"in": editorContext.inEditMode}')
          a.btn.btn-large.btn-link.btn-remove(ng-click='removeComponentAt($index)')
             | &times;
-         a.btn.btn-large.btn-link(ng-click='addComponent()')
+         a.btn.btn-large.btn-link(ng-click='addComponentAfter($index)')
             | +
 
       div.component-body.image-component-body(

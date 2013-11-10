@@ -94,12 +94,17 @@ window.app
       baseClasses += " #{component.type}-component"
       baseClasses
 
-   $scope.addComponent = ->
-      $scope.components.push
+   $scope.addComponentAfter = (index) ->
+      newComponents = [
          rowScale:  1
-         colDivide: 1
+         colDivide: $scope.components[index].colDivide
          type: 'image'
          content: 'http://lorempixel.com/1024/768/'
+      ]
+      existingComponents = $scope.components
+      allComponents = existingComponents.slice(0, index+1)
+         .concat(newComponents.concat existingComponents.slice(index+1))
+      $scope.components = allComponents
 
    $scope.removeComponentAt = (index=-1) ->
       return if not $scope.components[index]
