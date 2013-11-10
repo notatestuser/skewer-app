@@ -15,10 +15,11 @@ div.modal-body.clearfix
 
 section.pitch-editor
 
-   .component(
+   .pitch-component(
          data-base-component,
          ng-repeat='component in components',
-         ng-switch='component.type')
+         ng-switch='component.type'
+         ng-click='triggerEditComponent(component)')
 
       aside.control-buttons.fade.btn-group.btn-group-vertical.hidden-desktop(
             ng-class='{"in": editorContext.inEditMode}')
@@ -27,7 +28,7 @@ section.pitch-editor
             | +
          a.btn.btn-medium.btn-danger(
                ng-click='removeComponentAt($index)')
-            | x
+            | &times;
 
       aside.control-buttons.fade.btn-group.btn-group-vertical.visible-desktop(
             ng-class='{"in": editorContext.inEditMode}')
@@ -36,7 +37,7 @@ section.pitch-editor
             | +
          a.btn.btn-large.btn-danger(
                ng-click='removeComponentAt($index)')
-            | x
+            | &times;
 
       div.component-body.image-component-body(
             ng-switch-when='image',
@@ -52,3 +53,5 @@ section.pitch-editor
             data-type='{{component.type}}',
             class='{{getComponentClass(component)}}')
          {{component.content}}
+
+div(data-component-edit-modal)

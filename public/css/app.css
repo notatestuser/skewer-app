@@ -1,30 +1,40 @@
-.pitch-editor {
-   width: 100%;
-   height: 100vh;
-   box-sizing: border-box;
+@media (min-width: 480px) {
+   ul.component-adjustment-buttons {
+      zoom: 0.87 !important;
+   }
 }
 
 @media (min-width: 768px) {
    .pitch-editor {
       padding: 0 25px;
    }
+   ul.component-adjustment-buttons {
+      zoom: 1 !important;
+   }
 }
 
-.component {
+.pitch-editor {
+   width: 100%;
+   height: 100vh;
+   box-sizing: border-box;
+}
+
+.pitch-component {
    height: 18%;
    padding-bottom: 2%;
+   cursor: pointer;
 }
 
-.component .control-buttons {
+.pitch-component .control-buttons {
    position: absolute;
    left: -16px;
 }
 
-.component .control-buttons.hidden-desktop {
+.pitch-component .control-buttons.hidden-desktop {
    left: -5px;
 }
 
-.component .control-buttons > .btn {
+.pitch-component .control-buttons > .btn {
    text-align: right;
    padding-right: 10px;
 }
@@ -42,4 +52,53 @@
 
 .text-component-body {
 
+}
+
+.modal-adjust-component .modal-body {
+   max-height: 440px;
+}
+
+.adjustments-block {
+   position: relative;
+}
+
+.adjustments-block > label {
+   position: absolute;
+   top: -30px;
+   background: white;
+   padding: 0 10px;
+   text-transform: uppercase;
+   left: 5%;
+   font-size: 12px;
+   letter-spacing: 4px;
+   font-weight: lighter;
+}
+
+ul.component-adjustment-buttons {
+   zoom: 0.6;
+}
+
+ul.component-adjustment-buttons.threesie {
+   margin: auto 9%;
+}
+
+ul.component-adjustment-buttons.twosie {
+   margin: auto 18%;
+}
+
+.component-adjustment-buttons li,
+.component-adjustment-buttons li:hover {
+   color: inherit;
+}
+
+.component-adjustment-buttons li:hover {
+   text-decoration: none;
+   background-color: #eee;
+}
+
+.component-adjustment-buttons .btn i {
+   display: block;
+   margin: auto;
+   zoom: 3;
+   margin-bottom: 7%;
 }

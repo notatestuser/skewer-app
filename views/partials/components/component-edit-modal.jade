@@ -1,0 +1,47 @@
+.modal.modal-adjust-component.hide.fade(
+      tabindex='-1',
+      role='dialog',
+      aria-labelledby='myModalLabel',
+      aria-hidden='true')
+
+   .modal-body
+      button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
+
+      hr
+      .adjustments-block
+         label Size adjustment
+         ul.component-adjustment-buttons.btn-group.threesie
+            li.btn.btn-link.btn-large
+               i.fa.fa-expand
+               | Extend down
+            li.btn.btn-link.btn-large
+               i.fa.fa-compress
+               | Reduce up
+            li.btn.btn-link.btn-large
+               i.fa.fa-undo
+               | Make default
+
+      hr
+      .adjustments-block
+         label Set column span
+         ul.component-adjustment-buttons.btn-group.twosie
+            li.btn.btn-link.btn-large
+               i.fa.fa-indent
+               | Split columns
+            li.btn.btn-link.btn-large
+               i.fa.fa-outdent
+               | Merge columns
+
+      hr
+      .adjustments-block
+         label Change content
+         ul.component-adjustment-buttons.btn-group.threesie
+            li.btn.btn-link.btn-large
+               i.fa.fa-expand
+               | Extend down
+            li.btn.btn-link.btn-large
+               i.fa.fa-compress
+               | Reduce up
+            li.btn.btn-link.btn-large
+               i.fa.fa-undo
+               | Make default

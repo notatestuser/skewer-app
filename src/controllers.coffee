@@ -102,6 +102,9 @@ window.app
       return if not $scope.components[index]
       delete $scope.components[index]
       compactComponents()
+
+   $scope.triggerEditComponent = (component) ->
+      $scope.$broadcast 'component:editme', component
 )
 
 .controller('ContactListCtrl', ($scope, AngularForce, $location, Contact) ->
