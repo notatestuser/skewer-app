@@ -31,10 +31,24 @@ angular.module('ForceModels', [])
    objDesc =
       type: 'Pitch__c'
       fields: ['Id', 'Name', 'Pitch_Link__c']
-      where: 'OpportunityId = ' + $routeParams.opportunityId
+      where: ''
       orderBy: 'Name'
       limit: 10
 
    Pitch__c = AngularForceObjectFactory(objDesc)
    Pitch__c
+])
+
+.factory('Assets', ['AngularForceObjectFactory',
+(AngularForceObjectFactory) ->
+   (type='image') ->
+      objDesc =
+         type: 'Pitch_Asset__c'
+         fields: ['Id', 'Name', 'Link__c']
+         where: "Type__c = '#{type}'"
+         orderBy: 'Name'
+         limit: 10
+
+      ImageAsset = AngularForceObjectFactory(objDesc)
+      ImageAsset
 ])
