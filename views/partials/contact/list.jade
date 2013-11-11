@@ -8,7 +8,8 @@ div(ng-show='!isWorking()')
       div(style='float: left')
          div(style='margin-bottom: 10px;')
             input.search-query(type='text', ng-model='searchTerm', placeholder='Search')
-            p.btn.btn-primary(ng-click='doSearch(searchString)') Go
+            p.btn.btn-primary(ng-click='doSearch(searchString)')
+               | Go
       div(style='float: right')
          a.btn.btn-primary(href='#/new') New
       table.table(width='80%')
@@ -19,25 +20,25 @@ div(ng-show='!isWorking()')
                th Created at
                th Owner
          tbody
-            tr(ng-repeat='contact in opportunities')
-               td.hidden-phone &lcub;&lcub;contact&period;Id&rcub;&rcub;
+            tr(ng-repeat='opportunity in opportunities')
+               td.hidden-phone {{opportunity.Id}}
                td
-                  a(href='#/view/{{contact.Id}}') {{contact.Name}}
-               td {{contact.CreatedDate}}
-               td {{contact.OwnerId}}
+                  a(href='#/designer/{{opportunity.Id}}') {{opportunity.Name}}
+               td {{opportunity.CreatedDate}}
+               td {{opportunity.OwnerId}}
 
    // This div is only displayed in mobile phones (see above for desktops)
    .visible-phone
       form.form-inline
          input.input-medium.search-query(type='text', ng-model='searchTerm', placeholder='Search')
          button.btn.btn-primary(ng-click='doSearch(searchString)') Go
-         button.btn.btn-default(ng-click='doCreate()') &NonBreakingSpace;&plus;&NonBreakingSpace;
+         button.btn.btn-default(ng-click='doCreate()') &nbsp;&plus;&nbsp;
       table.table
-         tr(ng-click='doView(contact.Id)', ng-repeat='contact in opportunities')
+         tr(ng-click='doView(opportunity.Id)', ng-repeat='opportunity in opportunities')
             td
-               | {{contact.Name}}
+               | {{opportunity.Name}}
                br
                small
-                  i {{contact.Id}}
+                  i {{opportunity.Id}}
             td
                i.icon-chevron-right

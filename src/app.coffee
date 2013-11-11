@@ -24,7 +24,7 @@ app.config ['$routeProvider', ($routeProvider) ->
    )
 
    # the editor
-   .when('/editor',
+   .when('/designer/:opportunityId',
       controller: 'PitchEditorCtrl'
       templateUrl: 'partials/editor.html'
    )
