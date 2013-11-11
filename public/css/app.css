@@ -62,10 +62,11 @@
 
 .pitch-component {
    height: 18%;
-   float: left;
    cursor: pointer;
+   display: inline-block;
+   vertical-align: top;
    position: relative;
-   padding-bottom: 2.3%;
+   padding-bottom: 2%;
    transition: all 0.3s ease;
    -moz-transition: all 0.3s ease;
    -webkit-transition: all 0.3s ease;
@@ -187,7 +188,7 @@
 
 .modal-adjust-component .loading-spinner-container {
    text-align: center;
-   padding: 4%;
+   padding: 6%;
 }
 
 .adjustments-block {
