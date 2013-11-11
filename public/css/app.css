@@ -155,6 +155,7 @@
 
 .text-component-body {
    background: transparent;
+   overflow-y: hidden;
 }
 
 .modal-adjust-component .modal-body {
