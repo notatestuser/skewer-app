@@ -105,6 +105,9 @@ window.app
          $scope.component.type = contentType
          delete $scope.component.content if contentType isnt 'placeholder'
          true
+      $scope.setContent = (content) -> ->
+         $scope.component.content = content
+         true
    ]
    link: ($scope, elem) ->
       modalEl = $scope.modalEl = elem.children('.modal').first()
