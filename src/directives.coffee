@@ -71,6 +71,9 @@ window.app
       $scope.doAndClose = (fn) ->
          result = fn() if fn
          $scope.modalEl.modal 'hide' if result or not fn
+         # ⚑
+         # TODO: Replace with scope fn that actually sets the content
+         $scope.choosingContent = false
       $scope.doAndShowEditContentSlide = (fn) ->
          fn() if fn
          component = $scope.component
@@ -113,9 +116,11 @@ window.app
          modalEl.modal()
 
       $scope.$watch 'choosingContent', (newValue, oldValue) ->
-         return if newValue is oldValue or newValue isnt true
+         return if newValue is oldValue
+         return $scope.availableContentItems = null if newValue isnt true
          Spinner = require('spinner')
          spinner = new Spinner
+         spinner.size 30
          $('.loading-spinner-container', elem)
             .empty()
             .append spinner.el
