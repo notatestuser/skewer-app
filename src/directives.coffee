@@ -30,18 +30,35 @@ window.app
       link: ($scope, elem) ->
          component = $scope.component
          return if not _.isObject(component)
+
          reconcileRowScaleClassFn = ->
             removeScaleClassesFn(elem)
             elem.addClass "row-scale-#{component.rowScale} col-divide-#{component.colDivide}"
+
          $scope.$watch 'component.rowScale+component.colDivide', (newValue, oldValue) ->
             return unless newValue isnt oldValue
             reconcileRowScaleClassFn()
+
          reconcileRowScaleClassFn()
    }
 ])
 
-.directive('componentBody', [->
+.directive('componentBody', ['$window', '$rootScope',
+($window, $rootScope)->
    restrict: 'AC'
+   controller: ($scope) ->
+      $scope.getComponentClass = (component={}) ->
+         type = component.type or 'placeholder'
+         baseClasses =  ''
+         baseClasses += " #{type}-component"
+         baseClasses
+      $scope.handleComponentClick = (component={}) ->
+         if $scope.editorContext.inEditMode
+            $rootScope.$broadcast 'component:editme', component
+         else if component.linkHref
+            # ⚑
+            # TODO: Show a confirmation modal when we're here
+            $window.location.href = component.linkHref
    link: ($scope, elem) ->
       component = $scope.component
       return if not _.isObject(component)
@@ -109,8 +126,9 @@ window.app
          $scope.component.type = contentType
          delete $scope.component.content if contentType isnt 'placeholder'
          true
-      $scope.setContent = (content) -> ->
+      $scope.setContentAndLinkHref = (content, linkHref) -> ->
          $scope.component.content = content
+         $scope.component.linkHref = linkHref
          $scope.$apply() if $scope.$$phase isnt '$digest'
          true
    ]

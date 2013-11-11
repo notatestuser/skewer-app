@@ -23,7 +23,8 @@ div(ng-show='!isWorking()')
             tr(ng-repeat='opportunity in opportunities')
                td.hidden-phone {{opportunity.Id}}
                td
-                  a(href='#/designer/{{opportunity.Id}}') {{opportunity.Name}}
+                  a(href='#/designer/{{opportunity.Id}}')
+                     | {{opportunity.Name}}
                td {{opportunity.CreatedDate}}
                td {{opportunity.OwnerId}}
 
@@ -36,7 +37,8 @@ div(ng-show='!isWorking()')
       table.table
          tr(ng-click='doView(opportunity.Id)', ng-repeat='opportunity in opportunities')
             td
-               | {{opportunity.Name}}
+               a(href='#/designer/{{opportunity.Id}}')
+                  | {{opportunity.Name}}
                br
                small
                   i {{opportunity.Id}}

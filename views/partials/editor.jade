@@ -29,7 +29,7 @@ section.pitch-editor
 
       div.component-body.placeholder-component-body(
             ng-switch-when='null',
-            ng-click='triggerEditComponent(component)',
+            ng-click='handleComponentClick(component)',
             data-index='{{$index}}',
             data-is-first='{{$first}}',
             data-type='{{component.type}}',
@@ -37,7 +37,7 @@ section.pitch-editor
 
       div.component-body.placeholder-component-body(
             ng-switch-when='placeholder',
-            ng-click='triggerEditComponent(component)',
+            ng-click='handleComponentClick(component)',
             data-index='{{$index}}',
             data-is-first='{{$first}}',
             data-type='{{component.type}}',
@@ -45,7 +45,7 @@ section.pitch-editor
 
       div.component-body.image-component-body(
             ng-switch-when='image',
-            ng-click='triggerEditComponent(component)',
+            ng-click='handleComponentClick(component)',
             data-index='{{$index}}',
             data-is-first='{{$first}}',
             data-type='{{component.type}}',
@@ -53,7 +53,7 @@ section.pitch-editor
 
       div.component-body.text-component-body.well(
             ng-switch-when='text',
-            ng-click='triggerEditComponent(component)',
+            ng-click='handleComponentClick(component)',
             data-index='{{$index}}',
             data-is-first='{{$first}}',
             data-type='{{component.type}}',

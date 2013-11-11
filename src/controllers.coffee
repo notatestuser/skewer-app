@@ -66,56 +66,48 @@ window.app
    $location.path "/contacts"
 )
 
-.controller('PitchEditorCtrl', ($scope) ->
-   # example component:
-   #  {
-   #     cols: 1
-   #     rowScale: 1
-   #     type: 'image'
-   #     source: '... sf file id? ...'
-   #  }
-   $scope.components = [
-      rowScale:  2
-      colDivide: 2
-      type: 'image'
-      content: 'http://i.imgur.com/wdt4Ddz.jpg'
-   ]
-
-   $scope.editorContext =
-      inEditMode: yes
-      aspectRatio: 1.777
-
-   compactComponents = ->
-      $scope.components = $scope.components.filter (item) -> item?
-      undefined
-
-   $scope.getComponentClass = (component={}) ->
-      type = component.type or 'placeholder'
-      baseClasses =  ''
-      baseClasses += " #{type}-component"
-      baseClasses
-
-   $scope.addComponentAfter = (index) ->
-      newComponents = [
-         rowScale:  1
-         colDivide: $scope.components[index].colDivide
-         type: null
-         content: null
+.controller('PitchEditorCtrl', ($window, $scope, AngularForce) ->
+   AngularForce.login ->
+      # example component:
+      #  {
+      #     cols: 1
+      #     rowScale: 1
+      #     type: 'image'
+      #     source: '... sf file id? ...'
+      #     linkHref = 'http://getskewer.com/...'
+      #  }
+      $scope.components = [
+         rowScale:  2
+         colDivide: 2
+         type: 'image'
+         content: 'http://i.imgur.com/wdt4Ddz.jpg'
       ]
-      existingComponents = $scope.components
-      allComponents = existingComponents.slice(0, index+1)
-         .concat(newComponents.concat existingComponents.slice(index+1))
-      $scope.components = allComponents
-      $scope.$broadcast 'component:editme', newComponents[0], true
 
-   $scope.removeComponentAt = (index=-1) ->
-      return if not $scope.components[index]
-      delete $scope.components[index]
-      compactComponents()
+      $scope.editorContext =
+         inEditMode: yes
+         aspectRatio: 1.777
 
-   $scope.triggerEditComponent = (component) ->
-      return unless $scope.editorContext.inEditMode
-      $scope.$broadcast 'component:editme', component
+      compactComponents = ->
+         $scope.components = $scope.components.filter (item) -> item?
+         undefined
+
+      $scope.addComponentAfter = (index) ->
+         newComponents = [
+            rowScale:  1
+            colDivide: $scope.components[index].colDivide
+            type: null
+            content: null
+         ]
+         existingComponents = $scope.components
+         allComponents = existingComponents.slice(0, index+1)
+            .concat(newComponents.concat existingComponents.slice(index+1))
+         $scope.components = allComponents
+         $scope.$broadcast 'component:editme', newComponents[0], true
+
+      $scope.removeComponentAt = (index=-1) ->
+         return if not $scope.components[index]
+         delete $scope.components[index]
+         compactComponents()
 )
 
 .controller('OpportunityListCtrl', ($scope, AngularForce, $location, Opportunity, SFConfig) ->

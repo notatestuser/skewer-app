@@ -10,9 +10,12 @@ angular.module('skewer.services', [])
       Assets(type)
       .query ((data) ->
          obj = data.records.reduce (prev, current) ->
-            prev[current.Link__c] = current.Name
+            prev.push
+               name:     current.Name
+               linkHref: current.Tracked_Link__c
+               content:  current.Source__c or current.Text__c
             prev
-         , {}
+         , []
          callback null, obj
       ), (data) ->
          alert "Query Error"

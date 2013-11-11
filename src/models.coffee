@@ -44,10 +44,10 @@ angular.module('ForceModels', [])
    (type='image') ->
       objDesc =
          type: 'Pitch_Asset__c'
-         fields: ['Id', 'Name', 'Link__c']
+         fields: ['Id', 'Name', 'Source__c', 'Tracked_Link__c', 'Text__c']
          where: "Type__c = '#{type}'"
          orderBy: 'Name'
-         limit: 10
+         limit: 15
 
       ImageAsset = AngularForceObjectFactory(objDesc)
       ImageAsset
