@@ -2,6 +2,9 @@
 This initializes AngularJS app. Place this file BEFORE app.js (where your actual app is located).
 ###
 
+window = window or= {}
+angular = angular or= {}
+
 globals = window.SFGlobals = {}
 
 # ⚑

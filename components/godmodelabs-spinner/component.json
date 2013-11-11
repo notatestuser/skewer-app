@@ -1,0 +1,19 @@
+{
+  "name": "spinner",
+  "description": "Flexible spinner using Canvas",
+  "version": "0.0.2",
+  "keywords": [
+    "spinner",
+    "loading",
+    "ui"
+  ],
+  "scripts": [
+    "index.js"
+  ],
+  "dependencies": {
+    "component/autoscale-canvas": "*",
+    "component/raf": "*"
+  },
+  "license": "MIT",
+  "repo": "godmodelabs/spinner"
+}

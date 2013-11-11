@@ -1,0 +1,15 @@
+{
+  "name": "bootstrap-modal",
+  "repo": "luka5/bootstrap-modal",
+  "description": "Bootstrap Modal Component",
+  "version": "2.3.1",
+  "keywords": [],
+  "dependencies": {
+    "component/jquery": "1.8.2"
+  },
+  "development": {},
+  "license": "APLv2",
+  "styles": [
+    "bootstrap-modal.css"
+  ]
+}

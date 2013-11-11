@@ -1,0 +1,16 @@
+{
+  "name": "angular",
+  "description": "AngularJS wrapped as a component.",
+  "repo": "alexmingoia/angularjs",
+  "version": "1.0.7",
+  "keywords": [
+    "angular",
+    "angularjs",
+    "component"
+  ],
+  "main": "angular.js",
+  "scripts": [
+    "angular.js"
+  ],
+  "license": "MIT"
+}
