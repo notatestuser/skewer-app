@@ -1,4 +1,4 @@
-angular.module('SFModels', [])
+angular.module('ForceModels', [])
 
 .factory('Contact', ['AngularForceObjectFactory',
 (AngularForceObjectFactory) ->
@@ -13,14 +13,28 @@ angular.module('SFModels', [])
    Contact
 ])
 
-.factory('Opportunity', ['AngularForceObjectFactory',
-(AngularForceObjectFactory) ->
+.factory('Opportunity', ['AngularForceObjectFactory', 'SFConfig',
+(AngularForceObjectFactory, SFConfig) -> ->
    objDesc =
       type: 'Opportunity'
-      fields: ['Name', 'CloseDate', 'Id']
-      where: 'WHERE IsWon = TRUE'
+      fields: ['Id', 'Name', 'OwnerId', 'CreatedDate']
+      where: "OwnerId = '#{SFConfig.client.userId}'"
+      orderBy: 'CreatedDate DESC'
       limit: 20
 
    Opportunity = AngularForceObjectFactory(objDesc)
    Opportunity
+])
+
+.factory('Pitch__c', ['AngularForceObjectFactory',
+(AngularForceObjectFactory) ->
+   objDesc =
+      type: 'Pitch__c'
+      fields: ['Id', 'Name', 'Pitch_Link__c']
+      where: 'OpportunityId = ' + $routeParams.opportunityId
+      orderBy: 'Name'
+      limit: 10
+
+   Pitch__c = AngularForceObjectFactory(objDesc)
+   Pitch__c
 ])

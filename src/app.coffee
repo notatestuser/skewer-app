@@ -1,9 +1,9 @@
 #####
 
 app = window.app = angular.module('AngularSFDemo', [
-   'AngularForce',
-   'AngularForceObjectFactory',
-   'SFModels',
+   'AngularForce'
+   'AngularForceObjectFactory'
+   'ForceModels'
    'ui.bootstrap.dropdownToggle'
 ])
 
@@ -12,7 +12,7 @@ app = window.app = angular.module('AngularSFDemo', [
 window.SFConfig = SFGlobals.getSFConfig()
 window.SFConfig.maxListSize = 25
 
-app.constant "SFConfig", SFConfig
+app.constant 'SFConfig', SFConfig
 
 app.config ['$routeProvider', ($routeProvider) ->
    $routeProvider
@@ -31,11 +31,15 @@ app.config ['$routeProvider', ($routeProvider) ->
 
    # contacts editor routes
    .when('/contacts',
-      controller: 'ContactListCtrl'
+      controller: 'OpportunityListCtrl'
       templateUrl: 'partials/contact/list.html'
    )
    .when('/view/:contactId',
       controller: 'ContactViewCtrl'
+      templateUrl: 'partials/contact/view.html'
+   )
+   .when('/viewOpp/:opportunityId',
+      controller: 'OpportunityViewCtrl'
       templateUrl: 'partials/contact/view.html'
    )
    .when('/edit/:contactId',

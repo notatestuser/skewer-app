@@ -32,16 +32,16 @@ window.app
       $location.path "/login"
 )
 
-.controller('LoginCtrl', ($scope, AngularForce, $location) ->
+.controller('LoginCtrl', ($scope, AngularForce, $location, SFConfig) ->
    #Usually happens in Cordova
    return $location.path("/contacts/")  if AngularForce.authenticated()
-   $scope.login = ->
 
+   $scope.login = ->
       #If in visualforce, 'login' = initialize entity framework
       if AngularForce.inVisualforce
          AngularForce.login ->
+            console.log "Our userId is #{SFConfig.client.userId}"
             $location.path "/contacts/"
-
       else
          AngularForce.login()
 
@@ -56,7 +56,7 @@ window.app
          $scope.$apply()
 )
 
-.controller('CallbackCtrl', ($scope, AngularForce, $location) ->
+.controller('CallbackCtrl', ($scope, AngularForce, $location, SFConfig) ->
    AngularForce.oauthCallback document.location.href
 
    #Note: Set hash to empty before setting path to /contacts to keep the url clean w/o oauth info.
@@ -118,6 +118,33 @@ window.app
       $scope.$broadcast 'component:editme', component
 )
 
+.controller('OpportunityListCtrl', ($scope, AngularForce, $location, Opportunity, SFConfig) ->
+   return $location.path("/home")  unless AngularForce.authenticated()
+   $scope.searchTerm = ""
+   $scope.working = false
+   Opportunity().query ((data) ->
+      $scope.opportunities = data.records
+      $scope.$apply() #Required coz sfdc uses jquery.ajax
+   ), (data) ->
+      alert "Query Error"
+
+   $scope.isWorking = ->
+      $scope.working
+
+   $scope.doSearch = ->
+      Opportunity().search $scope.searchTerm, ((data) ->
+         $scope.opportunities = data
+         $scope.$apply() #Required coz sfdc uses jquery.ajax
+      ), (data) ->
+
+   $scope.doView = (opportunityId) ->
+      console.log "doView"
+      $location.path "/viewOpp/" + opportunityId
+
+   $scope.doCreate = ->
+      $location.path "/newOpp"
+)
+
 .controller('ContactListCtrl', ($scope, AngularForce, $location, Contact) ->
    return $location.path("/home")  unless AngularForce.authenticated()
    $scope.searchTerm = ""
@@ -151,6 +178,22 @@ window.app
          c = contact
          $scope.$apply ->
             $location.path "/view/" + c.Id
+)
+
+.controller('OpportunityViewCtrl', ($scope, AngularForce, $location, $routeParams, Opportunity) ->
+   AngularForce.login ->
+      Opportunity().get
+         id: $routeParams.opportunityId
+      , (opportunity) ->
+         self.original = opportunity
+         $scope.opportunity = new Opportunity()(self.original)
+         $scope.$apply() #Required coz sfdc uses jquery.ajax
+
+      Pitch__c.query ((data) ->
+         $scope.pitches = data.records
+         $scope.$apply() #Required coz sfdc uses jquery.ajax
+      ), (data) ->
+         alert "Query Error"
 )
 
 .controller('ContactViewCtrl', ($scope, AngularForce, $location, $routeParams, Contact) ->

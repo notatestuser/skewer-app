@@ -16,12 +16,14 @@ div(ng-show='!isWorking()')
             tr
                th.hidden-phone Id
                th Name
+               th Created at
                th Owner
          tbody
             tr(ng-repeat='contact in opportunities')
                td.hidden-phone &lcub;&lcub;contact&period;Id&rcub;&rcub;
                td
                   a(href='#/view/{{contact.Id}}') {{contact.Name}}
+               td {{contact.CreatedDate}}
                td {{contact.OwnerId}}
 
    // This div is only displayed in mobile phones (see above for desktops)
