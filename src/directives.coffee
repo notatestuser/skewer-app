@@ -62,7 +62,8 @@ window.app
       elem.css backgroundImage: newBackgroundImage
 ])
 
-.directive('componentEditModal', [->
+.directive('componentEditModal', ['contentAssetsService',
+(contentAssetsService) ->
    scope: {}
    restrict: 'A'
    templateUrl: '/partials/components/component-edit-modal.html'
@@ -104,9 +105,21 @@ window.app
    ]
    link: ($scope, elem) ->
       modalEl = $scope.modalEl = elem.children('.modal').first()
+
       $scope.$on 'component:editme', (ev, component, isNewComponent) ->
          $scope.component = component
          $scope.choosingType = isNewComponent
          $scope.choosingContent = false
          modalEl.modal()
+
+      $scope.$watch 'choosingContent', (newValue, oldValue) ->
+         return if newValue is oldValue or newValue isnt true
+         Spinner = require('spinner')
+         spinner = new Spinner
+         $('.loading-spinner-container', elem)
+            .empty()
+            .append spinner.el
+         contentAssetsService.getContentItemsForType($scope.component.type)
+         .then (items) ->
+            $scope.availableContentItems = items
 ])

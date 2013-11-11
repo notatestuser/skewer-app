@@ -158,7 +158,7 @@
 
 .modal-adjust-component .modal-body {
    max-height: 440px;
-   overflow: hidden;
+   overflow-x: hidden;
    white-space: nowrap;
 }
 
@@ -178,6 +178,11 @@
 
 .modal-adjust-component .modal-body.showing-slide-3 > .slide {
    left: -200%;
+}
+
+.modal-adjust-component .loading-spinner-container {
+   text-align: center;
+   padding: 4%;
 }
 
 .adjustments-block {

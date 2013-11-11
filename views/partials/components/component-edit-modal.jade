@@ -90,11 +90,12 @@ section.modal.modal-adjust-component.hide.fade(
          hr
          .adjustments-block.content-type-selection
             label Select some content
-            ul.component-adjustment-buttons.btn-group.btn-group-vertical
-               li.btn.btn-link.btn-large.btn-block-level(ng-click='doAndClose()')
-                  | Content item 1
-               li.btn.btn-link.btn-large.btn-block-level(ng-click='doAndClose()')
-                  | Content item 2
-               li.btn.btn-link.btn-large.btn-block-level(ng-click='doAndClose()')
-                  | Content item 3
 
+            aside.loading-spinner-container(ng-hide='availableContentItems')
+
+            ul.component-adjustment-buttons.btn-group.btn-group-vertical(
+                  ng-show='availableContentItems')
+               li.btn.btn-link.btn-large.btn-block-level(
+                     ng-repeat='(key, value) in availableContentItems'
+                     ng-click='doAndClose()')
+                  | {{value}}

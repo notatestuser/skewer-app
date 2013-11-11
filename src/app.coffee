@@ -4,6 +4,7 @@ app = window.app = angular.module('AngularSFDemo', [
    'AngularForce'
    'AngularForceObjectFactory'
    'ForceModels'
+   'skewer.services'
    'ui.bootstrap.dropdownToggle'
 ])
 
