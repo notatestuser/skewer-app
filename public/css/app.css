@@ -164,7 +164,6 @@
 
 .modal-adjust-component .modal-body > .slide {
    width: 100%;
-   position: relative;
    vertical-align: top;
    display: inline-block;
    transition: all 0.3s ease;
@@ -173,11 +172,17 @@
 }
 
 .modal-adjust-component .modal-body.showing-slide-2 > .slide {
-   left: -100%;
+   transform: translate(-100%, 0);
+   -ms-transform: translate(-100%, 0);
+   -moz-transform: translate(-100%, 0);
+   -webkit-transform: translate(-100%, 0);
 }
 
 .modal-adjust-component .modal-body.showing-slide-3 > .slide {
-   left: -200%;
+   transform: translate(-200%, 0);
+   -ms-transform: translate(-200%, 0);
+   -moz-transform: translate(-100%, 0);
+   -webkit-transform: translate(-200%, 0);
 }
 
 .modal-adjust-component .loading-spinner-container {
