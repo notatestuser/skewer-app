@@ -4,6 +4,7 @@ window.app
    restrict: 'AC'
    link: ($scope, elem) ->
       setRatioFn = ->
+         elem.css height: "#{$(window).outerHeight()}px"
          width  = elem.outerWidth()
          height = elem.outerHeight()
          newRatio = (height / width).toFixed 3
@@ -16,7 +17,7 @@ window.app
             elem.height width * existingRatio
          $scope.$apply() if $scope.$$phase isnt '$digest'
       # on resize figure out what our aspect ratio is
-      $(window).resize _.debounce(setRatioFn, 200)
+      $(window).resize _.debounce(setRatioFn, 20)
       setRatioFn()
 ])
 
@@ -52,6 +53,9 @@ window.app
    restrict: 'AC'
    link: ($scope, elem) ->
       elem.css backgroundImage: "url(#{$scope.component.content})"
+      $scope.$watch 'component.content', (newValue, oldValue) ->
+         return if newValue is oldValue
+         elem.css backgroundImage: "url(#{newValue})"
 ])
 
 .directive('placeholderComponentBody', [->
@@ -107,6 +111,7 @@ window.app
          true
       $scope.setContent = (content) -> ->
          $scope.component.content = content
+         $scope.$apply() if $scope.$$phase isnt '$digest'
          true
    ]
    link: ($scope, elem) ->
@@ -123,11 +128,12 @@ window.app
          return $scope.availableContentItems = null if newValue isnt true
          Spinner = require('spinner')
          spinner = new Spinner
-         spinner.size 30
+         spinner.size 26
          $('.loading-spinner-container', elem)
             .empty()
             .append spinner.el
-         contentAssetsService.getContentItemsForType($scope.component.type)
-         .then (items) ->
+         contentAssetsService.getContentItemsForType $scope.component.type, (err, items) ->
             $scope.availableContentItems = items
+            $scope.$apply() if $scope.$$phase isnt '$digest'
+            undefined
 ])
