@@ -1,16 +1,14 @@
-html
-   body
-      .span4.well
-         p
-            strong &lcub;&lcub;contact&period;FirstName&rcub;&rcub; &lcub;&lcub;contact&period;LastName&rcub;&rcub;
-         p &lcub;&lcub;contact&period;Title&rcub;&rcub;
-         p(ng-show='contact.Account.Name') Account&colon; &lcub;&lcub;contact&period;Account&period;Name&rcub;&rcub;
-         p
-            | Email&colon;
-            a(href='mailto:{{contact.Email}}') &lcub;&lcub;contact&period;Email&rcub;&rcub;
-         p
-            | Phone&colon;
-            a(href='tel:{{contact.Phone}}') &lcub;&lcub;contact&period;Phone&rcub;&rcub;
-         p
-            a.btn(href='#/edit/{{contact.Id}}') Edit
-            a.btn.btn-primary(href='#/contacts') Back to Contacts
+.span4.well
+   p
+      strong &lcub;&lcub;contact&period;FirstName&rcub;&rcub; &lcub;&lcub;contact&period;LastName&rcub;&rcub;
+   p &lcub;&lcub;contact&period;Title&rcub;&rcub;
+   p(ng-show='contact.Account.Name') Account&colon; &lcub;&lcub;contact&period;Account&period;Name&rcub;&rcub;
+   p
+      | Email&colon;
+      a(href='mailto:{{contact.Email}}') &lcub;&lcub;contact&period;Email&rcub;&rcub;
+   p
+      | Phone&colon;
+      a(href='tel:{{contact.Phone}}') &lcub;&lcub;contact&period;Phone&rcub;&rcub;
+   p
+      a.btn(href='#/edit/{{contact.Id}}') Edit
+      a.btn.btn-primary(href='#/contacts') Back to Contacts
