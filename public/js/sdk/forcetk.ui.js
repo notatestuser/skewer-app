@@ -208,6 +208,7 @@
 
                 localStorage.setItem('ftkui_refresh_token', oauthResponse.refresh_token);
 
+                this.client.setIdentityUrl(oauthResponse.id);
                 this.client.setRefreshToken(oauthResponse.refresh_token);
                 this.client.setSessionToken(oauthResponse.access_token, null, oauthResponse.instance_url);
 
@@ -248,6 +249,7 @@
 
                 localStorage.setItem('ftkui_refresh_token', oauthResponse.refresh_token);
 
+                this.client.setIdentityUrl(oauthResponse.id);
                 this.client.setRefreshToken(oauthResponse.refresh_token);
                 this.client.setSessionToken(oauthResponse.access_token, null, oauthResponse.instance_url);
 

@@ -23,7 +23,7 @@ angular.module('AngularForce', []).
 
         var href =  document.location.href;
         this.inVisualforce = href.indexOf('visual.force.com') > 0 || href.indexOf('salesforce.com/apex/') > 0;
-        
+
         this.refreshToken = localStorage.getItem('ftkui_refresh_token');
 
         this.isOnline = function () {
@@ -71,7 +71,7 @@ angular.module('AngularForce', []).
             //register to receive notifications when autoRefreshOnForeground refreshes the sfdc session
             document.addEventListener("salesforceSessionRefresh", salesforceSessionRefreshed, false);
 
-            
+
             function salesforceSessionRefreshed(creds) {
                 // Depending on how we come into this method, `creds` may be callback data from the auth
                 // plugin, or an event fired from the plugin.  The data is different between the two.
@@ -82,6 +82,7 @@ angular.module('AngularForce', []).
                 SFConfig.client = new forcetk.Client(credsData.clientId, credsData.loginUrl);
                 SFConfig.client.setSessionToken(credsData.accessToken, apiVersion, credsData.instanceUrl);
                 SFConfig.client.setRefreshToken(credsData.refreshToken);
+                SFConfig.client.setIdentityUrl(credsData.id);
 
                 //Set sessionID to angularForce coz profileImages need them
                 self.sessionId = SFConfig.client.sessionId;
