@@ -3,6 +3,7 @@
 app = window.app = angular.module('AngularSFDemo', [
    'AngularForce'
    'AngularForceObjectFactory'
+   'goinstant'
    'ForceModels'
    'skewer.services'
    'ui.bootstrap.dropdownToggle'
@@ -15,7 +16,10 @@ window.SFConfig.maxListSize = 25
 
 app.constant 'SFConfig', SFConfig
 
-app.config ['$routeProvider', ($routeProvider) ->
+app.config ['$routeProvider', 'platformProvider',
+($routeProvider, platformProvider) ->
+   platformProvider.set('https://goinstant.net/sdavyson/Skewer')
+
    $routeProvider
 
    # app routes
@@ -67,4 +71,5 @@ app.config ['$routeProvider', ($routeProvider) ->
    )
 
    .otherwise redirectTo: '/'
+
 ]

@@ -66,12 +66,15 @@ window.app
    $location.path "/contacts"
 )
 
-.controller('PitchEditorCtrl', ($window, $scope, AngularForce) ->
+.controller('PitchEditorCtrl', ($window, $scope, AngularForce, GoAngular) ->
+   new GoAngular($scope, 'PitchEditorCtrl', include: ['components'])
+      .initialize()
+
    AngularForce.login ->
       # example component:
       #  {
-      #     cols: 1
       #     rowScale: 1
+      #     colDivide: 1
       #     type: 'image'
       #     source: '... sf file id? ...'
       #     linkHref = 'http://getskewer.com/...'
@@ -91,7 +94,7 @@ window.app
          $scope.components = $scope.components.filter (item) -> item?
          undefined
 
-      $scope.addComponentAfter = (index) ->
+      $scope.addComponentAfter = (index = $scope.components.length - 1) ->
          newComponents = [
             rowScale:  1
             colDivide: $scope.components[index].colDivide
@@ -108,6 +111,11 @@ window.app
          return if not $scope.components[index]
          delete $scope.components[index]
          compactComponents()
+
+      # GoInstant platform init
+      # connectUrl = 'https://goinstant.net/sdavyson/Skewer'
+      # rooms = ['room101']
+      # platform.setup(connectUrl, { rooms: rooms })
 )
 
 .controller('OpportunityListCtrl', ($scope, AngularForce, $location, Opportunity, SFConfig) ->

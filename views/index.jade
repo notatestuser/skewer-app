@@ -39,8 +39,10 @@ html
          configFromEnv.app_url   = '#{app_url}';
          configFromEnv.client_id = '#{client_id}';
 
+      script(src='https://cdn.goinstant.net/v1/platform.min.js')
       script(src='js/vendor/build.js')
       script(src='js/vendor/vendor.js')
+      script(src='https://cdn.goinstant.net/integrations/goangular/latest/goangular.min.js')
       script(src='js/sdk/sdk.js')
       script(src='js/init.js')
       script(src='js/models.js')
