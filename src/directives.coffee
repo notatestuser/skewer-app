@@ -44,7 +44,7 @@ window.app
 ])
 
 .directive('componentBody', ['$window', '$rootScope',
-($window, $rootScope)->
+($window, $rootScope) ->
    restrict: 'AC'
    controller: ($scope) ->
       $scope.getComponentClass = (component={}) ->
@@ -154,4 +154,16 @@ window.app
             $scope.availableContentItems = items
             $scope.$apply() if $scope.$$phase isnt '$digest'
             undefined
+])
+
+.directive('tapToAddComponent', ['$timeout', ($timeout) ->
+   restrict: 'A'
+   link: ($scope, elem) ->
+      elem.click ->
+         elem.addClass 'hover'
+         # the animation should be done after 0.3s
+         $timeout ->
+            $scope.addComponentAfter()
+            elem.removeClass 'hover'
+         , 350
 ])
