@@ -1,13 +1,13 @@
 div.modal-body.clearfix
 
    h4.pull-left(style='margin: 3px;')
-      | Aspect ratio: {{editorContext.aspectRatio}}
-      b(ng-hide='editorContext.inEditMode')
+      | Aspect ratio: {{aspectRatio}}
+      b(ng-hide='inEditMode')
          |  (LOCKED)
 
    .pull-right(
-         ng-switch='editorContext.inEditMode',
-         ng-click='editorContext.inEditMode = !editorContext.inEditMode')
+         ng-switch='inEditMode',
+         ng-click='inEditMode = !inEditMode')
       .btn.btn-small.btn-warning(ng-switch-when='true')
          | Disable edit mode
       .btn.btn-small(ng-switch-when='false')
@@ -21,7 +21,7 @@ section.pitch-editor
          ng-switch='component.type')
 
       aside.control-buttons.fade.btn-group.btn-group-vertical(
-            ng-class='{"in": editorContext.inEditMode}')
+            ng-class='{"in": inEditMode}')
          a.btn.btn-large.btn-link.btn-remove(ng-click='removeComponentAt($index)')
             | &times;
          a.btn.btn-large.btn-link(ng-click='addComponentAfter($index)')
@@ -33,7 +33,7 @@ section.pitch-editor
             data-index='{{$index}}',
             data-is-first='{{$first}}',
             data-type='{{component.type}}',
-            class='{{getComponentClass(component)}}')
+            class='{{getComponentClasses(component)}}')
 
       div.component-body.placeholder-component-body(
             ng-switch-when='placeholder',
@@ -41,7 +41,7 @@ section.pitch-editor
             data-index='{{$index}}',
             data-is-first='{{$first}}',
             data-type='{{component.type}}',
-            class='{{getComponentClass(component)}}')
+            class='{{getComponentClasses(component)}}')
 
       div.component-body.image-component-body(
             ng-switch-when='image',
@@ -49,7 +49,7 @@ section.pitch-editor
             data-index='{{$index}}',
             data-is-first='{{$first}}',
             data-type='{{component.type}}',
-            class='{{getComponentClass(component)}}')
+            class='{{getComponentClasses(component)}}')
 
       div.component-body.text-component-body.well(
             ng-switch-when='text',
@@ -57,7 +57,7 @@ section.pitch-editor
             data-index='{{$index}}',
             data-is-first='{{$first}}',
             data-type='{{component.type}}',
-            class='{{getComponentClass(component)}}')
+            class='{{getComponentClasses(component)}}')
          {{component.content}}
 
    .pitch-component.flip-container.vertical.col-divide-2.row-scale-1(

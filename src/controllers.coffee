@@ -67,10 +67,20 @@ window.app
 )
 
 .controller('PitchEditorCtrl', ($window, $scope, AngularForce, GoAngular) ->
-   new GoAngular($scope, 'PitchEditorCtrl', include: ['components'])
-      .initialize()
-
    AngularForce.login ->
+      # GoAngular initialisation
+      new GoAngular($scope, 'PitchEditorCtrl', include: ['inEditMode', 'aspectRatio', 'components'])
+         .initialize()
+
+      # GoInstant alternative platform init
+      # connectUrl = 'https://goinstant.net/sdavyson/Skewer'
+      # rooms = ['room101']
+      # platform.setup(connectUrl, { rooms: rooms })
+
+      # so apparently GoInstant wasn't syncing these when they were in a hash, so I moved 'em out
+      $scope.inEditMode  = yes
+      $scope.aspectRatio = 1.777 # mobile-esque default
+
       # example component:
       #  {
       #     rowScale: 1
@@ -85,10 +95,6 @@ window.app
          type: 'image'
          content: 'http://i.imgur.com/wdt4Ddz.jpg'
       ]
-
-      $scope.editorContext =
-         inEditMode: yes
-         aspectRatio: 1.777
 
       compactComponents = ->
          $scope.components = $scope.components.filter (item) -> item?
@@ -112,11 +118,6 @@ window.app
          return if not $scope.components[index]
          delete $scope.components[index]
          compactComponents()
-
-      # GoInstant platform init
-      # connectUrl = 'https://goinstant.net/sdavyson/Skewer'
-      # rooms = ['room101']
-      # platform.setup(connectUrl, { rooms: rooms })
 )
 
 .controller('OpportunityListCtrl', ($scope, AngularForce, $location, Opportunity, SFConfig) ->

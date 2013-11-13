@@ -4,21 +4,23 @@ window.app
    restrict: 'AC'
    link: ($scope, elem) ->
       setRatioFn = ->
-         return if not $scope.editorContext
+         return if not $scope.aspectRatio
          elem.css height: "#{$(window).outerHeight()}px"
          width  = elem.outerWidth()
          height = elem.outerHeight()
          newRatio = (height / width).toFixed 3
-         existingRatio = $scope.editorContext.aspectRatio
+         existingRatio = $scope.aspectRatio
          elem.data aspectRatio: newRatio
-         if $scope.editorContext.inEditMode
-            $scope.editorContext.aspectRatio = newRatio
+         if $scope.inEditMode
+            $scope.aspectRatio = newRatio
             elem.height null
          else
             elem.height width * existingRatio
          $scope.$apply() if $scope.$$phase isnt '$digest'
       # on resize figure out what our aspect ratio is
       $(window).resize _.debounce(setRatioFn, 20)
+      $scope.$watch 'aspectRatio', setRatioFn
+      $scope.$watch 'inEditMode',  setRatioFn
       setRatioFn()
 ])
 
@@ -48,13 +50,13 @@ window.app
 ($window, $rootScope) ->
    restrict: 'AC'
    controller: ($scope) ->
-      $scope.getComponentClass = (component={}) ->
+      $scope.getComponentClasses = (component={}) ->
          type = component.type or 'placeholder'
          baseClasses =  ''
          baseClasses += " #{type}-component"
          baseClasses
       $scope.handleComponentClick = (component={}) ->
-         if $scope.editorContext.inEditMode
+         if $scope.inEditMode
             $rootScope.$broadcast 'component:editme', component
          else if component.linkHref
             # ⚑
