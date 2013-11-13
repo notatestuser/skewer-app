@@ -61,7 +61,8 @@ section.pitch-editor
          {{component.content}}
 
    .pitch-component.flip-container.vertical.col-divide-2.row-scale-1(
-         data-tap-to-add-component)
+         data-tap-to-add-component
+         ng-show='inEditMode')
       .flipper
          .front
          .back
