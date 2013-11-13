@@ -96,7 +96,8 @@ window.app
 
       $scope.addComponentAfter = (index = $scope.components.length - 1) ->
          newComponents = [
-            rowScale:  1
+            # use the same scale as the component at the given index
+            rowScale:  $scope.components[index].rowScale
             colDivide: $scope.components[index].colDivide
             type: null
             content: null
