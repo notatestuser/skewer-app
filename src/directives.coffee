@@ -4,6 +4,7 @@ window.app
    restrict: 'AC'
    link: ($scope, elem) ->
       setRatioFn = ->
+         return if not $scope.editorContext
          elem.css height: "#{$(window).outerHeight()}px"
          width  = elem.outerWidth()
          height = elem.outerHeight()
@@ -159,11 +160,22 @@ window.app
 .directive('tapToAddComponent', ['$timeout', ($timeout) ->
    restrict: 'A'
    link: ($scope, elem) ->
+      elem.data 'rowScaleClass', 'row-scale-1'
       elem.click ->
          elem.addClass 'hover'
          # the animation should be done after 0.3s
          $timeout ->
             $scope.addComponentAfter()
             elem.removeClass 'hover'
-         , 350
+         , 320
+      $scope.$watch 'components', (newValue) ->
+         return if not _.isArray(newValue) or newValue.length < 1
+         # mimic row scale of last component
+         lastComponent    = newValue[newValue.length - 1]
+         newRowScaleClass = "row-scale-#{lastComponent.rowScale}"
+         elem
+            .removeClass(elem.data 'rowScaleClass')
+            .addClass(newRowScaleClass)
+         elem.data 'rowScaleClass', newRowScaleClass
+      , true
 ])

@@ -301,7 +301,6 @@ ul.component-adjustment-buttons.twosie {
 
 .flip-container, .front, .back {
    width:  inherit;
-   height: inherit;
 }
 
 .flipper {
@@ -328,19 +327,15 @@ ul.component-adjustment-buttons.twosie {
 }
 
 .front {
+   height: 100%;
    display: table-cell;
    vertical-align: middle;
    text-align: center;
    z-index: 2;
    border: 3px dashed #999;
    box-sizing: border-box;
-}
-
-.back {
-   background: lightblue;
-   -webkit-transform: rotateY(180deg);
-   -moz-transform: rotateY(180deg);
-   transform: rotateY(180deg);
+   background: transparent url(../img/plus.svg) no-repeat scroll center center;
+   background-size: 30%;
 }
 
 .front > span {
@@ -366,6 +361,13 @@ ul.component-adjustment-buttons.twosie {
    -webkit-transform: rotate(-20deg);
    -moz-transform: rotate(-20deg);
    transform: rotate(-20deg);
+}
+
+.back {
+   background: lightblue;
+   -webkit-transform: rotateY(180deg);
+   -moz-transform: rotateY(180deg);
+   transform: rotateY(180deg);
 }
 
 .back-logo {
