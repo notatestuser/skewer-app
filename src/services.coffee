@@ -12,8 +12,8 @@ angular.module('skewer.services', [])
          obj = data.records.reduce (prev, current) ->
             prev.push
                name:     current.Name
-               linkHref: current.Tracked_Link__c
-               content:  current.Source__c or current.Text__c
+               linkHref: current.skewerapp__Tracked_Link__c
+               content:  current.skewerapp__Source__c or current.skewerapp__Text__c
             prev
          , []
          callback null, obj
