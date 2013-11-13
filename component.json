@@ -1,9 +1,10 @@
 {
-   "name": "skewer-app",
-   "description": "Rapid sales pitching.",
-   "version": "0.0.1",
-   "dependencies": {
-      "godmodelabs/spinner": "*"
-   },
-   "scripts": []
+  "name": "skewer-app",
+  "description": "Rapid sales pitching.",
+  "version": "0.0.1",
+  "dependencies": {
+    "godmodelabs/spinner": "*"
+  },
+  "scripts": [],
+  "remotes": []
 }
