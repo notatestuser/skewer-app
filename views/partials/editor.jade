@@ -2,8 +2,8 @@ div.fixed-finish-and-save-toolbar
    .pull-right(ng-click='save()')
       button.btn.btn-small.btn-save-and-finish(
             ng-show='shouldShowSaveButton()'
-            ng-disabled='!inEditMode')
-         | Finish and Save
+            ng-disabled='saveInProgress')
+         | Save and share
 
 section.pitch-editor
    .pitch-component(
