@@ -1,18 +1,21 @@
 div.modal-body.clearfix
 
    .well.modal-body(style='text-align: center')
-      h2(style='font-size: 2rem;') Your share URL is
-      h4.well.modal-body: a(href='{{shareUrl}}')
+      h2.modal-body(style='font-size: 2rem;')
+         | Your URL to share
+
+      h3.well.modal-body: a(href='{{shareUrl}}')
          | {{shareUrl}}
 
-      iframe#twitter-widget-0.twitter-share-button.twitter-tweet-button.twitter-count-none(
-         scrolling='no',
-         frameborder='0',
-         allowtransparency='true',
-         src='{{getTwitterTweetButtonSrc()}}',
-         title='Twitter Tweet Button',
-         data-twttr-rendered='true',
-         style='width: 76px; height: 28px;')
-      script#twitter-wjs(src='http://platform.twitter.com/widgets.js')
-      script
-         !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+      .modal-body
+         iframe#twitter-widget-0.twitter-share-button.twitter-tweet-button.twitter-count-none(
+            scrolling='no',
+            frameborder='0',
+            allowtransparency='true',
+            src='{{getTwitterTweetButtonSrc()}}',
+            title='Twitter Tweet Button',
+            data-twttr-rendered='true',
+            style='width: 76px; height: 28px;')
+         script#twitter-wjs(src='http://platform.twitter.com/widgets.js')
+         script
+            !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');

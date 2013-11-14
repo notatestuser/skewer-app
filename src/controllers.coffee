@@ -133,6 +133,9 @@ window.app
       delete $scope.components[index]
       compactComponents()
 
+   $scope.shouldShowSaveButton = ->
+      $scope.saveInProgress or $scope.inEditMode
+
    $scope.save = ->
       $scope.inEditMode = no
       data = p:

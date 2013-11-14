@@ -15,21 +15,16 @@ html
       link(href='css/bootstrap.min.css', rel='stylesheet')
       link(href='css/bootstrap-responsive.min.css', rel='stylesheet')
       link(href='css/bootstrap-theme.min.css', rel='stylesheet')
+      link(href='css/ios7-bootstrap.css', rel='stylesheet')
+      link(href='css/ui.css', rel='stylesheet')
       link(href='css/font-awesome.min.css', rel='stylesheet')
       link(href='css/app.css', rel='stylesheet')
 
-   body(ng-app='AngularSFDemo')
+   body.with-fixed-navbar(ng-app='AngularSFDemo')
       .navbar.navbar-inverse.navbar-fixed-top(ng-controller='LoginCtrl')
-         .navbar-inner
-            .container
-               a.brand(href='#')
-                  | Skewer
-               .btn-group.pull-right(ng-show='isLoggedIn()')
-                  a.btn.dropdown-toggle
-                     i.icon-wrench
-                  ul.dropdown-menu
-                     li(ng-click='logout()')
-                        a Log Out
+         .navbar-inner: .container
+            //- a.brand(href='#')
+               | Skewer
 
       div(ng-view)
 

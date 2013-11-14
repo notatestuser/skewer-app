@@ -1,0 +1,194 @@
+/* iOS 7 Boostrap created by brandonjordan1 at https://github.com/brandonjordan1
+Credit for New Tabs goes to: https://github.com/hiloki/
+Credit for Switches goes to Burak Kaya on CodePen */
+
+html, body {
+height: 100%;
+width: 100%;
+}
+.launchpad {
+width: 100%;
+height: 100%;
+padding: 0;
+margin: 0;
+padding: 200px;
+}
+.content {
+z-index: 400;
+}
+html, body {
+margin: 0;
+}
+body{
+margin:0px;
+padding:0px;
+-webkit-font-smoothing:antialiased;
+font-family:"Helvetica Neue",sans-serif;
+font-weight:300;
+font-size:15px;
+line-height:1.2;
+}
+.app-icon {
+-webkit-border-radius: 32px;
+box-shadow: rgba(0, 0, 0, 0.247059) 0px 7px 15px;
+-webkit-transform: translateX(0px) translateY(0px) translateZ(0px);
+animation: scale 3s;
+-webkit-animation: scale 3s; /* Safari and Chrome */
+transform:scale(1,1);
+-ms-transform:scale(1,1); /* IE 9 */
+-webkit-transform:scale(1,1); /* Safari and Chrome */
+}
+@keyframes scale
+{
+from {transform:scale(0,0);
+-ms-transform:scale(0,0); /* IE 9 */
+-webkit-transform:scale(0,0); /* Safari and Chrome */}
+to {transform:scale(2,2);
+-ms-transform:scale(2,2); /* IE 9 */
+-webkit-transform:scale(2,2); /* Safari and Chrome */}
+}
+
+@-webkit-keyframes scale /* Safari and Chrome */
+{
+from {transform:scale(0,0);
+-ms-transform:scale(0,0); /* IE 9 */
+-webkit-transform:scale(0,0); /* Safari and Chrome */}
+to {transform:scale(1,1);
+-ms-transform:scale(1,1); /* IE 9 */
+-webkit-transform:scale(1,1); /* Safari and Chrome */}
+}
+.app-text {
+text-align: center;
+animation: scale 3s;
+-webkit-animation: scale 3s; /* Safari and Chrome */
+transform:scale(1,1);
+-ms-transform:scale(1,1); /* IE 9 */
+-webkit-transform:scale(1,1); /* Safari and Chrome */
+}
+#bubbles {
+padding: 50px;
+z-index: 300;
+height: 100%;
+margin-left:1200px;
+}
+.bubble {
+    width: 130px;
+    height: 130px;
+    background: #f5f5f5;
+    border-radius: 200px;
+    -moz-border-radius: 200px;
+    -webkit-border-radius: 200px;
+    position: absolute;
+    z-index: 200;
+}
+
+.x1 {
+    -webkit-transform: scale(0.9);
+    -moz-transform: scale(0.9);
+    transform: scale(0.9);
+    opacity: 0.2;
+    -webkit-animation: moveclouds 15s linear infinite, sideWays 4s ease-in-out infinite alternate;
+    -moz-animation: moveclouds 15s linear infinite, sideWays 4s ease-in-out infinite alternate;
+    -o-animation: moveclouds 15s linear infinite, sideWays 4s ease-in-out infinite alternate;
+}
+
+.x2 {
+    left: 200px;
+    -webkit-transform: scale(0.6);
+    -moz-transform: scale(0.6);
+    transform: scale(0.6);
+    opacity: 0.5;
+    -webkit-animation: moveclouds 25s linear infinite, sideWays 5s ease-in-out infinite alternate;
+    -moz-animation: moveclouds 25s linear infinite, sideWays 5s ease-in-out infinite alternate;
+    -o-animation: moveclouds 25s linear infinite, sideWays 5s ease-in-out infinite alternate;
+}
+.x3 {
+    left: 350px;
+    -webkit-transform: scale(0.8);
+    -moz-transform: scale(0.8);
+    transform: scale(0.8);
+    opacity: 0.3;
+    -webkit-animation: moveclouds 20s linear infinite, sideWays 4s ease-in-out infinite alternate;
+    -moz-animation: moveclouds 20s linear infinite, sideWays 4s ease-in-out infinite alternate;
+    -o-animation: moveclouds 20s linear infinite, sideWays 4s ease-in-out infinite alternate;
+}
+.x4 {
+    left: 470px;
+    -webkit-transform: scale(0.75);
+    -moz-transform: scale(0.75);
+    transform: scale(0.75);
+    opacity: 0.35;
+    -webkit-animation: moveclouds 18s linear infinite, sideWays 2s ease-in-out infinite alternate;
+    -moz-animation: moveclouds 18s linear infinite, sideWays 2s ease-in-out infinite alternate;
+    -o-animation: moveclouds 18s linear infinite, sideWays 2s ease-in-out infinite alternate;
+}
+.x5 {
+    left: 150px;
+    -webkit-transform: scale(0.8);
+    -moz-transform: scale(0.8);
+    transform: scale(0.8);
+    opacity: 0.3;
+    -webkit-animation: moveclouds 7s linear infinite, sideWays 1s ease-in-out infinite alternate;
+    -moz-animation: moveclouds 7s linear infinite, sideWays 1s ease-in-out infinite alternate;
+    -o-animation: moveclouds 7s linear infinite, sideWays 1s ease-in-out infinite alternate;
+}
+@-webkit-keyframes moveclouds {
+    0% {
+        top: 500px;
+        -webkit-filter: blur(2px);
+    }
+    100% {
+        top: -500px;
+        -webkit-filter: blur(5px);
+    }
+}
+
+@-webkit-keyframes sideWays {
+    0% {
+        margin-left:0px;
+    }
+    100% {
+        margin-left:50px;
+    }
+}
+
+@-moz-keyframes moveclouds {
+    0% {
+        top: 500px;
+        -webkit-filter: blur(2px);
+    }
+
+    100% {
+        top: -500px;
+        -webkit-filter: blur(5px);
+    }
+}
+
+@-moz-keyframes sideWays {
+    0% {
+        margin-left:0px;
+    }
+    100% {
+        margin-left:50px;
+    }
+}
+@-o-keyframes moveclouds {
+    0% {
+        top: 500px;
+        -webkit-filter: blur(2px);
+    }
+    100% {
+        top: -500px;
+        -webkit-filter: blur(5px);
+    }
+}
+
+@-o-keyframes sideWays {
+    0% {
+        margin-left:0px;
+    }
+    100% {
+        margin-left:50px;
+    }
+}
+@font-face{font-family:'Helvetica Neue';src:url("/fonts/HelveticaNeue-Light.eot");src:local("Helvetica Neue Light"),local("HelveticaNeue-Light"),url("https://beta.icloud.com/fonts/HelveticaNeue-Light.svg#HelveticaNeue-Light") format("svg"),url("https://beta.icloud.com/fonts/HelveticaNeue-Light.woff") format("woff");font-weight:300}@font-face{font-family:'Helvetica Neue';src:url("https://beta.icloud.com/fonts/HelveticaNeue-Medium.eot");src:local("Helvetica Neue Medium"),local("HelveticaNeue-Medium"),url("https://beta.icloud.com/fonts/HelveticaNeue-Medium.svg#HelveticaNeue-Medium") format("svg"),url("https://beta.icloud.com/fonts/HelveticaNeue-Medium.woff") format("woff");font-weight:500}

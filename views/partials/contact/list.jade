@@ -29,17 +29,12 @@ div(ng-show='!isWorking()')
 
    // This div is only displayed in mobile phones (see above for desktops)
    .visible-phone
-      form.form-inline
+      //- form.form-inline
          input.input-medium.search-query(type='text', ng-model='searchTerm', placeholder='Search')
          button.btn.btn-primary(ng-click='doSearch(searchString)')
             | Go
-      table.table
+      table.table.responsive-item-list-table
          tr(ng-click='doView(opportunity.Id)', ng-repeat='opportunity in opportunities')
             td
                a(href='#/skewer/{{opportunity.Id}}/{{giRoomId}}')
                   | {{opportunity.Name}}
-               br
-               small
-                  i {{opportunity.Id}}
-            td
-               i.icon-chevron-right

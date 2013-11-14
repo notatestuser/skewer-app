@@ -1,17 +1,11 @@
-div.modal-body.clearfix
-
-   h4.pull-left(style='margin: 3px;')
-      | Aspect ratio: {{aspectRatio}}
-      b(ng-hide='inEditMode')
-         |  (LOCKED)
-
-   .pull-right(ng-click='save()', ng-switch='saveInProgress')
-      .btn.btn-small(ng-switch-when='false')
+div.fixed-finish-and-save-toolbar
+   .pull-right(ng-click='save()')
+      button.btn.btn-small.btn-save-and-finish(
+            ng-show='shouldShowSaveButton()'
+            ng-disabled='!inEditMode')
          | Finish and Save
-      span(ng-switch-when='true', data-loading-spinner, data-spinner-size='20')
 
 section.pitch-editor
-
    .pitch-component(
          data-base-component,
          ng-repeat='component in components',

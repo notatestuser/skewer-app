@@ -1,0 +1,340 @@
+/* iOS 7 Boostrap created by brandonjordan1 at https://github.com/brandonjordan1
+Credit for New Tabs goes to: https://github.com/hiloki/
+Credit for Switches goes to Burak Kaya on CodePen */
+
+.btn {
+color: #167efb;
+background: none;
+border: none;
+font-size: 17px;
+min-height: 30px;
+line-height: 30px;
+cursor: pointer;
+}
+.btn-primary {
+font-weight: bold;
+}
+.btn-danger {
+color: #e19807;
+}
+.btn-success {
+color: #97E67B;
+}
+.btn-warning {
+color: #ff3b30;
+}
+input, textarea {
+  -webkit-transition: all 0.30s ease-in-out;
+  -moz-transition: all 0.30s ease-in-out;
+  -ms-transition: all 0.30s ease-in-out;
+  -o-transition: all 0.30s ease-in-out;
+  outline: none;
+  padding: 7px;
+  margin: 5px 1px 3px 0px;
+  border: 1px solid #DDDDDD;
+-webkit-border-radius: 2px;
+-moz-border-radius: 2px;
+border-radius: 2px;
+}
+input[type=search] {
+padding-left:30px;
+background-image:url('https://c9.io/coder01/ios-launchpad/workspace/img/search.png');
+background-repeat: no-repeat;
+}
+input[type=search]:hover {
+padding-left:30px;
+background-image:url('https://c9.io/coder01/ios-launchpad/workspace/img/search.png');
+background-repeat: no-repeat;
+}
+input[type=search]:focus {
+padding-left:30px;
+background-image:url('https://c9.io/coder01/ios-launchpad/workspace/img/search.png');
+background-repeat: no-repeat;
+}
+input:focus, textarea:focus {
+    padding: 7px;
+  box-shadow: 0 0 5px #567cab;
+  border: 1px solid #567cab;
+  -webkit-border-radius: 2px;
+-moz-border-radius: 2px;
+border-radius: 2px;
+}
+textarea {
+min-width: 300px;
+min-height: 100px;
+}
+.dd select {
+   background: transparent;
+   width: 150px;
+   padding: 5px;
+   font-size: 16px;
+   border: 1px solid #ccc;
+   height: 34px;
+    -webkit-appearance: none;
+    outline: none;
+    -webkit-border-radius: 2px;
+-moz-border-radius: 2px;
+border-radius: 2px;
+}
+
+.dd {
+   width: 120px;
+   height: 34px;
+   overflow: hidden;
+   background:url(https://c9.io/coder01/ios-launchpad/workspace/img/arrow.png) no-repeat 96% #f5f5f5;
+}
+/*
+
+  iOS 7 Switch
+
+  Sample Image : http://cdn.macrumors.com/article-new/2013/06/cellular.png
+  Dribble Shot : http://dribbble.com/shots/1109255--GIF-iOS-7-switch-3
+
+*/
+.holder{
+	width:56px;
+	margin:20px auto;
+	position:relative;
+}
+
+.check-ios{
+	visibility: hidden;
+}
+
+.holder span{
+	background-color:#e2e2e2;
+	display:block;
+	height:30px;
+	width:54px;
+	position: absolute;
+	top:0;
+	left:0;
+	z-index:1;
+
+	-webkit-border-radius: 15px;
+	   -moz-border-radius: 15px;
+	        border-radius: 15px;
+
+	-webkit-transition: all .5s ease;
+	   -moz-transition: all .5s ease;
+	     -o-transition: all .5s ease;
+	    -ms-transition: all .5s ease;
+	        transition: all .5s ease;
+}
+
+.holder span:after {
+	background-color:#fff;
+	content:'';
+	display:block;
+	height:28px;
+	width:52px;
+	position: absolute;
+	top:1px;
+	left:1px;
+	z-index:2;
+
+	-webkit-border-radius: 14px;
+	   -moz-border-radius: 14px;
+	        border-radius: 14px;
+
+	-webkit-transition: all .4s ease;
+	   -moz-transition: all .4s ease;
+	     -o-transition: all .4s ease;
+	    -ms-transition: all .4s ease;
+	        transition: all .4s ease;
+}
+
+
+.holder label{
+	background: #fff;
+	cursor: pointer;
+	display: block;
+	height: 28px;
+	width: 28px;
+	position: absolute;
+	top:1px;
+	left:1px;
+	z-index:3;
+
+	-webkit-border-radius: 50%;
+	   -moz-border-radius: 50%;
+	        border-radius: 50%;
+
+	-webkit-transition: all .4s ease;
+	   -moz-transition: all .4s ease;
+	     -o-transition: all .4s ease;
+	    -ms-transition: all .4s ease;
+	        transition: all .4s ease;
+
+	-webkit-box-shadow: 1px 1px 3px 0 rgba(0,0,0,0.3);
+	   -moz-box-shadow: 1px 1px 3px 0 rgba(0,0,0,0.3);
+			box-shadow: 1px 1px 3px 0 rgba(0,0,0,0.3);
+}
+
+.check-ios:checked ~ span {
+	background-color:#4FD065;
+}
+
+.check-ios:checked ~ span:after {
+	height:0;
+	width:0;
+	left:50%;
+	top:50%;
+}
+
+.check-ios:checked + label {
+	left: 25px;
+}
+
+div {
+  margin:0 0 0.75em 0;
+}
+
+input[type="radio"] {
+    display:none;
+}
+input[type="radio"] + label {
+    color: #333;
+    font-family:Arial, sans-serif;
+    font-size:14px;
+}
+input[type="radio"] + label span {
+    display:inline-block;
+    width:19px;
+    height:19px;
+    margin:-1px 4px 0 0;
+    vertical-align:middle;
+    cursor:pointer;
+    -moz-border-radius:  50%;
+    border-radius:  50%;
+}
+
+input[type="radio"] + label span {
+     background-color:#505052;
+}
+
+input[type="radio"]:checked + label span{
+     background-color:#97E67B;
+}
+
+input[type="radio"] + label span,
+input[type="radio"]:checked + label span {
+  -webkit-transition:background-color 0.4s linear;
+  -o-transition:background-color 0.4s linear;
+  -moz-transition:background-color 0.4s linear;
+  transition:background-color 0.4s linear;
+}
+
+#menu-outer {
+   position: fixed;
+   top: -2px;
+   background-color: #f9f9f9;
+   opacity: 0.5;
+   width: 100%;
+   z-index: 5000;
+   margin-bottom: 70px;
+}
+.np {
+   margin-bottom: 80px;
+}
+.table {
+	display: table;   /* Allow the centering to work */
+	margin: 0 auto;
+}
+
+ul#horizontal-list {
+	min-width: 696px;
+	list-style: none;
+	padding-top: 10px;
+	}
+	ul#horizontal-list li {
+		display: inline;
+		padding: 10px;
+      border-right: 1px solid #dcdcdc;
+	}
+	li a {
+	text-decoration: none;
+	color: #333;
+	font-size: 20px;
+	}
+	.modal {
+	min-height: 50px;
+	background-color: #f9f9f9;
+	}
+	.alert {
+	position: absolute;
+	box-shadow: 5px 5px 5px #dcdcdc;
+	background-color: #f5f5f5;
+	-webkit-border-radius: 7px;
+	padding: 20px;
+	}
+	.close {
+	border: none;
+	background: none;
+	font-size: 20px;
+	font-weight: normal;
+	}
+	.controlcenter {
+	height: 500px;
+	width: 100%;
+	bottom: -505px;
+	text-align: center;
+	background-color: #f5f5f5;
+	opacity: 0.5;
+	float: center;
+	padding: 20px;
+	z-index: 6000;
+	transition: all 0.5s ease;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	position:fixed;
+	}
+    .controlcenter:hover {
+	bottom: -220px;
+	}
+	.blur {
+-webkit-filter: blur(10px);
+	filter: blur(10px);
+	opacity: 0.5;
+}
+	.dropdown-menu {
+position: absolute;
+top: 100%;
+left: 0;
+z-index: 1000;
+display: none;
+float: left;
+min-width: 160px;
+padding: 5px 0;
+margin: 2px 0 0;
+list-style: none;
+background-color: #ffffff;
+border: 1px solid #ccc;
+border: 1px solid rgba(0, 0, 0, 0.2);
+border-radius: 6px;
+-webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+-moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+-webkit-background-clip: padding-box;
+-moz-background-clip: padding;
+background-clip: padding-box;
+}
+.space {
+margin-left: 10px;
+margin-right: 10px;
+}
+.segmented {
+display: table;
+border-radius: 6px;
+border: 1px solid #157dfa;
+table-layout: fixed;
+width: 100%;
+font-size: 13px;
+}
+.segmented__item {
+display: table-cell;
+}
+.segmented__item.is-active {
+background-color: #157dfa;
+}
