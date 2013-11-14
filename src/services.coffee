@@ -31,19 +31,22 @@ angular.module('skewer.services', [])
 ])
 
 .factory('urlShortenerService', ['$http', ($http) ->
-   generateShortUrlToSkewer: (opportunityId, roomId) ->
+   generateShortUrlToSkewer: (roomId, opportunityId, pitchId) ->
       data =
          roomId: roomId
+         pitchId: pitchId
          opportunityId: opportunityId
       $http.post '/shortener', data
 ])
 
 .factory('pitchesService', ['SFConfig', (SFConfig) ->
-   createPitchInSalesforce: (roomId, opportunityId, components=[], callbackFn) ->
+   convertComponentsToFileIdList: (components=[]) ->
+      _.compact(_.pluck components, 'id').toString()
+   createPitchInSalesforce: (roomId, opportunityId, fileIdList=[], callbackFn) ->
       data = p:
          roomId: roomId
+         fileList: fileIdList
          opportunityId: opportunityId
-         fileList: _.compact(_.pluck components, 'id').toString()
          userId: SFConfig.client.userId
       paramMap =
          'SalesforceProxy-Endpoint': 'https://pitch-developer-edition.na15.force.com/services/apexrest/skewerapp/PitchCreate'
@@ -53,4 +56,21 @@ angular.module('skewer.services', [])
          null,
          'PUT',
          JSON.stringify(data), paramMap)
+])
+
+.factory('shareService', ['$location', 'pitchesService', ($location, pitchesService) ->
+   store =
+      opportunityId: null
+      fileIdList: null
+      roomId: null
+   {
+      storeAttributesAndGoToSharePage: (roomId, opportunityId, components=[]) ->
+         store.fileIdList = pitchesService.convertComponentsToFileIdList components
+         store.opportunityId = opportunityId
+         store.roomId = roomId
+         $location.path "/skewer/share"
+      get: (key) ->
+         return null if not store[key]
+         store[key]
+   }
 ])

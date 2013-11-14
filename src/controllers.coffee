@@ -67,11 +67,19 @@ window.app
    $location.path "/contacts"
 )
 
-.controller('PitchShareCtrl', ($location, $scope, shareShortUrl) ->
-   return $location.path('/') if not shareUrl = shareShortUrl?.data?.url
-   $scope.shareUrl = shareUrl
+.controller('PitchShareCtrl', ($location, $scope, shareService, urlShortenerService, salesforcePitchId) ->
+   [roomId, fileIdList, opportunityId] = [
+      shareService.get('roomId'),
+      shareService.get('fileIdList'),
+      shareService.get('opportunityId')
+   ]
+
+   urlShortenerService.generateShortUrlToSkewer(roomId, opportunityId, salesforcePitchId)
+   .then (url) ->
+      $scope.shareUrl = url?.data?.url
 
    $scope.getTwitterTweetButtonSrc = ->
+      return '' if not shareUrl = $scope.shareUrl
       "//platform.twitter.com"+
       "/widgets/tweet_button.1384205748.html"+
       "#count=none"+
@@ -82,15 +90,18 @@ window.app
       "&url=#{encodeURIComponent(shareUrl)}&via=SkewerApp"
 )
 
-.controller('PitchEditorCtrl', ($routeParams, $location, $timeout, $scope, AngularForce, GoAngular, pitchesService) ->
+.controller('PitchEditorCtrl', ($routeParams, $location, $timeout, $scope, AngularForce, GoAngular, shareService) ->
    return $location.path('/contacts') if not $routeParams?.opportunityId or not $routeParams?.roomId
 
-   [roomId, opportunityId] = [$routeParams?.roomId, $routeParams?.opportunityId]
+   [opportunityId, pitchId, roomId] = [$routeParams?.opportunityId, $routeParams?.pitchId, $routeParams?.roomId]
 
    # so apparently GoInstant wasn't syncing these when they were in a hash, so I moved 'em out
    $scope.inEditMode  = AngularForce.authenticated()
    $scope.aspectRatio = 1.777 # mobile-esque default
    $scope.saveInProgress = no
+
+   # the pitchId is only available when in "view mode"
+   $scope.pitchId = pitchId
 
    # example component:
    #  {
@@ -135,12 +146,8 @@ window.app
 
    $scope.save = ->
       $scope.saveInProgress = yes
-      components = $scope.components
-      pitchesService.createPitchInSalesforce roomId, opportunityId, components, callbackFn = (pitchId) ->
-         $scope.$apply ->
-            $scope.pitchId    = pitchId
-            $scope.inEditMode = no
-            console.log 'Applied scope vars'
+      $scope.pitchId    = pitchId
+      $scope.inEditMode = no
 
    # this is the callback for the following $scope.$watch()
    inEditModeWatchCallbackFn = (newValue, oldValue) ->
@@ -149,7 +156,7 @@ window.app
       new GoAngular(
             $scope,
             'PitchEditorCtrl',
-            include: ['pitchId', 'inEditMode', 'aspectRatio', 'components', 'pitch']
+            include: ['inEditMode', 'aspectRatio', 'components', 'pitch']
             room: $routeParams.roomId)
          .initialize()
          .then ->
@@ -157,7 +164,7 @@ window.app
             if Boolean oldValue
                # ... and just to be sure we've synced...
                $timeout ->
-                  $location.path "/skewer/#{opportunityId}/#{roomId}/share"
+                  shareService.storeAttributesAndGoToSharePage roomId, opportunityId, $scope.components
                , 300
          , (err) ->
             console.error 'GoInstant initialization error', err

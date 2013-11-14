@@ -4,11 +4,14 @@ div.modal-body.clearfix
       h2.modal-body(style='font-size: 2rem;')
          | Your URL to share
 
-      h3.well.modal-body: a(href='{{shareUrl}}')
-         | {{shareUrl}}
+      h3.well.modal-body
+         span(ng-show='!shareUrl', loading-spinner, data-spinner-size='29')
+         a(ng-show='shareUrl', href='{{shareUrl}}', target='_blank')
+            | {{shareUrl}}
 
       .modal-body
          iframe#twitter-widget-0.twitter-share-button.twitter-tweet-button.twitter-count-none(
+            ng-show='shareUrl',
             scrolling='no',
             frameborder='0',
             allowtransparency='true',

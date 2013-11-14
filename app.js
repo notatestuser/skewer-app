@@ -47,10 +47,10 @@ app.get('/partials/:folder/:filename.html', function (req, res) {
 app.post('/shortener', function(req, res) {
    var body = req.body
      , rootUrl = req.header('origin') || 'https://app.getskewer.com';
-   if (typeof(body) !== 'object' || !body.opportunityId || !body.roomId) {
+   if (typeof(body) !== 'object' || !body.opportunityId || !body.pitchId || !body.roomId) {
       return res.json(400, {error: 'Unexpected input(s)'});
    }
-   shorturl(rootUrl+'/#/skewer/'+body.opportunityId+'/'+body.roomId,
+   shorturl(rootUrl+'/#/skewer/'+body.opportunityId+'/'+body.pitchId+'/'+body.roomId,
       function(shortUrl) {
          res.json(201, {url: shortUrl});
       });

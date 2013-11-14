@@ -50,16 +50,29 @@ app.config ['$windowProvider', '$routeProvider', 'platformProvider', 'GoInstantR
       templateUrl: 'partials/editor.html'
    )
 
+   # the editor
+   .when('/skewer/:opportunityId/:pitchId/:roomId',
+      controller: 'PitchEditorCtrl'
+      templateUrl: 'partials/editor.html'
+   )
+
    # share route
-   .when('/skewer/:opportunityId/:roomId/share',
+   .when('/skewer/share',
       controller: 'PitchShareCtrl'
       templateUrl: 'partials/share.html'
       resolve:
-         shareShortUrl: ['$route', 'urlShortenerService',
-         ($route, urlShortenerService) ->
-            opportunityId = $route.current.params.opportunityId
-            roomId = $route.current.params.roomId
-            urlShortenerService.generateShortUrlToSkewer opportunityId, roomId
+         salesforcePitchId: ['$route', '$q', '$rootScope', 'shareService', 'pitchesService',
+         ($route, $q, $rootScope, shareService, pitchesService) ->
+            deferred = $q.defer()
+            [roomId, fileIdList, opportunityId] = [
+               shareService.get('roomId'),
+               shareService.get('fileIdList'),
+               shareService.get('opportunityId')
+            ]
+            pitchesService.createPitchInSalesforce roomId, opportunityId, fileIdList, (pitchId) ->
+               $rootScope.$apply ->
+                  deferred.resolve pitchId
+            deferred.promise
          ]
    )
 
