@@ -82,7 +82,7 @@ window.app
       "&url=#{encodeURIComponent(shareUrl)}&via=SkewerApp"
 )
 
-.controller('PitchEditorCtrl', ($window, $routeParams, $location, $scope, AngularForce, GoAngular, SFConfig) ->
+.controller('PitchEditorCtrl', ($window, $routeParams, $location, $scope, AngularForce, GoAngular, pitchesService) ->
    return $location.path('/contacts') if not $routeParams?.opportunityId or not $routeParams?.roomId
 
    # GoInstant alternative platform init
@@ -137,24 +137,14 @@ window.app
       $scope.saveInProgress or $scope.inEditMode
 
    $scope.save = ->
-      $scope.inEditMode = no
-      data = p:
-         roomId: roomId = $routeParams.roomId
-         opportunityId: opportunityId = $routeParams?.opportunityId
-         fileList: _.pluck($scope.components, 'id').toString()
-         userId: SFConfig.client.userId
-      paramMap =
-         'SalesforceProxy-Endpoint': 'https://pitch-developer-edition.na15.force.com/services/apexrest/PitchCreate'
-      callbackFn = (data) ->
-         # alert JSON.stringify data
-         $location.path "/skewer/#{opportunityId}/#{roomId}/share"
-
+      $scope.inEditMode     = no
       $scope.saveInProgress = yes
-
-      # ⚑
-      # TODO: This is broken for now
-      # SFConfig.client.apexrest('/PitchCreate', callbackFn, null, 'PUT', JSON.stringify(data), paramMap)
-      callbackFn()
+      components = $scope.components
+      [roomId, opportunityId] = [$routeParams?.roomId, $routeParams?.opportunityId]
+      pitchesService.createPitchInSalesforce roomId, opportunityId, components, callbackFn = (pitchId) ->
+         $scope.$apply ->
+            $scope.pitchId = pitchId
+            $location.path "/skewer/#{opportunityId}/#{roomId}/share"
 
    # when EditMode is off we should sync with GoInstant
    $scope.$watch 'inEditMode', inEditModeWatchFn = (newValue, oldValue) ->
@@ -163,7 +153,7 @@ window.app
       new GoAngular(
             $scope,
             'PitchEditorCtrl',
-            include: ['inEditMode', 'aspectRatio', 'components', 'pitch']
+            include: ['pitchId', 'inEditMode', 'aspectRatio', 'components', 'pitch']
             room: $routeParams.roomId)
          .initialize()
 

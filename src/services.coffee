@@ -37,3 +37,20 @@ angular.module('skewer.services', [])
          opportunityId: opportunityId
       $http.post '/shortener', data
 ])
+
+.factory('pitchesService', ['SFConfig', (SFConfig) ->
+   createPitchInSalesforce: (roomId, opportunityId, components=[], callbackFn) ->
+      data = p:
+         roomId: roomId
+         opportunityId: opportunityId
+         fileList: _.compact(_.pluck components, 'id').toString()
+         userId: SFConfig.client.userId
+      paramMap =
+         'SalesforceProxy-Endpoint': 'https://pitch-developer-edition.na15.force.com/services/apexrest/skewerapp/PitchCreate'
+      SFConfig.client.apexrest(
+         '/PitchCreate',
+         callbackFn,
+         null,
+         'PUT',
+         JSON.stringify(data), paramMap)
+])
