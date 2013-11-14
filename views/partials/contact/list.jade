@@ -9,9 +9,8 @@ div(ng-show='!isWorking()')
          div(style='margin-bottom: 10px;')
             input.search-query(type='text', ng-model='searchTerm', placeholder='Search')
             p.btn.btn-primary(ng-click='doSearch(searchString)')
-               | Go
-      div(style='float: right')
-         a.btn.btn-primary(href='#/new') New
+               |  Go
+
       table.table(width='80%')
          thead
             tr
@@ -23,7 +22,7 @@ div(ng-show='!isWorking()')
             tr(ng-repeat='opportunity in opportunities')
                td.hidden-phone {{opportunity.Id}}
                td
-                  a(href='#/designer/{{opportunity.Id}}')
+                  a(href='#/skewer/{{opportunity.Id}}/{{giRoomId}}')
                      | {{opportunity.Name}}
                td {{opportunity.CreatedDate}}
                td {{opportunity.OwnerId}}
@@ -32,12 +31,12 @@ div(ng-show='!isWorking()')
    .visible-phone
       form.form-inline
          input.input-medium.search-query(type='text', ng-model='searchTerm', placeholder='Search')
-         button.btn.btn-primary(ng-click='doSearch(searchString)') Go
-         button.btn.btn-default(ng-click='doCreate()') &nbsp;&plus;&nbsp;
+         button.btn.btn-primary(ng-click='doSearch(searchString)')
+            | Go
       table.table
          tr(ng-click='doView(opportunity.Id)', ng-repeat='opportunity in opportunities')
             td
-               a(href='#/designer/{{opportunity.Id}}')
+               a(href='#/skewer/{{opportunity.Id}}/{{giRoomId}}')
                   | {{opportunity.Name}}
                br
                small

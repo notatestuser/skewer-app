@@ -129,7 +129,8 @@ window.app
          $scope.component.type = contentType
          delete $scope.component.content if contentType isnt 'placeholder'
          true
-      $scope.setContentAndLinkHref = (content, linkHref) -> ->
+      $scope.setContentAndLinkHref = (id, content, linkHref) -> ->
+         $scope.component.id = id
          $scope.component.content = content
          $scope.component.linkHref = linkHref
          $scope.$apply() if $scope.$$phase isnt '$digest'
@@ -180,4 +181,14 @@ window.app
             .addClass(newRowScaleClass)
          elem.data 'rowScaleClass', newRowScaleClass
       , true
+])
+
+.directive('loadingSpinner', [ ->
+   link: ($scope, elem, attrs) ->
+      Spinner = require('spinner')
+      spinner = new Spinner
+      spinner.size parseInt(attrs.spinnerSize) if attrs?.spinnerSize
+      elem
+         .empty()
+         .append spinner.el
 ])

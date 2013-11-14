@@ -41,6 +41,7 @@ window.app
       if AngularForce.inVisualforce
          AngularForce.login ->
             console.log "Our userId is #{SFConfig.client.userId}"
+            console.log "Our instanceUrl is #{SFConfig.client.instanceUrl}"
             $location.path "/contacts/"
       else
          AngularForce.login()
@@ -66,62 +67,109 @@ window.app
    $location.path "/contacts"
 )
 
-.controller('PitchEditorCtrl', ($window, $scope, AngularForce, GoAngular) ->
-   AngularForce.login ->
-      # GoAngular initialisation
-      new GoAngular($scope, 'PitchEditorCtrl', include: ['inEditMode', 'aspectRatio', 'components'])
-         .initialize()
+.controller('PitchShareCtrl', ($location, $scope, shareShortUrl) ->
+   return $location.path('/') if not shareUrl = shareShortUrl?.data?.url
+   $scope.shareUrl = shareUrl
 
-      # GoInstant alternative platform init
-      # connectUrl = 'https://goinstant.net/sdavyson/Skewer'
-      # rooms = ['room101']
-      # platform.setup(connectUrl, { rooms: rooms })
-
-      # so apparently GoInstant wasn't syncing these when they were in a hash, so I moved 'em out
-      $scope.inEditMode  = yes
-      $scope.aspectRatio = 1.777 # mobile-esque default
-
-      # example component:
-      #  {
-      #     rowScale: 1
-      #     colDivide: 1
-      #     type: 'image'
-      #     source: '... sf file id? ...'
-      #     linkHref = 'http://getskewer.com/...'
-      #  }
-      $scope.components = [
-         rowScale:  2
-         colDivide: 2
-         type: 'image'
-         content: 'http://i.imgur.com/wdt4Ddz.jpg'
-      ]
-
-      compactComponents = ->
-         $scope.components = $scope.components.filter (item) -> item?
-         undefined
-
-      $scope.addComponentAfter = (index = $scope.components.length - 1) ->
-         newComponents = [
-            # use the same scale as the component at the given index
-            rowScale:  if index > -1 then $scope.components[index].rowScale  else 1
-            colDivide: if index > -1 then $scope.components[index].colDivide else 1
-            type: null
-            content: null
-         ]
-         existingComponents = $scope.components
-         allComponents = existingComponents.slice(0, index+1)
-            .concat(newComponents.concat existingComponents.slice(index+1))
-         $scope.components = allComponents
-         $scope.$broadcast 'component:editme', newComponents[0], true
-
-      $scope.removeComponentAt = (index=-1) ->
-         return if not $scope.components[index]
-         delete $scope.components[index]
-         compactComponents()
+   $scope.getTwitterTweetButtonSrc = ->
+      "//platform.twitter.com"+
+      "/widgets/tweet_button.1384205748.html"+
+      "#count=none"+
+      "&id=twitter-widget-0"+
+      "&lang=en"+
+      "&size=l"+
+      "&text="+encodeURIComponent("Here's some follow-up information you might find useful")+
+      "&url=#{encodeURIComponent(shareUrl)}&via=SkewerApp"
 )
 
-.controller('OpportunityListCtrl', ($scope, AngularForce, $location, Opportunity, SFConfig) ->
+.controller('PitchEditorCtrl', ($window, $routeParams, $location, $scope, AngularForce, GoAngular, SFConfig) ->
+   return $location.path('/contacts') if not $routeParams?.opportunityId or not $routeParams?.roomId
+
+   # GoInstant alternative platform init
+   # connectUrl = 'https://goinstant.net/sdavyson/Skewer'
+   # rooms = ['room101']
+   # platform.setup(connectUrl, { rooms: rooms })
+
+   # so apparently GoInstant wasn't syncing these when they were in a hash, so I moved 'em out
+   $scope.inEditMode  = AngularForce.authenticated()
+   $scope.aspectRatio = 1.777 # mobile-esque default
+   $scope.saveInProgress = no
+
+   # example component:
+   #  {
+   #     rowScale: 1
+   #     colDivide: 1
+   #     type: 'image'
+   #     source: '... sf file id? ...'
+   #     linkHref = 'http://getskewer.com/...'
+   #  }
+   $scope.components = [
+      rowScale:  2
+      colDivide: 2
+      type: 'image'
+      content: 'http://i.imgur.com/wdt4Ddz.jpg'
+   ]
+
+   compactComponents = ->
+      $scope.components = $scope.components.filter (item) -> item?
+      undefined
+
+   $scope.addComponentAfter = (index = $scope.components.length - 1) ->
+      newComponents = [
+         # use the same scale as the component at the given index
+         rowScale:  if index > -1 then $scope.components[index].rowScale  else 1
+         colDivide: if index > -1 then $scope.components[index].colDivide else 1
+         type: null
+         content: null
+      ]
+      existingComponents = $scope.components
+      allComponents = existingComponents.slice(0, index+1)
+         .concat(newComponents.concat existingComponents.slice(index+1))
+      $scope.components = allComponents
+      $scope.$broadcast 'component:editme', newComponents[0], true
+
+   $scope.removeComponentAt = (index=-1) ->
+      return if not $scope.components[index]
+      delete $scope.components[index]
+      compactComponents()
+
+   $scope.save = ->
+      $scope.inEditMode = no
+      data = p:
+         roomId: roomId = $routeParams.roomId
+         opportunityId: opportunityId = $routeParams?.opportunityId
+         fileList: _.pluck($scope.components, 'id').toString()
+         userId: SFConfig.client.userId
+      paramMap =
+         'SalesforceProxy-Endpoint': 'https://pitch-developer-edition.na15.force.com/services/apexrest/PitchCreate'
+      callbackFn = (data) ->
+         # alert JSON.stringify data
+         $location.path "/skewer/#{opportunityId}/#{roomId}/share"
+
+      $scope.saveInProgress = yes
+
+      # ⚑
+      # TODO: This is broken for now
+      # SFConfig.client.apexrest('/PitchCreate', callbackFn, null, 'PUT', JSON.stringify(data), paramMap)
+      callbackFn()
+
+   # when EditMode is off we should sync with GoInstant
+   $scope.$watch 'inEditMode', inEditModeWatchFn = (newValue, oldValue) ->
+      return if newValue is oldValue or newValue
+      # GoAngular initialisation when not in edit mode
+      new GoAngular(
+            $scope,
+            'PitchEditorCtrl',
+            include: ['inEditMode', 'aspectRatio', 'components', 'pitch']
+            room: $routeParams.roomId)
+         .initialize()
+
+   inEditModeWatchFn(false) if not $scope.inEditMode
+)
+
+.controller('OpportunityListCtrl', ($scope, AngularForce, $location, GoInstantRoomId, Opportunity, SFConfig) ->
    return $location.path("/home")  unless AngularForce.authenticated()
+   $scope.giRoomId = GoInstantRoomId.getRoomId()
    $scope.searchTerm = ""
    $scope.working = false
    Opportunity().query ((data) ->
@@ -147,8 +195,9 @@ window.app
       $location.path "/newOpp"
 )
 
-.controller('ContactListCtrl', ($scope, AngularForce, $location, Contact) ->
+.controller('ContactListCtrl', ($scope, AngularForce, $location, GoInstantRoomId, Contact) ->
    return $location.path("/home")  unless AngularForce.authenticated()
+   $scope.giRoomId = GoInstantRoomId.getRoomId()
    $scope.searchTerm = ""
    $scope.working = false
    Contact.query ((data) ->

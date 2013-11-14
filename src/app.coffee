@@ -16,9 +16,25 @@ window.SFConfig.maxListSize = 25
 
 app.constant 'SFConfig', SFConfig
 
-app.config ['$routeProvider', 'platformProvider',
-($routeProvider, platformProvider) ->
-   platformProvider.set('https://goinstant.net/sdavyson/Skewer')
+app.config ['$windowProvider', '$routeProvider', 'platformProvider', 'GoInstantRoomIdProvider',
+($window, $routeProvider, platformProvider, GoInstantRoomIdProvider) ->
+   ### GoInstant platform init ###
+
+   # do we already have a room id?
+   rooms = []
+   matches = $window.$get().location.hash.match(/\/([a-z0-9]+)$/)
+   if matches
+      rooms.push matches[1]
+   else
+      # no. generate one
+      rooms.push Math.random().toString(36).substring(2)
+   GoInstantRoomIdProvider.setRoomId roomId = rooms[0]
+   console.log "GoInstant room ID configured as #{roomId}"
+
+   platformProvider.set 'https://goinstant.net/sdavyson/Skewer', rooms: rooms
+
+
+   ### Route configuration ###
 
    $routeProvider
 
@@ -29,9 +45,22 @@ app.config ['$routeProvider', 'platformProvider',
    )
 
    # the editor
-   .when('/designer/:opportunityId',
+   .when('/skewer/:opportunityId/:roomId',
       controller: 'PitchEditorCtrl'
       templateUrl: 'partials/editor.html'
+   )
+
+   # share route
+   .when('/skewer/:opportunityId/:roomId/share',
+      controller: 'PitchShareCtrl'
+      templateUrl: 'partials/share.html'
+      resolve:
+         shareShortUrl: ['$route', 'urlShortenerService',
+         ($route, urlShortenerService) ->
+            opportunityId = $route.current.params.opportunityId
+            roomId = $route.current.params.roomId
+            urlShortenerService.generateShortUrlToSkewer opportunityId, roomId
+         ]
    )
 
    # contacts editor routes
@@ -71,5 +100,4 @@ app.config ['$routeProvider', 'platformProvider',
    )
 
    .otherwise redirectTo: '/'
-
 ]

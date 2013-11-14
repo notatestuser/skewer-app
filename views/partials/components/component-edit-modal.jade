@@ -105,5 +105,5 @@ section.modal.modal-adjust-component.hide.fade(
                   ng-show='availableContentItems')
                li.btn.btn-link.btn-large.btn-block-level(
                      ng-repeat='(key, value) in availableContentItems'
-                     ng-click='doAndClose(setContentAndLinkHref(value.content, value.linkHref))')
+                     ng-click='doAndClose(setContentAndLinkHref(value.id, value.content, value.linkHref))')
                   | {{value.name}}

@@ -5,13 +5,10 @@ div.modal-body.clearfix
       b(ng-hide='inEditMode')
          |  (LOCKED)
 
-   .pull-right(
-         ng-switch='inEditMode',
-         ng-click='inEditMode = !inEditMode')
-      .btn.btn-small.btn-warning(ng-switch-when='true')
-         | Disable edit mode
+   .pull-right(ng-click='save()', ng-switch='saveInProgress')
       .btn.btn-small(ng-switch-when='false')
-         | Enable edit mode
+         | Finish and Save
+      span(ng-switch-when='true', data-loading-spinner, data-spinner-size='20')
 
 section.pitch-editor
 

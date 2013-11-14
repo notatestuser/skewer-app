@@ -26,11 +26,17 @@ angular.module('ForceModels', [])
    Opportunity
 ])
 
-.factory('skewerapp__Pitch__c', ['AngularForceObjectFactory',
+.factory('Pitch', ['AngularForceObjectFactory',
 (AngularForceObjectFactory) ->
    objDesc =
       type: 'skewerapp__Pitch__c'
-      fields: ['Id', 'Name', 'skewerapp__Pitch_Link__c']
+      fields: [
+         'Id',
+         'skewerapp__Pitch_Link__c', # what is this?
+         'skewerapp__roomId__c',
+         'skewerapp__opportunityId__c',
+         'skewerapp__fileList__c',
+         'skewerapp__userId__c']
       where: ''
       orderBy: 'Name'
       limit: 10
@@ -44,7 +50,12 @@ angular.module('ForceModels', [])
    (type='image') ->
       objDesc =
          type: 'skewerapp__Pitch_Asset__c'
-         fields: ['Id', 'Name', 'skewerapp__Source__c', 'skewerapp__Tracked_Link__c', 'skewerapp__Text__c']
+         fields: [
+            'Id',
+            'Name',
+            'skewerapp__Source__c',
+            'skewerapp__Tracked_Link__c',
+            'skewerapp__Text__c']
          where: "skewerapp__Type__c = '#{type}'"
          orderBy: 'Name'
          limit: 15
