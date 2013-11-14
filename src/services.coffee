@@ -56,6 +56,18 @@ angular.module('skewer.services', [])
          null,
          'PUT',
          JSON.stringify(data), paramMap)
+   updatePitchShortUrlInSalesforce: (pitchId, shortURL, callbackFn) ->
+      data = p:
+         id: pitchId
+         shortURL: shortURL
+      paramMap =
+         'SalesforceProxy-Endpoint': 'https://pitch-developer-edition.na15.force.com/services/apexrest/skewerapp/SkewerUpdate'
+      SFConfig.client.apexrest(
+         '/SkewerUpdate',
+         callbackFn,
+         null,
+         'PUT',
+         JSON.stringify(data), paramMap)
 ])
 
 .factory('shareService', ['$location', 'pitchesService', ($location, pitchesService) ->

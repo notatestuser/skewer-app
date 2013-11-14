@@ -67,7 +67,7 @@ window.app
    $location.path "/contacts"
 )
 
-.controller('PitchShareCtrl', ($location, $scope, shareService, urlShortenerService, salesforcePitchId) ->
+.controller('PitchShareCtrl', ($location, $scope, shareService, urlShortenerService, pitchesService, salesforcePitchId) ->
    [roomId, fileIdList, opportunityId] = [
       shareService.get('roomId'),
       shareService.get('fileIdList'),
@@ -76,7 +76,9 @@ window.app
 
    urlShortenerService.generateShortUrlToSkewer(roomId, opportunityId, salesforcePitchId)
    .then (url) ->
-      $scope.shareUrl = url?.data?.url
+      _shareUrl = $scope.shareUrl = url?.data?.url
+      # update the URL in salesforce (this can & will happen in the background)
+      pitchesService.updatePitchShortUrlInSalesforce salesforcePitchId, _shareUrl
 
    $scope.getTwitterTweetButtonSrc = ->
       return '' if not shareUrl = $scope.shareUrl
