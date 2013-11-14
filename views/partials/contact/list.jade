@@ -29,10 +29,14 @@ div(ng-show='!isWorking()')
 
    // This div is only displayed in mobile phones (see above for desktops)
    .visible-phone
+      h3(style='text-indent: 11px; margin-bottom: 14px;')
+         | Opportunities
+
       //- form.form-inline
          input.input-medium.search-query(type='text', ng-model='searchTerm', placeholder='Search')
          button.btn.btn-primary(ng-click='doSearch(searchString)')
             | Go
+
       table.table.responsive-item-list-table
          tr(ng-click='doView(opportunity.Id)', ng-repeat='opportunity in opportunities')
             td
