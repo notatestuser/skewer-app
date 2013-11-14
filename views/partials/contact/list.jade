@@ -14,18 +14,18 @@ div(ng-show='!isWorking()')
       table.table(width='80%')
          thead
             tr
-               th.hidden-phone Id
                th Name
-               th Created at
+               th Stage
+               th Probability
                th Owner
          tbody
             tr(ng-repeat='opportunity in opportunities')
-               td.hidden-phone {{opportunity.Id}}
                td
                   a(href='#/skewer/{{opportunity.Id}}/{{giRoomId}}')
                      | {{opportunity.Name}}
-               td {{opportunity.CreatedDate}}
-               td {{opportunity.OwnerId}}
+               td {{opportunity.StageName}}
+               td {{opportunity.Probability}}
+               td {{opportunity.Owner.Name}}
 
    // This div is only displayed in mobile phones (see above for desktops)
    .visible-phone
