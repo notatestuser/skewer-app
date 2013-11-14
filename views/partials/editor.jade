@@ -42,7 +42,7 @@ section.pitch-editor
             data-type='{{component.type}}',
             class='{{getComponentClasses(component)}}')
 
-      div.component-body.text-component-body.well(
+      div.component-body.text-component-body.modal-body(
             ng-switch-when='text',
             ng-click='handleComponentClick(component)',
             data-index='{{$index}}',
