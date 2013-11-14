@@ -17,9 +17,9 @@ angular.module('ForceModels', [])
 (AngularForceObjectFactory, SFConfig) -> ->
    objDesc =
       type: 'Opportunity'
-      fields: ['Id', 'Name', 'OwnerId', 'CreatedDate']
-      where: "OwnerId = '#{SFConfig.client.userId}'"
-      orderBy: 'CreatedDate DESC'
+      fields: ['Id', 'Name', 'OwnerId', 'StageName','CreatedDate','Owner.Name','Probability']
+      where: 'skewerapp__Show_In_Skewer__c = 1'
+      orderBy: 'Probability DESC'
       limit: 20
 
    Opportunity = AngularForceObjectFactory(objDesc)
