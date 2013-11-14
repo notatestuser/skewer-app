@@ -82,13 +82,10 @@ window.app
       "&url=#{encodeURIComponent(shareUrl)}&via=SkewerApp"
 )
 
-.controller('PitchEditorCtrl', ($window, $routeParams, $location, $scope, AngularForce, GoAngular, pitchesService) ->
+.controller('PitchEditorCtrl', ($routeParams, $location, $timeout, $scope, AngularForce, GoAngular, pitchesService) ->
    return $location.path('/contacts') if not $routeParams?.opportunityId or not $routeParams?.roomId
 
-   # GoInstant alternative platform init
-   # connectUrl = 'https://goinstant.net/sdavyson/Skewer'
-   # rooms = ['room101']
-   # platform.setup(connectUrl, { rooms: rooms })
+   [roomId, opportunityId] = [$routeParams?.roomId, $routeParams?.opportunityId]
 
    # so apparently GoInstant wasn't syncing these when they were in a hash, so I moved 'em out
    $scope.inEditMode  = AngularForce.authenticated()
@@ -137,17 +134,16 @@ window.app
       $scope.saveInProgress or $scope.inEditMode
 
    $scope.save = ->
-      $scope.inEditMode     = no
       $scope.saveInProgress = yes
       components = $scope.components
-      [roomId, opportunityId] = [$routeParams?.roomId, $routeParams?.opportunityId]
       pitchesService.createPitchInSalesforce roomId, opportunityId, components, callbackFn = (pitchId) ->
          $scope.$apply ->
-            $scope.pitchId = pitchId
-            $location.path "/skewer/#{opportunityId}/#{roomId}/share"
+            $scope.pitchId    = pitchId
+            $scope.inEditMode = no
+            console.log 'Applied scope vars'
 
-   # when EditMode is off we should sync with GoInstant
-   $scope.$watch 'inEditMode', inEditModeWatchFn = (newValue, oldValue) ->
+   # this is the callback for the following $scope.$watch()
+   inEditModeWatchCallbackFn = (newValue, oldValue) ->
       return if newValue is oldValue or newValue
       # GoAngular initialisation when not in edit mode
       new GoAngular(
@@ -156,8 +152,22 @@ window.app
             include: ['pitchId', 'inEditMode', 'aspectRatio', 'components', 'pitch']
             room: $routeParams.roomId)
          .initialize()
+         .then ->
+            # take us to the "share" page!
+            if Boolean oldValue
+               # ... and just to be sure we've synced...
+               $timeout ->
+                  $location.path "/skewer/#{opportunityId}/#{roomId}/share"
+               , 300
+         , (err) ->
+            console.error 'GoInstant initialization error', err
+            alert "Couldn't sync with GoInstant :("
 
-   inEditModeWatchFn(false) if not $scope.inEditMode
+   # if the user changes `inEditMode` we know it's high time for some syncin'
+   $scope.$watch 'inEditMode', inEditModeWatchCallbackFn
+
+   # when "edit mode" is off on load we should sync with GoInstant but not redirect
+   inEditModeWatchCallbackFn(false) if not $scope.inEditMode
 )
 
 .controller('OpportunityListCtrl', ($scope, AngularForce, $location, GoInstantRoomId, Opportunity, SFConfig) ->

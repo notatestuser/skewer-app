@@ -1,3 +1,5 @@
+COMPONENT_LINK_PID_PLACEHOLDER = '[PITCHID]'
+
 window.app
 
 .directive('pitchEditor', [->
@@ -16,7 +18,9 @@ window.app
             elem.height null
          else
             elem.height width * existingRatio
-         $scope.$apply() if $scope.$$phase isnt '$digest'
+         if $scope.$$phase isnt '$digest'
+            $scope.$apply()
+            console.trace "Phase is "+$scope.$$phase
       # on resize figure out what our aspect ratio is
       $(window).resize _.debounce(setRatioFn, 20)
       $scope.$watch 'aspectRatio', setRatioFn
@@ -61,7 +65,8 @@ window.app
          else if component.linkHref
             # ⚑
             # TODO: Show a confirmation modal when we're here
-            $window.location.href = component.linkHref
+            linkHref = component.linkHref.replace COMPONENT_LINK_PID_PLACEHOLDER, $scope.pitchId
+            $window.location.href = linkHref
    link: ($scope, elem) ->
       component = $scope.component
       return if not _.isObject(component)
