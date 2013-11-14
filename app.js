@@ -2,15 +2,15 @@
  * Module dependencies.
  */
 
-var express = require('express')
-  , http = require('http')
-  , path = require('path')
-  , request = require('request');
+var express  = require('express')
+  , http     = require('http')
+  , path     = require('path')
+  , request  = require('request')
+  , shorturl = require('shorturl');
 
 //SET APP_RELATIVE_PATH to a folder where your app's index.html resides.
 var APP_RELATIVE_PATH = path.join(__dirname, '/public/');
 console.log(APP_RELATIVE_PATH);
-
 
 var app = express();
 
@@ -31,6 +31,7 @@ var client_id = process.env.client_id;
 var app_url = process.env.app_url;
 
 
+/* App routes */
 app.get('/', function (req, res) {
    res.render("index", { client_id: client_id, app_url: app_url});
 });
@@ -43,8 +44,19 @@ app.get('/partials/:filename.html', function (req, res) {
 app.get('/partials/:folder/:filename.html', function (req, res) {
    res.render("partials/"+req.params.folder+"/"+req.params.filename);
 });
+app.post('/shortener', function(req, res) {
+   var body = req.body
+     , rootUrl = req.header('origin') || 'https://app.getskewer.com';
+   if (typeof(body) !== 'object' || !body.opportunityId || !body.roomId) {
+      return res.json(400, {error: 'Unexpected input(s)'});
+   }
+   shorturl(rootUrl+'/#/skewer/'+body.opportunityId+'/'+body.roomId,
+      function(shortUrl) {
+         res.json(201, {url: shortUrl});
+      });
+});
 
-
+/* Salesforce proxy */
 app.all('/proxy/?*', function (req, res) {
    log(req);
    var body = req.body;
