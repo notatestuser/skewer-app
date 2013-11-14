@@ -393,24 +393,27 @@ ul.component-adjustment-buttons.twosie {
    left: 0;
 
    height: 100%;
+   box-sizing: border-box;
+
+   background: transparent;
+   border: 3px dashed #999;
 }
 
 .front {
    display: table-cell;
    vertical-align: middle;
    text-align: center;
-   z-index: 2;
-   border: 3px dashed #999;
-   box-sizing: border-box;
-   background: transparent url(../img/plus.svg) no-repeat scroll center center;
    background-size: 30%;
+   background: transparent url(../img/plus.svg) no-repeat scroll center center;
+   z-index: 2;
 }
 
 .back {
-   background: #999;
    -webkit-transform: rotateY(180deg);
    -moz-transform: rotateY(180deg);
    transform: rotateY(180deg);
+   border-color: #444;
+   background-color: #eee;
 }
 
 /* vertical */
