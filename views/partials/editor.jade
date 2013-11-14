@@ -15,7 +15,7 @@ section.pitch-editor
             ng-class='{"in": inEditMode}')
          a.btn.btn-large.btn-link.btn-remove(ng-click='removeComponentAt($index)')
             | &times;
-         a.btn.btn-large.btn-link(ng-click='addComponentAfter($index)')
+         a.btn.btn-large.btn-link.visible-desktop(ng-click='addComponentAfter($index)')
             | +
 
       div.component-body.placeholder-component-body(
