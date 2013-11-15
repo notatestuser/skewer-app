@@ -98,14 +98,13 @@ window.app
    [opportunityId, pitchId, roomId] = [$routeParams?.opportunityId, $routeParams?.pitchId, $routeParams?.roomId]
 
    # so apparently GoInstant wasn't syncing these when they were in a hash, so I moved 'em out
-   $scope.branding = {}
    $scope.inEditMode  = AngularForce.authenticated()
+   $scope.branding = '{}'
    $scope.aspectRatio = 1.777 # mobile-esque default
    $scope.saveInProgress = no
 
    # the pitchId is only available when in "view mode"
    $scope.pitchId = pitchId
-
 
    # initialise an array of page components
    #  | example component:
@@ -183,12 +182,12 @@ window.app
          return if err
          $scope.$apply ->
             # this is caught by the appliesBranding directive
-            _.extend $scope.branding, _brandingData
+            $scope.branding = JSON.stringify _brandingData
 
    # when branding is updated on the scope, by GI or otherwise, we'll have to apply it
    $scope.$watch 'branding', (newValue) ->
-      return if not newValue or not _.isObject(newValue)
-      $scope.$emit 'branding:apply', newValue
+      return if not newValue or not _.isString(newValue)
+      $scope.$emit 'branding:apply', JSON.parse(newValue)
    , true
 
    # if the user changes `inEditMode` we know it's high time for some syncin'
