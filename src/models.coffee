@@ -63,3 +63,21 @@ angular.module('ForceModels', [])
       ImageAsset = AngularForceObjectFactory(objDesc)
       ImageAsset
 ])
+
+.factory('Setting', ['AngularForceObjectFactory',
+(AngularForceObjectFactory) ->
+objDesc =
+      type: 'skewerapp__Pitch_Settings__c'
+      fields: [
+         'Id',
+         'skewerapp__Logo_Bar_Background_Colour__c', # what is this?
+         'skewerapp__Page_Background_Colour__c',
+         'skewerapp__Logo_Link__c',
+         'skewerapp__Text_Colour__c']
+      where: ''
+      orderBy: 'Name'
+      limit: 1
+
+   skewerapp__Pitch_Settings__c = AngularForceObjectFactory(objDesc)
+   skewerapp__Pitch_Settings__c
+])
