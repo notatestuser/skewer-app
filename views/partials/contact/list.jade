@@ -2,7 +2,6 @@ div(ng-show='isWorking()')
    p Working
 
 div(ng-show='!isWorking()')
-
    // This div is only displayed in deskcops (see below for mobile phones)
    .hidden-phone
       div(style='float: left')
@@ -29,8 +28,7 @@ div(ng-show='!isWorking()')
 
    // This div is only displayed in mobile phones (see above for desktops)
    .visible-phone
-      h3(style='text-indent: 11px; margin-bottom: 14px;')
-         | Opportunities
+      h3.list-page-header Opportunities
 
       //- form.form-inline
          input.input-medium.search-query(type='text', ng-model='searchTerm', placeholder='Search')

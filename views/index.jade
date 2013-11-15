@@ -25,10 +25,22 @@ html
          ng-app='AngularSFDemo',
          data-applies-branding,
          data-branding-type='page')
-      .navbar.navbar-inverse.navbar-fixed-top(ng-controller='LoginCtrl')
-         .navbar-inner: .container
+
+      .navbar.navbar-inverse.navbar-fixed-top(
+            ng-controller='LoginCtrl')
+         .navbar-inner.top-level-navbar-inner: .container
             //- a.brand(href='#')
-               | Skewer
+
+      .navbar.navbar-inverse(ng-controller='LoginCtrl')
+         .navbar-inner.branded-logo-bar-container(
+               data-applies-branding
+               data-branding-type='top-bar')
+            aside.container.branded-logo-bar
+               img.logo(
+                  data-applies-branding
+                  data-branding-type='top-bar-logo')
+               //- a.brand(href='#')
+                  | Skewer
 
       div(ng-view)
 
