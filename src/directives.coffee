@@ -208,6 +208,12 @@ window.app
          elem.css  _styles
 ])
 
+.directive('hidesWhenBrandingApplied', ['$rootScope', ($rootScope) ->
+   link: ($scope, elem) ->
+      $rootScope.$on 'branding:hidechrome', ->
+         elem.addClass 'hide'
+])
+
 .directive('loadingSpinner', [ ->
    link: ($scope, elem, attrs) ->
       Spinner = require('spinner')

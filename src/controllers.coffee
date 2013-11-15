@@ -98,7 +98,7 @@ window.app
    [opportunityId, pitchId, roomId] = [$routeParams?.opportunityId, $routeParams?.pitchId, $routeParams?.roomId]
 
    # so apparently GoInstant wasn't syncing these when they were in a hash, so I moved 'em out
-   $scope.inEditMode  = AngularForce.authenticated()
+   $scope.inEditMode = AngularForce.authenticated()
    $scope.branding = '{}'
    $scope.aspectRatio = 1.777 # mobile-esque default
    $scope.saveInProgress = no
@@ -188,6 +188,7 @@ window.app
    $scope.$watch 'branding', (newValue) ->
       return if not newValue or not _.isString(newValue)
       $scope.$emit 'branding:apply', JSON.parse(newValue)
+      $scope.$emit 'branding:hidechrome' if not $scope.inEditMode
    , true
 
    # if the user changes `inEditMode` we know it's high time for some syncin'
