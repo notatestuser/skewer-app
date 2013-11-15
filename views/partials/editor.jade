@@ -5,17 +5,31 @@ div.fixed-finish-and-save-toolbar
             ng-disabled='saveInProgress')
          | Save and share
 
-section.pitch-editor
+section.pitch-editor(ng-style='getStyleFor("page")')
+   .branded-logo-bar(
+         ng-show='branding.logoSrcUrl',
+         data-applies-branding,
+         data-branding-type='top-bar')
+      img.logo(src='{{branding.logoSrcUrl}}')
+
    .pitch-component(
          data-base-component,
          ng-repeat='component in components',
          ng-switch='component.type')
 
       aside.control-buttons.fade.btn-group.btn-group-vertical(
+            data-applies-branding,
+            data-branding-type='page',
             ng-class='{"in": inEditMode}')
-         a.btn.btn-large.btn-link.btn-remove(ng-click='removeComponentAt($index)')
+         a.btn.btn-large.btn-link.btn-remove(
+               data-applies-branding
+               data-branding-type='page'
+               ng-click='removeComponentAt($index)')
             | &times;
-         a.btn.btn-large.btn-link.visible-desktop(ng-click='addComponentAfter($index)')
+         a.btn.btn-large.btn-link.visible-desktop(
+               data-applies-branding
+               data-branding-type='page'
+               ng-click='addComponentAfter($index)')
             | +
 
       div.component-body.placeholder-component-body(

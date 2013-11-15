@@ -92,12 +92,13 @@ window.app
       "&url=#{encodeURIComponent(shareUrl)}&via=SkewerApp"
 )
 
-.controller('PitchEditorCtrl', ($routeParams, $location, $timeout, $scope, AngularForce, GoAngular, pitchesService, shareService) ->
+.controller('PitchEditorCtrl', ($routeParams, $location, $timeout, $scope, AngularForce, GoAngular, pageBrandingService, pitchesService, shareService) ->
    return $location.path('/contacts') if not $routeParams?.opportunityId or not $routeParams?.roomId
 
    [opportunityId, pitchId, roomId] = [$routeParams?.opportunityId, $routeParams?.pitchId, $routeParams?.roomId]
 
    # so apparently GoInstant wasn't syncing these when they were in a hash, so I moved 'em out
+   $scope.branding = {}
    $scope.inEditMode  = AngularForce.authenticated()
    $scope.aspectRatio = 1.777 # mobile-esque default
    $scope.saveInProgress = no
@@ -105,14 +106,18 @@ window.app
    # the pitchId is only available when in "view mode"
    $scope.pitchId = pitchId
 
-   # example component:
-   #  {
-   #     rowScale: 1
-   #     colDivide: 1
-   #     type: 'image'
-   #     source: '... sf file id? ...'
-   #     linkHref = 'http://getskewer.com/...'
-   #  }
+
+   # initialise an array of page components
+   #  | example component:
+   #  |  {
+   #  |     rowScale: 1
+   #  |     colDivide: 1
+   #  |     type: 'image'
+   #  |     source: '... sf file id? ...'
+   #  |     linkHref = 'http://getskewer.com/...'
+   #  |  }
+   # ⚑
+   # TODO: Vary the content of this array based on whether the user is authenticated
    $scope.components = [
       rowScale:  2
       colDivide: 2
@@ -122,7 +127,6 @@ window.app
 
    compactComponents = ->
       $scope.components = $scope.components.filter (item) -> item?
-      undefined
 
    $scope.addComponentAfter = (index = $scope.components.length - 1) ->
       newComponents = [
@@ -136,6 +140,7 @@ window.app
       allComponents = existingComponents.slice(0, index+1)
          .concat(newComponents.concat existingComponents.slice(index+1))
       $scope.components = allComponents
+      fetchAndApplyOrgBranding()
       $scope.$broadcast 'component:editme', newComponents[0], true
 
    $scope.removeComponentAt = (index=-1) ->
@@ -158,7 +163,7 @@ window.app
       new GoAngular(
             $scope,
             'PitchEditorCtrl',
-            include: ['inEditMode', 'aspectRatio', 'components', 'pitch']
+            include: ['inEditMode', 'aspectRatio', 'components', 'branding']
             room: $routeParams.roomId)
          .initialize()
          .then ->
@@ -172,10 +177,27 @@ window.app
             console.error 'GoInstant initialization error', err
             alert "Couldn't sync with GoInstant :("
 
+   # fetch and configure page branding colours & logo in edit mode
+   fetchAndApplyOrgBranding = ->
+      pageBrandingService.fetchPageBrandingDescriptor (err, _brandingData) ->
+         return if err
+         $scope.$apply ->
+            # this is caught by the appliesBranding directive
+            _.extend $scope.branding, _brandingData
+
+   # when branding is updated on the scope, by GI or otherwise, we'll have to apply it
+   $scope.$watch 'branding', (newValue) ->
+      return if not newValue or not _.isObject(newValue)
+      $scope.$emit 'branding:apply', newValue
+   , true
+
    # if the user changes `inEditMode` we know it's high time for some syncin'
    $scope.$watch 'inEditMode', inEditModeWatchCallbackFn
 
-   if not $scope.inEditMode
+   if $scope.inEditMode
+      # we need to apply corpo branding here
+      fetchAndApplyOrgBranding()
+   else
       # when "edit mode" is off on load we should sync with GoInstant but not redirect
       inEditModeWatchCallbackFn(false)
       # track a page view if not authed
@@ -203,5 +225,3 @@ window.app
       ), (data) ->
 
 )
-
-

@@ -197,3 +197,16 @@ window.app
          .empty()
          .append spinner.el
 ])
+
+.directive('appliesBranding', ['$rootScope', ($rootScope) ->
+   link: ($scope, elem, attrs) ->
+      $rootScope.$on 'branding:apply', (ev, _brandingData={}) ->
+         return if not _.isObject(_brandingData) or _.isEmpty(_brandingData)
+         styles = switch attrs?.brandingType or 'page'
+            when 'page'
+               color: _brandingData.textColour
+               backgroundColor: _brandingData.pageBgColour
+            when 'top-bar'
+               backgroundColor: _brandingData.barBgColour
+         elem.css styles
+])

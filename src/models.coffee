@@ -8,9 +8,7 @@ angular.module('ForceModels', [])
       where: ''
       orderBy: 'LastName'
       limit: 20
-
-   Contact = AngularForceObjectFactory(objDesc)
-   Contact
+   AngularForceObjectFactory(objDesc)
 ])
 
 .factory('Opportunity', ['AngularForceObjectFactory', 'SFConfig',
@@ -21,9 +19,7 @@ angular.module('ForceModels', [])
       where: 'skewerapp__Show_In_Skewer__c = 1'
       orderBy: 'Probability DESC'
       limit: 20
-
-   Opportunity = AngularForceObjectFactory(objDesc)
-   Opportunity
+   AngularForceObjectFactory(objDesc)
 ])
 
 .factory('Pitch', ['AngularForceObjectFactory',
@@ -40,9 +36,7 @@ angular.module('ForceModels', [])
       where: ''
       orderBy: 'Name'
       limit: 10
-
-   skewerapp__Pitch__c = AngularForceObjectFactory(objDesc)
-   skewerapp__Pitch__c
+   AngularForceObjectFactory(objDesc)
 ])
 
 .factory('Assets', ['AngularForceObjectFactory',
@@ -59,25 +53,21 @@ angular.module('ForceModels', [])
          where: "skewerapp__Type__c = '#{type}'"
          orderBy: 'Name'
          limit: 15
-
-      ImageAsset = AngularForceObjectFactory(objDesc)
-      ImageAsset
+      AngularForceObjectFactory(objDesc)
 ])
 
 .factory('Setting', ['AngularForceObjectFactory',
 (AngularForceObjectFactory) ->
-objDesc =
+   objDesc =
       type: 'skewerapp__Pitch_Settings__c'
       fields: [
          'Id',
          'skewerapp__Logo_Bar_Background_Colour__c', # what is this?
          'skewerapp__Page_Background_Colour__c',
-         'skewerapp__Logo_Link__c',
-         'skewerapp__Text_Colour__c']
+         'skewerapp__Text_Colour__c',
+         'skewerapp__Logo_Link__c']
       where: ''
       orderBy: 'Name'
       limit: 1
-
-   skewerapp__Pitch_Settings__c = AngularForceObjectFactory(objDesc)
-   skewerapp__Pitch_Settings__c
+   AngularForceObjectFactory(objDesc)
 ])

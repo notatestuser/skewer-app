@@ -32,6 +32,9 @@
       display: block;
       padding: 1rem;
    }
+   .pitch-component .control-buttons .btn-link {
+      left: -8px;
+   }
 }
 
 /* *** */
@@ -103,6 +106,16 @@ h1, h2, h3, h4, h5, h6 {
    box-sizing: border-box;
 }
 
+.pitch-editor .branded-logo-bar {
+   text-align: center;
+   padding: .5rem;
+}
+
+.pitch-editor .branded-logo-bar > img.logo {
+   height: 100%;
+   max-height: 4rem;
+}
+
 .pitch-component {
    height: 18%;
    cursor: pointer;
@@ -156,6 +169,7 @@ h1, h2, h3, h4, h5, h6 {
 .pitch-component .control-buttons {
    position: absolute;
    left: 8px;
+   color: black;
 }
 
 .pitch-component .control-buttons.hidden-desktop {
@@ -166,11 +180,9 @@ h1, h2, h3, h4, h5, h6 {
    font-family: 'Helvetica Neue', Helvetica, Arial;
    font-size: 1.5rem;
    font-weight: bold;
-   color: black;
-   background: white;
-   left: -8px;
    border-radius: 0px;
    padding: 0.4rem 0.5rem;
+   z-index: 1000;
 }
 
 .pitch-component .control-buttons > .btn {
@@ -202,6 +214,9 @@ h1, h2, h3, h4, h5, h6 {
    background: transparent;
    overflow-y: hidden;
    font-size: 1rem;
+}
+.modal-adjust-component {
+   color: #333;
 }
 
 .modal-adjust-component .modal-body {

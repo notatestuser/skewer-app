@@ -3,6 +3,7 @@
 # ... but first some constants
 APEX_REST_PITCH_CREATE_URL = 'https://pitch-developer-edition.na15.force.com/services/apexrest/skewerapp/SkewerCreate'
 APEX_REST_PITCH_UPDATE_URL = 'https://pitch-developer-edition.na15.force.com/services/apexrest/skewerapp/SkewerUpdate'
+#####
 
 angular.module('skewer.services', [])
 
@@ -34,16 +35,23 @@ angular.module('skewer.services', [])
          alert "Query Error"
 ])
 
-.factory('urlShortenerService', ['$http', ($http) ->
-   generateShortUrlToSkewer: (roomId, opportunityId, pitchId) ->
-      data =
-         roomId: roomId
-         pitchId: pitchId
-         opportunityId: opportunityId
-      $http.post '/shortener', data
+.factory('pageBrandingService', ['Setting', (Setting) ->
+   fetchPageBrandingDescriptor: (callback) ->
+      Setting
+      .query ((data) ->
+         setting = data.records?[0]
+         return callback('no settings available') if not setting
+         obj =
+            pageBgColour: setting.skewerapp__Page_Background_Colour__c
+            barBgColour:  setting.skewerapp__Logo_Bar_Background_Colour__c
+            textColour:   setting.skewerapp__Text_Colour__c
+            logoSrcUrl:   setting.skewerapp__Logo_Link__c
+         callback null, obj
+      ), (data) ->
+         alert "Query Error"
 ])
 
-.factory('pitchesService', ['$http', 'SFConfig', 'urlShortenerService', ($http, SFConfig, urlShortenerService) ->
+.factory('pitchesService', ['$http', 'SFConfig', ($http, SFConfig) ->
    convertComponentsToFileIdList: (components=[]) ->
       _.compact(_.pluck components, 'id').toString()
    createPitchInSalesforce: (roomId, opportunityId, fileIdList=[], callbackFn) ->
@@ -73,17 +81,12 @@ angular.module('skewer.services', [])
          'PUT',
          JSON.stringify(data), paramMap)
    trackPageViewInSalesforce: (roomId, opportunityId, pitchId) ->
-      # figure out what our shortURL is
-      urlShortenerService.generateShortUrlToSkewer(roomId, opportunityId, pitchId)
-      .then (url) ->
-         data = p:
-            id: pitchId
-            shortURL: url?.data?.url
-         $http
-            method: 'PUT'
-            url: '/proxy/?_track_page_view'
-            data: data
-            headers: 'salesforceproxy-endpoint': APEX_REST_PITCH_UPDATE_URL
+      data = p: id: pitchId
+      $http
+         method: 'PUT'
+         url: '/proxy/?_track_page_view'
+         data: data
+         headers: 'salesforceproxy-endpoint': APEX_REST_PITCH_UPDATE_URL
 ])
 
 .factory('shareService', ['$location', 'pitchesService', ($location, pitchesService) ->
@@ -101,4 +104,13 @@ angular.module('skewer.services', [])
          return null if not store[key]
          store[key]
    }
+])
+
+.factory('urlShortenerService', ['$http', ($http) ->
+   generateShortUrlToSkewer: (roomId, opportunityId, pitchId) ->
+      data =
+         roomId: roomId
+         pitchId: pitchId
+         opportunityId: opportunityId
+      $http.post '/shortener', data
 ])

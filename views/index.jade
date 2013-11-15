@@ -1,6 +1,7 @@
 !!! 5
 html
    head
+      title Skewer App
       meta(name='viewport', content='width=device-width, initial-scale=1.0')
 
       style.
@@ -20,7 +21,10 @@ html
       link(href='css/font-awesome.min.css', rel='stylesheet')
       link(href='css/app.css', rel='stylesheet')
 
-   body.with-fixed-navbar(ng-app='AngularSFDemo')
+   body.with-fixed-navbar(
+         ng-app='AngularSFDemo',
+         data-applies-branding,
+         data-branding-type='page')
       .navbar.navbar-inverse.navbar-fixed-top(ng-controller='LoginCtrl')
          .navbar-inner: .container
             //- a.brand(href='#')
