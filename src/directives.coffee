@@ -22,7 +22,7 @@ window.app
             $scope.$apply()
             console.trace "Phase is "+$scope.$$phase
       # on resize figure out what our aspect ratio is
-      $(window).resize _.debounce(setRatioFn, 20)
+      $(window).resize _.debounce(setRatioFn, 60)
       $scope.$watch 'aspectRatio', setRatioFn
       $scope.$watch 'inEditMode',  setRatioFn
       setRatioFn()
@@ -188,6 +188,26 @@ window.app
       , true
 ])
 
+.directive('appliesBranding', ['$rootScope', ($rootScope) ->
+   link: ($scope, elem, attrs) ->
+      $rootScope.$on 'branding:apply', (ev, _brandingData={}) ->
+         return if not _.isObject(_brandingData) or _.isEmpty(_brandingData)
+         _styles = switch attrs?.brandingType or 'page'
+            when 'page'
+               color: _brandingData.textColour
+               backgroundColor: _brandingData.pageBgColour
+            when 'top-bar'
+               display: 'block'
+               backgroundColor: _brandingData.barBgColour
+            else {}
+         _attrs = switch attrs?.brandingType or 'page'
+            when 'top-bar-logo'
+               src: _brandingData.logoSrcUrl
+            else {}
+         elem.attr _attrs
+         elem.css  _styles
+])
+
 .directive('loadingSpinner', [ ->
    link: ($scope, elem, attrs) ->
       Spinner = require('spinner')
@@ -196,17 +216,4 @@ window.app
       elem
          .empty()
          .append spinner.el
-])
-
-.directive('appliesBranding', ['$rootScope', ($rootScope) ->
-   link: ($scope, elem, attrs) ->
-      $rootScope.$on 'branding:apply', (ev, _brandingData={}) ->
-         return if not _.isObject(_brandingData) or _.isEmpty(_brandingData)
-         styles = switch attrs?.brandingType or 'page'
-            when 'page'
-               color: _brandingData.textColour
-               backgroundColor: _brandingData.pageBgColour
-            when 'top-bar'
-               backgroundColor: _brandingData.barBgColour
-         elem.css styles
 ])
