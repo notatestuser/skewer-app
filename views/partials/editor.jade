@@ -5,7 +5,10 @@ div.fixed-finish-and-save-toolbar
             ng-disabled='saveInProgress')
          | Save and share
 
-section.pitch-editor(ng-style='getStyleFor("page")')
+section.pitch-editor(
+         data-applies-branding,
+         data-branding-type='editor-bottom-buffer')
+
    .pitch-component(
          data-base-component,
          ng-repeat='component in components',

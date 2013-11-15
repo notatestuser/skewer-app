@@ -65,6 +65,14 @@ button {
 
 /* *** */
 
+.ng-view {
+   padding-top: 1rem;
+   border-left: .2rem solid red;
+   border-right: .2rem solid red;
+}
+
+/* *** */
+
 .navbar-fixed-top {
    position: fixed;
 }
@@ -147,6 +155,7 @@ h3.list-page-header {
    width: 100%;
    height: 100vh;
    box-sizing: border-box;
+   border-bottom: 5rem solid #333;
 }
 
 .pitch-component {

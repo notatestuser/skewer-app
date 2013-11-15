@@ -196,10 +196,15 @@ window.app
          _styles = switch attrs?.brandingType or 'page'
             when 'page'
                color: _brandingData.textColour
-               backgroundColor: _brandingData.pageBgColour
+               backgroundColor:   _brandingData.pageBgColour
             when 'top-bar'
                display: 'block'
-               backgroundColor: _brandingData.barBgColour
+               backgroundColor:   _brandingData.barBgColour
+            when 'editor-bottom-buffer'
+               borderBottomColor: _brandingData.barBgColour
+            when 'left-right-borders'
+               borderLeftColor:    _brandingData.barBgColour
+               borderRightColor:   _brandingData.barBgColour
             else {}
          _attrs = switch attrs?.brandingType or 'page'
             when 'top-bar-logo'

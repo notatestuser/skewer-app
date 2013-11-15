@@ -13,8 +13,7 @@ html
       link(href='css/font-awesome.min.css', rel='stylesheet')
       link(href='css/app.css', rel='stylesheet')
 
-   body(
-         ng-app='AngularSFDemo',
+   body( ng-app='AngularSFDemo',
          data-applies-branding,
          data-branding-type='page')
 
@@ -26,7 +25,7 @@ html
 
       .body-padder(data-hides-when-branding-applied)
 
-      .navbar.navbar-inverse(ng-controller='LoginCtrl')
+      section.navbar.navbar-inverse(ng-controller='LoginCtrl', style='margin: 0')
          .navbar-inner.branded-logo-bar-container(
                data-applies-branding
                data-branding-type='top-bar')
@@ -37,7 +36,9 @@ html
                //- a.brand(href='#')
                   | Skewer
 
-      div(ng-view)
+      div.ng-view(ng-view
+         data-applies-branding,
+         data-branding-type='left-right-borders')
 
       script(type='text/javascript')
          //Get configuration from environment variables (via heroku or localhost env)
