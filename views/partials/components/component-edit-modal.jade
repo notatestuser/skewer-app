@@ -75,6 +75,11 @@ section.modal.modal-adjust-component.hide.fade(
                   | Placeholder
 
                li.btn.btn-link.btn-large.btn-block-level(
+                     ng-click='doAndShowEditContentSlide(setType("document"))'
+                     ng-class='{"active-type": component.type == "document"}')
+                  | Document content
+
+               li.btn.btn-link.btn-large.btn-block-level(
                      ng-click='doAndShowEditContentSlide(setType("text"))'
                      ng-class='{"active-type": component.type == "text"}')
                   | Text content
@@ -89,11 +94,6 @@ section.modal.modal-adjust-component.hide.fade(
                      ng-class='{"active-type": component.type == "carousel"}')
                   | Multiple images (carousel)
 
-               li.btn.btn-link.btn-large.btn-block-level(
-                     ng-click='doAndShowEditContentSlide(setType("document"))'
-                     ng-class='{"active-type": component.type == "document"}')
-                  | Document content
-
       .slide
          hr
          .adjustments-block.content-type-selection
@@ -105,5 +105,5 @@ section.modal.modal-adjust-component.hide.fade(
                   ng-show='availableContentItems')
                li.btn.btn-link.btn-large.btn-block-level(
                      ng-repeat='(key, value) in availableContentItems'
-                     ng-click='doAndClose(setContentAndLinkHref(value.id, value.content, value.linkHref))')
+                     ng-click='doAndClose(setContentAndLinkHref(value.id, value.name, value.content, value.linkHref))')
                   | {{value.name}}

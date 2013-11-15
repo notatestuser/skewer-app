@@ -134,8 +134,9 @@ window.app
          $scope.component.type = contentType
          delete $scope.component.content if contentType isnt 'placeholder'
          true
-      $scope.setContentAndLinkHref = (id, content, linkHref) -> ->
+      $scope.setContentAndLinkHref = (id, name, content, linkHref) -> ->
          $scope.component.id = id
+         $scope.component.name = name
          $scope.component.content = content
          $scope.component.linkHref = linkHref
          $scope.$apply() if $scope.$$phase isnt '$digest'

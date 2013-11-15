@@ -37,6 +37,15 @@ section.pitch-editor(ng-style='getStyleFor("page")')
             class='{{getComponentClasses(component)}}')
 
       div.component-body.image-component-body(
+            ng-switch-when='document',
+            ng-click='handleComponentClick(component)',
+            data-index='{{$index}}',
+            data-is-first='{{$first}}',
+            data-type='{{component.type}}',
+            class='{{getComponentClasses(component)}}')
+         {{component.name}}
+
+      div.component-body.image-component-body(
             ng-switch-when='image',
             ng-click='handleComponentClick(component)',
             data-index='{{$index}}',
