@@ -1,5 +1,9 @@
 # Services
 
+# ... but first some constants
+APEX_REST_PITCH_CREATE_URL = 'https://pitch-developer-edition.na15.force.com/services/apexrest/skewerapp/SkewerCreate'
+APEX_REST_PITCH_UPDATE_URL = 'https://pitch-developer-edition.na15.force.com/services/apexrest/skewerapp/SkewerUpdate'
+
 angular.module('skewer.services', [])
 
 .provider('GoInstantRoomId', [ ->
@@ -39,7 +43,7 @@ angular.module('skewer.services', [])
       $http.post '/shortener', data
 ])
 
-.factory('pitchesService', ['SFConfig', (SFConfig) ->
+.factory('pitchesService', ['$http', 'SFConfig', 'urlShortenerService', ($http, SFConfig, urlShortenerService) ->
    convertComponentsToFileIdList: (components=[]) ->
       _.compact(_.pluck components, 'id').toString()
    createPitchInSalesforce: (roomId, opportunityId, fileIdList=[], callbackFn) ->
@@ -49,7 +53,7 @@ angular.module('skewer.services', [])
          opportunityId: opportunityId
          userId: SFConfig.client.userId
       paramMap =
-         'SalesforceProxy-Endpoint': 'https://pitch-developer-edition.na15.force.com/services/apexrest/skewerapp/PitchCreate'
+         'SalesforceProxy-Endpoint': APEX_REST_PITCH_CREATE_URL
       SFConfig.client.apexrest(
          '/PitchCreate',
          callbackFn,
@@ -61,13 +65,25 @@ angular.module('skewer.services', [])
          id: pitchId
          shortURL: shortURL
       paramMap =
-         'SalesforceProxy-Endpoint': 'https://pitch-developer-edition.na15.force.com/services/apexrest/skewerapp/SkewerUpdate'
+         'SalesforceProxy-Endpoint': APEX_REST_PITCH_UPDATE_URL
       SFConfig.client.apexrest(
          '/SkewerUpdate',
          callbackFn,
          null,
          'PUT',
          JSON.stringify(data), paramMap)
+   trackPageViewInSalesforce: (roomId, opportunityId, pitchId) ->
+      # figure out what our shortURL is
+      urlShortenerService.generateShortUrlToSkewer(roomId, opportunityId, pitchId)
+      .then (url) ->
+         data = p:
+            id: pitchId
+            shortURL: url?.data?.url
+         $http
+            method: 'PUT'
+            url: '/proxy/?_track_page_view'
+            data: data
+            headers: 'salesforceproxy-endpoint': APEX_REST_PITCH_UPDATE_URL
 ])
 
 .factory('shareService', ['$location', 'pitchesService', ($location, pitchesService) ->

@@ -92,7 +92,7 @@ window.app
       "&url=#{encodeURIComponent(shareUrl)}&via=SkewerApp"
 )
 
-.controller('PitchEditorCtrl', ($routeParams, $location, $timeout, $scope, AngularForce, GoAngular, shareService) ->
+.controller('PitchEditorCtrl', ($routeParams, $location, $timeout, $scope, AngularForce, GoAngular, pitchesService, shareService) ->
    return $location.path('/contacts') if not $routeParams?.opportunityId or not $routeParams?.roomId
 
    [opportunityId, pitchId, roomId] = [$routeParams?.opportunityId, $routeParams?.pitchId, $routeParams?.roomId]
@@ -175,8 +175,11 @@ window.app
    # if the user changes `inEditMode` we know it's high time for some syncin'
    $scope.$watch 'inEditMode', inEditModeWatchCallbackFn
 
-   # when "edit mode" is off on load we should sync with GoInstant but not redirect
-   inEditModeWatchCallbackFn(false) if not $scope.inEditMode
+   if not $scope.inEditMode
+      # when "edit mode" is off on load we should sync with GoInstant but not redirect
+      inEditModeWatchCallbackFn(false)
+      # track a page view if not authed
+      pitchesService.trackPageViewInSalesforce roomId, opportunityId, pitchId
 )
 
 .controller('OpportunityListCtrl', ($scope, AngularForce, $location, GoInstantRoomId, Opportunity, SFConfig) ->

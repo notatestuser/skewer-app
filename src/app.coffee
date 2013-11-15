@@ -11,8 +11,8 @@ app = window.app = angular.module('AngularSFDemo', [
 
 # ⚑
 # TODO: Figure out why this has to be attached to the window
-window.SFConfig = SFGlobals.getSFConfig()
-window.SFConfig.maxListSize = 25
+SFConfig = window.SFConfig = SFGlobals.getSFConfig()
+SFConfig.maxListSize = 25
 
 app.constant 'SFConfig', SFConfig
 
