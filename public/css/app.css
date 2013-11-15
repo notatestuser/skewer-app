@@ -24,6 +24,12 @@
    }
 }
 
+@media (min-width: 825px) {
+   .document-component {
+      background-size: 82% !important;
+   }
+}
+
 @media (max-width: 768px) {
    .responsive-item-list-table {
       font-size: 1.5rem;
@@ -224,8 +230,8 @@ h3.list-page-header {
 
 .document-component {
    text-align: right;
-   padding: 17px;
    color: white;
+   padding:   1.3rem;
    font-size: 1.2rem;
    font-weight: 400;
 }
