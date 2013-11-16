@@ -197,7 +197,7 @@ window.app
       $rootScope.$on 'branding:apply', (ev, _brandingData={}) ->
          return if not _.isObject(_brandingData) or _.isEmpty(_brandingData)
          [_styles, _attrs] = [{}, {}]
-         (attrs?.brandingType or 'page')
+         types = (attrs?.brandingType or 'page')
          .split(' ').forEach (_brandingType) ->
             _.extend _styles, switch _brandingType
                when 'page', 'main-view-container'
@@ -210,7 +210,6 @@ window.app
                when 'editor-viewer'
                   borderBottomColor: _brandingData.barBgColour
                when 'top-bar'
-                  display: 'block'
                   backgroundColor:   _brandingData.barBgColour
                else {}
             _.extend _attrs, switch _brandingType
@@ -219,6 +218,7 @@ window.app
                else {}
          elem.attr _attrs
          elem.css  _styles
+         elem.addClass 'branding-applied' if types.length
 ])
 
 .directive('hidesWhenBrandingApplied', ['$rootScope', ($rootScope) ->

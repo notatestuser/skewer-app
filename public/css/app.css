@@ -22,14 +22,11 @@
    body {
       padding: 60px 0;
    }
+   .body-padder {
+      height: 20px !important;
+   }
    .pitch-editor {
       padding: 0 12px;
-   }
-}
-
-@media (min-width: 825px) {
-   .document-component {
-      background-size: 88%;
    }
 }
 
@@ -46,6 +43,12 @@
    }
    .pitch-component .control-buttons .btn-link {
       left: -0.3rem;
+   }
+}
+
+@media (min-width: 825px) {
+   .document-component {
+      background-size: 88%;
    }
 }
 
@@ -79,6 +82,9 @@ button {
    max-width: 768px;
    margin: auto auto;
    box-sizing: border-box;
+}
+
+.ng-view.with-branding-borders {
    border-left:   .2rem solid #333;
    border-right:  .2rem solid #333;
    border-bottom: .2rem solid #333;
@@ -148,8 +154,13 @@ button {
    display: none;
 }
 
+.branded-logo-bar-container.with-top-border {
+   display: block;
+}
+
 .branded-logo-bar {
    text-align: center;
+   min-height: 6rem;
    max-height: 6rem;
    padding: .5rem;
 }

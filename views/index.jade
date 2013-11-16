@@ -25,6 +25,7 @@ html
 
       section.navbar.navbar-inverse.branded-navbar(ng-controller='LoginCtrl')
          .navbar-inner.branded-logo-bar-container(
+               ng-class='{"with-top-border": isBrandedRoute}'
                data-applies-branding
                data-branding-type='top-bar')
             aside.container.branded-logo-bar
@@ -35,6 +36,7 @@ html
                   | Skewer
 
       div.ng-view(ng-view
+         ng-class='{"with-branding-borders": isBrandedRoute}'
          data-applies-branding,
          data-branding-type='main-view-container left-and-right-borders')
 

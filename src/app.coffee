@@ -14,9 +14,9 @@ app = window.app = angular.module('AngularSFDemo', [
 SFConfig = window.SFConfig = SFGlobals.getSFConfig()
 SFConfig.maxListSize = 25
 
-app.constant 'SFConfig', SFConfig
+app.constant('SFConfig', SFConfig)
 
-app.config ['$windowProvider', '$routeProvider', 'platformProvider', 'GoInstantRoomIdProvider',
+.config(['$windowProvider', '$routeProvider', 'platformProvider', 'GoInstantRoomIdProvider',
 ($window, $routeProvider, platformProvider, GoInstantRoomIdProvider) ->
    ### GoInstant platform init ###
 
@@ -48,18 +48,21 @@ app.config ['$windowProvider', '$routeProvider', 'platformProvider', 'GoInstantR
    .when('/skewer/:opportunityId/:roomId',
       controller: 'PitchEditorCtrl'
       templateUrl: 'partials/editor.html'
+      showBranding: true
    )
 
    # the editor
    .when('/skewer/:opportunityId/:pitchId/:roomId',
       controller: 'PitchEditorCtrl'
       templateUrl: 'partials/editor.html'
+      showBranding: true
    )
 
    # share route
    .when('/skewer/share',
       controller: 'PitchShareCtrl'
       templateUrl: 'partials/share.html'
+      showBranding: true
       resolve:
          salesforcePitchId: ['$route', '$q', '$rootScope', 'shareService', 'pitchesService',
          ($route, $q, $rootScope, shareService, pitchesService) ->
@@ -81,22 +84,6 @@ app.config ['$windowProvider', '$routeProvider', 'platformProvider', 'GoInstantR
       controller: 'OpportunityListCtrl'
       templateUrl: 'partials/contact/list.html'
    )
-   .when('/view/:contactId',
-      controller: 'ContactViewCtrl'
-      templateUrl: 'partials/contact/view.html'
-   )
-   .when('/viewOpp/:opportunityId',
-      controller: 'OpportunityViewCtrl'
-      templateUrl: 'partials/contact/view.html'
-   )
-   .when('/edit/:contactId',
-      controller: 'ContactDetailCtrl'
-      templateUrl: 'partials/contact/edit.html'
-   )
-   .when('/new',
-      controller: 'ContactDetailCtrl'
-      templateUrl: 'partials/contact/edit.html'
-   )
 
    # auth routes
    .when('/login',
@@ -113,4 +100,10 @@ app.config ['$windowProvider', '$routeProvider', 'platformProvider', 'GoInstantR
    )
 
    .otherwise redirectTo: '/'
-]
+])
+
+.run(['$rootScope', '$route',
+($rootScope, $route) ->
+    $rootScope.$on '$routeChangeSuccess', (event, current) ->
+      $rootScope.isBrandedRoute = $route.current?.$$route?.showBranding
+])
