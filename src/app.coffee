@@ -58,6 +58,30 @@ app.constant('GoInstantAppUrl', 'https://goinstant.net/sdavyson/Skewer')
                $rootScope.$apply ->
                   deferred.resolve brandingData
          else
+            # GI will get this for us
+            deferred.resolve {}
+         deferred.promise
+      ]
+      userContactDetails: ['$q', '$rootScope', 'AngularForce', 'User',
+      ($q, $rootScope, AngularForce, User) ->
+         deferred = $q.defer()
+         if AngularForce.authenticated()
+            User
+            .query ((data) ->
+               sfuser = data.records?[0]
+               $rootScope.$apply ->
+                  return deferred.reject('no sfuser available') if not sfuser
+                  user =
+                     id:    sfuser.Id
+                     name:  sfuser.getskewer__Skewer_Name__c
+                     email: sfuser.getskewer__Skewer_Email__c
+                     phone: sfuser.getskewer__Skewer_Phone__c
+                  deferred.resolve user
+            ), (err) ->
+               $rootScope.$apply ->
+                  deferred.reject err
+         else
+            # GI will get this for us
             deferred.resolve {}
          deferred.promise
       ]

@@ -219,6 +219,28 @@ window.app
          elem.addClass 'hide'
 ])
 
+.directive('authorContactDetailsFooterLabel', [ ->
+   scope =
+      contactName:  '='
+      contactEmail: '='
+      contactPhone: '='
+   {
+      restrict: 'AC'
+      link: ($scope, elem, attrs) ->
+         refreshContactInfoFn = ->
+            elem.empty()
+            values = Object.keys(scope).map (key) ->
+               $scope[key]
+            values = _.compact values
+            values.forEach (value, idx) ->
+               $("<span class='contact-field contact-field-#{idx}'>#{value}</span>").appendTo elem
+            $("<span>Contact </span>").prependTo(elem) if values.length
+         Object.keys(scope).map (key) ->
+            $scope.$watch key, refreshContactInfoFn
+         refreshContactInfoFn()
+   }
+])
+
 .directive('loadingSpinner', [ ->
    restrict: 'AC'
    link: ($scope, elem, attrs) ->

@@ -5,6 +5,17 @@ create an 'Contact' object. And then set its type, fields, where-clause etc.
 PS: This module is injected into ListCtrl, EditCtrl etc. controllers to further consume the object.
 ###
 
+GOINSTANT_CANVAS_SCOPE_SYNC_INCLUDES = [
+   'aspectRatio'
+   'inEditMode'
+   'components'
+   'branding'
+   'contactName'
+   'contactEmail'
+   'contactPhone'
+   'salesforceOrgSiteHost'
+]
+
 window.app
 
 .controller('HomeCtrl', ($scope, AngularForce, $location, $route) ->
@@ -88,19 +99,25 @@ window.app
       ), (data) ->
 )
 
-.controller('SkewerCanvasCtrl', ($routeParams, $location, $timeout, $rootScope, $scope, AngularForce, GoAngular, pitchesService, shareService, pageBrandingData, salesforceOrgSiteHost) ->
+.controller('SkewerCanvasCtrl', ($routeParams, $location, $timeout, $rootScope, $scope, AngularForce, GoAngular, pitchesService, shareService, pageBrandingData, salesforceOrgSiteHost, userContactDetails) ->
    return $location.path('/contacts') if not $routeParams?.opportunityId or not $routeParams?.roomId
 
    [opportunityId, pitchId, roomId] = [$routeParams?.opportunityId, $routeParams?.pitchId, $routeParams?.roomId]
 
    # so apparently GoInstant wasn't syncing these when they were in a hash, so I moved 'em out
    $scope.inEditMode = AngularForce.authenticated()
-   $scope.branding = '{}'
-   $scope.aspectRatio = 1.777 # mobile-esque default
+   $scope.salesforceOrgSiteHost = salesforceOrgSiteHost
    $scope.saveInProgress = no
+   $scope.aspectRatio = 1.777 # mobile-esque default
+   $scope.branding = '{}'
 
    # the pitchId is only available when in "view mode"
    $scope.pitchId = pitchId
+
+   # grab the author's contact info (email, phone) for storing in the scope
+   $scope.contactName  = userContactDetails?.name  or ''
+   $scope.contactEmail = userContactDetails?.email or ''
+   $scope.contactPhone = userContactDetails?.phone or ''
 
    # initialise an array of page components
    #  | example component:
@@ -165,7 +182,7 @@ window.app
       new GoAngular(
             $scope,
             'SkewerEditorCtrl',
-            include: ['inEditMode', 'aspectRatio', 'components', 'branding']
+            include: GOINSTANT_CANVAS_SCOPE_SYNC_INCLUDES
             room: $routeParams.roomId)
          .initialize()
          .then ->
@@ -174,15 +191,15 @@ window.app
                # ... and just to be sure we've synced...
                $timeout ->
                   shareService.storeAttributesAndGoToSharePage roomId, opportunityId, $scope.components
-               , 300
+               , 1000
          , (err) ->
             console.error 'GoInstant initialization error', err
             alert "Couldn't sync with GoInstant :("
 
    # fetch and configure page branding colours & logo in edit mode
    applyOrgBranding = ->
-      return if not pageBrandingData
-      $scope.branding = JSON.stringify pageBrandingData
+      return if not brandingData = pageBrandingData
+      $scope.branding = JSON.stringify brandingData
 
    # when branding is updated on the scope, by GI or otherwise, we'll have to apply it
    $scope.$watch 'branding', (newValue) ->
@@ -200,8 +217,10 @@ window.app
    else
       # when "edit mode" is off on load we should sync with GoInstant but not redirect
       inEditModeWatchCallbackFn(false)
-      # track a page view if not authed
-      pitchesService.trackPageViewInSalesforce salesforceOrgSiteHost, roomId, opportunityId, pitchId
+      # when GoInstant has synced we should track a page view
+      $scope.$watch 'salesforceOrgSiteHost', (newValue, oldValue) ->
+         return if newValue is oldValue
+         pitchesService.trackPageViewInSalesforce newValue, roomId, opportunityId, pitchId
 )
 
 .controller('SkewerShareCtrl', ($location, $scope, shareService, urlShortenerService, pitchesService, salesforcePitchId) ->

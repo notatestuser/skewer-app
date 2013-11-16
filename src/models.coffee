@@ -70,16 +70,16 @@ angular.module('ForceModels', [])
 ])
 
 .factory('User', ['AngularForceObjectFactory',
-   (AngularForceObjectFactory) ->
-      objDesc =
-         type: 'User',
-         fields: [
-            'Id',
-            'Email',
-            'Phone']
-         where: 'User_Is_Me__c = 1'
-         orderBy: ''
-         limit: 1
-      AngularForceObjectFactory(objDesc)
-   ])
-
+(AngularForceObjectFactory) ->
+   objDesc =
+      type: 'User',
+      fields: [
+         'Id',
+         'getskewer__Skewer_Name__c',
+         'getskewer__Skewer_Email__c',
+         'getskewer__Skewer_Phone__c']
+      where: 'getskewer__User_Is_Me__c = 1'
+      orderBy: ''
+      limit: 1
+   AngularForceObjectFactory(objDesc)
+])
