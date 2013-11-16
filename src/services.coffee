@@ -54,7 +54,7 @@ angular.module('skewer.services', [])
 .factory('pitchesService', ['$http', 'SFConfig', ($http, SFConfig) ->
    convertComponentsToFileIdList: (components=[]) ->
       _.compact(_.pluck components, 'id').toString()
-   createPitchInSalesforce: (roomId, opportunityId, fileIdList=[], callbackFn) ->
+   createPitchInSalesforce: (roomId, opportunityId, fileIdList='', callbackFn) ->
       data = p:
          roomId: roomId
          fileList: fileIdList

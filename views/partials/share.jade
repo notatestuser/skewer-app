@@ -9,16 +9,14 @@ div.modal-body.clearfix
          a(ng-show='shareUrl', href='{{shareUrl}}', target='_blank')
             | {{shareUrl}}
 
-      .modal-body
-         iframe#twitter-widget-0.twitter-share-button.twitter-tweet-button.twitter-count-none(
-            ng-show='shareUrl',
-            scrolling='no',
-            frameborder='0',
-            allowtransparency='true',
-            src='{{getTwitterTweetButtonSrc()}}',
-            title='Twitter Tweet Button',
-            data-twttr-rendered='true',
-            style='width: 76px; height: 28px;')
-         script#twitter-wjs(src='http://platform.twitter.com/widgets.js')
-         script
-            !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+      .modal-body.btn-group.btn-group-vertical
+         a.btn.btn-large.btn-primary(
+               target='_blank'
+               href='{{getTwitterTweetButtonLink()}}')
+            i.fa.fa-twitter
+            |  Tweet it
+
+         a.btn.btn-large.btn-primary(
+               href='{{getMailtoLink()}}')
+            i.fa.fa-envelope
+            |  Send by email

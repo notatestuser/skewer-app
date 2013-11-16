@@ -3,16 +3,17 @@ Credit for New Tabs goes to: https://github.com/hiloki/
 Credit for Switches goes to Burak Kaya on CodePen */
 
 .btn {
-color: #167efb;
-background: none;
-border: none;
-font-size: 17px;
-min-height: 30px;
-line-height: 30px;
-cursor: pointer;
+   color: #333;
+   background: none;
+   font-size: 17px;
+   min-height: 30px;
+   line-height: 30px;
+   cursor: pointer;
 }
 .btn-primary {
 font-weight: bold;
+background: #f3f3f3;
+border: 1px solid #ccc;
 }
 .btn-danger {
 color: #e19807;

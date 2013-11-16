@@ -80,16 +80,21 @@ window.app
       # update the URL in salesforce (this can & will happen in the background)
       pitchesService.updatePitchShortUrlInSalesforce salesforcePitchId, _shareUrl
 
-   $scope.getTwitterTweetButtonSrc = ->
+   $scope.getMailtoLink = ->
       return '' if not shareUrl = $scope.shareUrl
-      "//platform.twitter.com"+
-      "/widgets/tweet_button.1384205748.html"+
-      "#count=none"+
-      "&id=twitter-widget-0"+
-      "&lang=en"+
-      "&size=l"+
-      "&text="+encodeURIComponent("Here's some follow-up information you might find useful")+
-      "&url=#{encodeURIComponent(shareUrl)}&via=SkewerApp"
+      "mailto:"+
+      "&X-Sent-Via=Skewer"+
+      "?subject="+encodeURIComponent('Following up on our meeting')+
+      "&body=#{encodeURIComponent('Please check this information I have put together for you. '+shareUrl)}"
+
+   $scope.getTwitterTweetButtonLink = ->
+      return '' if not shareUrl = $scope.shareUrl
+      "https://twitter.com/intent/tweet"+
+      "?original_referer=https%3A%2F%2Fapp.getskewer.com%2F"+
+      "&text="+encodeURIComponent("Here's some follow-up information that I think you'll find useful")+
+      "&url=#{encodeURIComponent(shareUrl)}"+
+      "&tw_p=tweetbutton"+
+      "&via=SkewerApp"
 )
 
 .controller('PitchEditorCtrl', ($routeParams, $location, $timeout, $rootScope, $scope, AngularForce, GoAngular, pageBrandingService, pitchesService, shareService) ->
