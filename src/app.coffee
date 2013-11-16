@@ -15,9 +15,10 @@ SFConfig = window.SFConfig = SFGlobals.getSFConfig()
 SFConfig.maxListSize = 25
 
 app.constant('SFConfig', SFConfig)
+app.constant('GoInstantAppUrl', 'https://goinstant.net/sdavyson/Skewer')
 
-.config(['$windowProvider', '$routeProvider', 'platformProvider', 'GoInstantRoomIdProvider',
-($window, $routeProvider, platformProvider, GoInstantRoomIdProvider) ->
+.config(['$windowProvider', '$routeProvider', 'platformProvider', 'GoInstantAppUrl', 'GoInstantRoomIdProvider',
+($window, $routeProvider, platformProvider, GoInstantAppUrl, GoInstantRoomIdProvider) ->
    ### GoInstant platform init ###
 
    # do we already have a room id?
@@ -31,11 +32,24 @@ app.constant('SFConfig', SFConfig)
    GoInstantRoomIdProvider.setRoomId roomId = rooms[0]
    console.log "GoInstant room ID configured as #{roomId}"
 
-   platformProvider.set 'https://goinstant.net/sdavyson/Skewer', rooms: rooms
+   platformProvider.set GoInstantAppUrl, rooms: rooms
 
    ### Route resolver hashes ###
 
    resolvePageBrandingForEditor =
+      salesforceOrgSiteHost: ['$q', '$rootScope', '$route', 'AngularForce', 'Opportunity',
+      ($q, $rootScope, $route, AngularForce, Opportunity) ->
+         deferred = $q.defer()
+         {opportunityId} = $route.current.params
+         if AngularForce.authenticated()
+            Opportunity().get id: opportunityId, (opportunity={}) ->
+               $rootScope.$apply ->
+                  $rootScope.salesforceOrgSiteHost = opportunity.getskewer__Skewer_Site_URL__c
+                  deferred.resolve $rootScope.salesforceOrgSiteHost
+         else
+            deferred.resolve ''
+         deferred.promise
+      ]
       pageBrandingData: ['$q', '$rootScope', 'AngularForce', 'pageBrandingService',
       ($q, $rootScope, AngularForce, pageBrandingService) ->
          deferred = $q.defer()
@@ -62,23 +76,22 @@ app.constant('SFConfig', SFConfig)
    .when('/skewer/:opportunityId/:roomId',
       controller: 'SkewerCanvasCtrl'
       templateUrl: 'partials/editor.html'
-      showBranding: true
       resolve: resolvePageBrandingForEditor
+      showBranding: true
    )
 
    # the editor
    .when('/skewer/:opportunityId/:pitchId/:roomId',
-      controller: 'SkewerEditorCtrl'
+      controller: 'SkewerCanvasCtrl'
       templateUrl: 'partials/editor.html'
-      showBranding: true
       resolve: resolvePageBrandingForEditor
+      showBranding: true
    )
 
    # share route
    .when('/skewer/share',
       controller: 'SkewerShareCtrl'
       templateUrl: 'partials/share.html'
-      showBranding: true
       resolve:
          salesforcePitchId: ['$route', '$q', '$rootScope', 'shareService', 'pitchesService',
          ($route, $q, $rootScope, shareService, pitchesService) ->
@@ -88,11 +101,14 @@ app.constant('SFConfig', SFConfig)
                shareService.get('fileIdList'),
                shareService.get('opportunityId')
             ]
-            pitchesService.createPitchInSalesforce roomId, opportunityId, fileIdList, (pitchId) ->
+            {salesforceOrgSiteHost} = $rootScope
+            pitchesService.createPitchInSalesforce salesforceOrgSiteHost, roomId, opportunityId, fileIdList,
+            (pitchId) ->
                $rootScope.$apply ->
                   deferred.resolve pitchId
             deferred.promise
          ]
+      showBranding: true
    )
 
    # contacts editor routes
