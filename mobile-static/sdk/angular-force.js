@@ -39,9 +39,6 @@ angular.module('AngularForce', ['fsCordova']).
             return SFConfig.client ? true : false;
         };
 
-        
-
-
         this.login = function (callback) {
             if (SFConfig.client) { //already logged in
                 return callback && callback();
@@ -92,6 +89,8 @@ angular.module('AngularForce', ['fsCordova']).
                                       
                     //Set sessionID to angularForce coz profileImages need them
                     self.sessionId = SFConfig.client.sessionId;
+                    // Force init
+                    Force.init(creds, null, null, cordova.require("salesforce/plugin/oauth").forcetkRefresh);
                     
                     callback && callback();
                 }

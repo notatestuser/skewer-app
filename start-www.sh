@@ -14,7 +14,6 @@ cp mobile-static/bootconfig.json www/
 
 #remove old web
 rm www/js/sdk/forcetk.ui.js
-rm www/js/sdk/sdk.js
 
 #Your mobile cordova project directory
 rm -rf ../myiosapp/skrewer/skrewer/www/ 

@@ -1,6 +1,6 @@
 angular.module('ForceModels', [])
 
-.factory('Opportunity', ['AngularForceObjectFactory', 
+.factory('Opportunity', ['AngularForceObjectFactory',
 (AngularForceObjectFactory) ->
    objDesc =
       type: 'Opportunity'

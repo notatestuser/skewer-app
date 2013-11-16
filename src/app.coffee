@@ -76,9 +76,12 @@ app.constant('GoInstantAppUrl', 'https://goinstant.net/sdavyson/Skewer')
       resolve: 
          app: ($rootScope, $q, AngularForce) ->
             deferred = $q.defer()
-            AngularForce.setCordovaLoginCred ->
-               $rootScope.$apply ->
-                  deferred.resolve()
+            unless AngularForce.authenticated()
+               AngularForce.setCordovaLoginCred ->
+                  $rootScope.$apply ->
+                     deferred.resolve()
+            else 
+               deferred.resolve()   
             deferred.promise
    )
 
