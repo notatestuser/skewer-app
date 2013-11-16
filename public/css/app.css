@@ -295,6 +295,16 @@ h3.list-page-header {
    box-sizing: border-box;
 }
 
+.loading-component-body {
+   background: none;
+   text-align: center;
+   padding: 6rem;
+}
+
+.loading-component-body .loading-spinner {
+   margin-bottom: 1.3rem;
+}
+
 .text-component-body {
    background: transparent;
    overflow-y: hidden;

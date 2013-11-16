@@ -37,6 +37,12 @@ section.pitch-editor(
             data-type='{{component.type}}',
             class='{{getComponentClasses(component)}}')
 
+      div.component-body.loading-component-body(
+            ng-switch-when='loading'
+            class='{{getComponentClasses(component)}}')
+         div.loading-spinner
+         p: small Loading, please wait...
+
       div.component-body.image-component-body(
             ng-switch-when='document',
             data-index='{{$index}}',

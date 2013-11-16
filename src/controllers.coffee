@@ -117,12 +117,19 @@ window.app
    #  |  }
    # ⚑
    # TODO: Vary the content of this array based on whether the user is authenticated
-   $scope.components = [
-      rowScale:  2
-      colDivide: 2
-      type: 'image'
-      content: 'http://i.imgur.com/wdt4Ddz.jpg'
-   ]
+   unless $scope.inEditMode
+      $scope.components = [
+         rowScale:  2
+         colDivide: 1
+         type: 'loading'
+      ]
+   else
+      $scope.components = [
+         rowScale:  2
+         colDivide: 2
+         type: 'text'
+         content: 'Creating your Skewer is easy. Just tap on the placeholder to the right of this message to place your first chunk.'
+      ]
 
    compactComponents = ->
       $scope.components = $scope.components.filter (item) -> item?
