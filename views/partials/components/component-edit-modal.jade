@@ -6,7 +6,8 @@ section.modal.modal-adjust-component.hide.fade(
 
    header.modal-header.hidden-phone
       | {{component.type || 'New'}} Chunk
-      button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
+      button.close(type='button', ng-click='doAndClose()')
+         | &times;
 
    .modal-body(
          ng-class='{"showing-slide-2": choosingType || !component.type, "showing-slide-3": choosingContent}')

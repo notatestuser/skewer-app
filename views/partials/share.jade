@@ -1,10 +1,10 @@
 div.modal-body.clearfix
 
-   .well.modal-body(style='text-align: center')
+   .modal-body(style='text-align: center')
       h2.modal-body(style='font-size: 2rem; color: #333;')
          | Your URL to share
 
-      h3.well.modal-body
+      h3.modal-body.well
          span(ng-show='!shareUrl', loading-spinner, data-spinner-size='29')
          a(ng-show='shareUrl', href='{{shareUrl}}', target='_blank')
             | {{shareUrl}}

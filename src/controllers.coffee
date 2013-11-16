@@ -92,7 +92,7 @@ window.app
       "&url=#{encodeURIComponent(shareUrl)}&via=SkewerApp"
 )
 
-.controller('PitchEditorCtrl', ($routeParams, $location, $timeout, $scope, AngularForce, GoAngular, pageBrandingService, pitchesService, shareService) ->
+.controller('PitchEditorCtrl', ($routeParams, $location, $timeout, $rootScope, $scope, AngularForce, GoAngular, pageBrandingService, pitchesService, shareService) ->
    return $location.path('/contacts') if not $routeParams?.opportunityId or not $routeParams?.roomId
 
    [opportunityId, pitchId, roomId] = [$routeParams?.opportunityId, $routeParams?.pitchId, $routeParams?.roomId]
@@ -140,7 +140,7 @@ window.app
          .concat(newComponents.concat existingComponents.slice(index+1))
       $scope.components = allComponents
       fetchAndApplyOrgBranding()
-      $scope.$broadcast 'component:editme', newComponents[0], true
+      $rootScope.$broadcast 'component:editme', newComponents[0], true
 
    $scope.removeComponentAt = (index=-1) ->
       return if not $scope.components[index]

@@ -7,7 +7,7 @@ window.app
    link: ($scope, elem) ->
       setRatioFn = ->
          return if not $scope.aspectRatio
-         elem.css height: "#{$(window).outerHeight()}px"
+         elem.css height: "#{$(window).outerHeight()-135}px"
          width  = elem.outerWidth()
          height = elem.outerHeight()
          newRatio = (height / width).toFixed 3
@@ -25,6 +25,7 @@ window.app
       $(window).resize _.debounce(setRatioFn, 60)
       $scope.$watch 'aspectRatio', setRatioFn
       $scope.$watch 'inEditMode',  setRatioFn
+      $scope.$watch 'components',  setRatioFn, yes
       setRatioFn()
 ])
 
@@ -61,7 +62,7 @@ window.app
          baseClasses
       $scope.handleComponentClick = (component={}) ->
          if $scope.inEditMode
-            $rootScope.$broadcast 'component:editme', component
+            $rootScope.$broadcast 'component:editme', component, no
          else if component.linkHref
             # ⚑
             # TODO: Show a confirmation modal when we're here
@@ -70,8 +71,8 @@ window.app
    link: ($scope, elem) ->
       component = $scope.component
       return if not _.isObject(component)
-      # ⚑
-      # TODO: Write some code here!
+      elem.click ->
+         $scope.handleComponentClick component
 ])
 
 .directive('imageComponentBody', [->
@@ -91,17 +92,14 @@ window.app
       elem.css backgroundImage: newBackgroundImage
 ])
 
-.directive('componentEditModal', ['contentAssetsService',
-(contentAssetsService) ->
+.directive('componentEditModal', ['contentAssetsService', (contentAssetsService) ->
    scope: {}
    restrict: 'A'
    templateUrl: '/partials/components/component-edit-modal.html'
    controller: ['$scope', ($scope) ->
       $scope.doAndClose = (fn) ->
          result = fn() if fn
-         if result or not fn
-            $scope.modalEl.modal 'hide'
-            $('.modal-backdrop').removeClass 'in'
+         $scope.modalEl.modal 'hide' if result or not fn
          # ⚑
          # TODO: Replace with scope fn that actually sets the content
          $scope.choosingContent = false
@@ -141,19 +139,18 @@ window.app
          $scope.component.name = name
          $scope.component.content = content
          $scope.component.linkHref = linkHref
-         $scope.$apply() if $scope.$$phase isnt '$digest'
          true
    ]
    link: ($scope, elem) ->
-      modalEl = $scope.modalEl = elem.children('.modal').first()
-
-      $scope.$on 'component:editme', (ev, component, isNewComponent) ->
+      w1 = $scope.$on 'component:editme', (ev, component, isNewComponent) ->
+         modalEl = $scope.modalEl = elem.children('.modal').first()
          $scope.component = component
          $scope.choosingType = isNewComponent
          $scope.choosingContent = false
+         $scope.$apply()
          modalEl.modal()
-
-      $scope.$watch 'choosingContent', (newValue, oldValue) ->
+         false
+      w2 = $scope.$watch 'choosingContent', (newValue, oldValue) ->
          return if newValue is oldValue
          return $scope.availableContentItems = null if newValue isnt true
          Spinner = require('spinner')
@@ -166,6 +163,10 @@ window.app
             $scope.availableContentItems = items
             $scope.$apply() if $scope.$$phase isnt '$digest'
             undefined
+      # clean up when the scope is destroyed
+      $scope.$on 'destroy', ->
+         w1()
+         w2()
 ])
 
 .directive('tapToAddComponent', ['$timeout', ($timeout) ->
@@ -205,6 +206,7 @@ window.app
                when 'left-and-right-borders'
                   borderLeftColor:   _brandingData.barBgColour
                   borderRightColor:  _brandingData.barBgColour
+                  borderBottomColor: _brandingData.barBgColour
                when 'editor-viewer'
                   borderBottomColor: _brandingData.barBgColour
                when 'top-bar'
