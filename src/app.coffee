@@ -14,9 +14,12 @@ app = window.app = angular.module('AngularSFDemo', [
 SFConfig = window.SFConfig = SFGlobals.getSFConfig()
 SFConfig.maxListSize = 25
 
-app.constant('SFConfig', SFConfig)
+app.constant 'SFConfig', SFConfig
 
-.config(['$windowProvider', '$routeProvider', 'platformProvider', 'GoInstantRoomIdProvider',
+app.config ($compileProvider) ->
+   $compileProvider.urlSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel):/);
+
+app.config ['$windowProvider', '$routeProvider', 'platformProvider', 'GoInstantRoomIdProvider',
 ($window, $routeProvider, platformProvider, GoInstantRoomIdProvider) ->
    ### GoInstant platform init ###
 
@@ -33,20 +36,6 @@ app.constant('SFConfig', SFConfig)
 
    platformProvider.set 'https://goinstant.net/sdavyson/Skewer', rooms: rooms
 
-   ### Route resolver hashes ###
-
-   resolvePageBrandingForEditor =
-      pageBrandingData: ['$q', '$rootScope', 'AngularForce', 'pageBrandingService',
-      ($q, $rootScope, AngularForce, pageBrandingService) ->
-         deferred = $q.defer()
-         if AngularForce.authenticated()
-            pageBrandingService.fetchPageBrandingDescriptor (err, brandingData) ->
-               $rootScope.$apply ->
-                  deferred.resolve brandingData
-         else
-            deferred.resolve {}
-         deferred.promise
-      ]
 
    ### Route configuration ###
 
@@ -56,29 +45,31 @@ app.constant('SFConfig', SFConfig)
    .when('/',
       controller: 'HomeCtrl'
       templateUrl: 'partials/home.html'
+      resolve: 
+         app: ($rootScope, $q, AngularForce) ->
+            deferred = $q.defer()
+            AngularForce.setCordovaLoginCred ->
+               $rootScope.$apply ->
+                  deferred.resolve()
+            deferred.promise
    )
 
    # the editor
    .when('/skewer/:opportunityId/:roomId',
-      controller: 'SkewerCanvasCtrl'
+      controller: 'PitchEditorCtrl'
       templateUrl: 'partials/editor.html'
-      showBranding: true
-      resolve: resolvePageBrandingForEditor
    )
 
    # the editor
    .when('/skewer/:opportunityId/:pitchId/:roomId',
-      controller: 'SkewerEditorCtrl'
+      controller: 'PitchEditorCtrl'
       templateUrl: 'partials/editor.html'
-      showBranding: true
-      resolve: resolvePageBrandingForEditor
    )
 
    # share route
    .when('/skewer/share',
-      controller: 'SkewerShareCtrl'
+      controller: 'PitchShareCtrl'
       templateUrl: 'partials/share.html'
-      showBranding: true
       resolve:
          salesforcePitchId: ['$route', '$q', '$rootScope', 'shareService', 'pitchesService',
          ($route, $q, $rootScope, shareService, pitchesService) ->
@@ -100,6 +91,22 @@ app.constant('SFConfig', SFConfig)
       controller: 'OpportunityListCtrl'
       templateUrl: 'partials/contact/list.html'
    )
+   .when('/view/:contactId',
+      controller: 'ContactViewCtrl'
+      templateUrl: 'partials/contact/view.html'
+   )
+   .when('/viewOpp/:opportunityId',
+      controller: 'OpportunityViewCtrl'
+      templateUrl: 'partials/contact/view.html'
+   )
+   .when('/edit/:contactId',
+      controller: 'ContactDetailCtrl'
+      templateUrl: 'partials/contact/edit.html'
+   )
+   .when('/new',
+      controller: 'ContactDetailCtrl'
+      templateUrl: 'partials/contact/edit.html'
+   )
 
    # auth routes
    .when('/login',
@@ -116,10 +123,4 @@ app.constant('SFConfig', SFConfig)
    )
 
    .otherwise redirectTo: '/'
-])
-
-.run(['$rootScope', '$route',
-($rootScope, $route) ->
-    $rootScope.$on '$routeChangeSuccess', (event, current) ->
-      $rootScope.isBrandedRoute = $route.current?.$$route?.showBranding
-])
+]

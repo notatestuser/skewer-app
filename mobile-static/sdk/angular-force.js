@@ -39,6 +39,9 @@ angular.module('AngularForce', ['fsCordova']).
             return SFConfig.client ? true : false;
         };
 
+        
+
+
         this.login = function (callback) {
             if (SFConfig.client) { //already logged in
                 return callback && callback();

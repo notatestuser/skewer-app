@@ -10,6 +10,10 @@ window.app
 .controller('HomeCtrl', ($scope, AngularForce, $location, $route) ->
    isOnline = AngularForce.isOnline()
    isAuthenticated = AngularForce.authenticated()
+   
+   if AngularForce.inCordova
+      return $location.path("/contacts/")
+
 
    #Offline support (only for Cordova)
    #First check if we are online, then check if we are already authenticated (usually happens in Cordova),
@@ -20,6 +24,7 @@ window.app
       else #Cordova
          return $location.path("/contacts/")
 
+
    #If in visualforce, directly login
    if AngularForce.inVisualforce
       $location.path "/login"
@@ -27,7 +32,6 @@ window.app
       AngularForce.login ->
          $location.path "/contacts/"
          $scope.$apply() #Required coz sfdc uses jquery.ajax
-
    else
       $location.path "/login"
 )

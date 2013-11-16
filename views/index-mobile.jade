@@ -1,0 +1,82 @@
+!!! 5
+html
+   head
+      title Skewer App
+      meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no')
+
+      link(href='//fonts.googleapis.com/css?family=Oswald:400,700,300', rel='stylesheet')
+      link(href='css/bootstrap.min.css', rel='stylesheet')
+      link(href='css/bootstrap-responsive.min.css', rel='stylesheet')
+      link(href='css/bootstrap-theme.min.css', rel='stylesheet')
+      link(href='css/ios7-bootstrap.css', rel='stylesheet')
+      link(href='css/ui.css', rel='stylesheet')
+      link(href='css/font-awesome.min.css', rel='stylesheet')
+      link(href='css/app.css', rel='stylesheet')
+      style.
+         .logWindow {display:none; width:700px;}
+         .logWindow > p {padding:0px; margin:0px; word-wrap:break-word;}
+
+   body(
+         ng-app='AngularSFDemo',
+         data-applies-branding,
+         data-branding-type='page')
+
+      .navbar.navbar-inverse.navbar-fixed-top(
+            data-hides-when-branding-applied,
+            ng-controller='LoginCtrl')
+         .navbar-inner.top-level-navbar-inner: .container
+            //- a.brand(href='#')
+
+      .body-padder(data-hides-when-branding-applied)
+
+      .navbar.navbar-inverse(ng-controller='LoginCtrl')
+         .navbar-inner.branded-logo-bar-container(
+               data-applies-branding
+               data-branding-type='top-bar')
+            aside.container.branded-logo-bar
+               img.logo(
+                  data-applies-branding
+                  data-branding-type='top-bar-logo')
+               //- a.brand(href='#')
+                  | Skewer
+
+      div(ng-view)
+
+      script(src='js/vendor/jquery-2.0.0.min.js')
+      script(src='js/sdk/cordova-2.3.0.js')
+      script(src='js/sdk/forcetk.mobilesdk.js')
+      script(src='js/sdk/cordova.force.js')
+      script(src='https://cdn.goinstant.net/v1/platform.min.js')
+      //- script(src='js/vendor/build.js')
+      script(src='js/vendor/angular.min.js')
+      script(src='js/sdk/angular-force.js')
+      script(src='js/sdk/angular-cordova.js')   
+      script(src='js/vendor/dropdownToggle.js')
+      script(src='js/vendor/bootstrap-modal.js')
+      script(src='https://cdn.goinstant.net/integrations/goangular/latest/goangular.min.js')
+      script(src='js/init.js')
+      script(src='js/models.js')
+      script(src='js/services.js')
+      script(src='js/app.js')
+      script(src='js/directives.js')
+      script(src='js/controllers.js')
+         //- var onDeviceReady = function() {
+         //-    angular.bootstrap( document, ['AngularSFDemo']);
+         //- }
+         //- document.addEventListener('deviceready', onDeviceReady);
+         //- var app = {
+         //-    initialize: function() {
+         //-        this.bindEvents();
+         //-    },
+         //-    bindEvents: function() {
+         //-        document.addEventListener('deviceready', this.onDeviceReady, true);
+         //-    },
+            
+         //-    onDeviceReady: function() {
+         //-        angular.element(document).ready(function() {
+         //-            angular.bootstrap(document, ['AngularSFDemo']);
+         //-        });
+         //-    },
+         //- };
+         //- app.initialize();
+
