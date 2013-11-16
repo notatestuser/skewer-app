@@ -85,9 +85,9 @@ button {
 }
 
 .ng-view.with-branding-borders {
-   border-left:   .2rem solid #333;
-   border-right:  .2rem solid #333;
-   border-bottom: .2rem solid #333;
+   border-left:   .2rem solid transparent;
+   border-right:  .2rem solid transparent;
+   border-bottom: .2rem solid transparent;
 }
 
 /* *** */
@@ -162,7 +162,7 @@ button {
    text-align: center;
    min-height: 6rem;
    max-height: 6rem;
-   padding: .5rem;
+   padding:   .5rem;
 }
 
 .branded-logo-bar img.logo {
@@ -178,9 +178,9 @@ button {
 }
 
 h3.list-page-header {
-   text-indent: 1rem;
+   text-indent:   1rem;
    margin-bottom: 1.4rem;
-   font-size: 2.4rem;
+   font-size:     2.4rem;
 }
 
 .pitch-editor {
@@ -189,7 +189,7 @@ h3.list-page-header {
    height: auto;
    overflow-y: auto;
    box-sizing: border-box;
-   border-bottom: 2rem solid #333;
+   border-bottom: 2rem solid transparent;
 }
 
 .pitch-component {

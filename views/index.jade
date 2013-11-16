@@ -23,8 +23,8 @@ html
 
       .body-padder(data-hides-when-branding-applied)
 
-      section.navbar.navbar-inverse.branded-navbar(ng-controller='LoginCtrl')
-         .navbar-inner.branded-logo-bar-container(
+      section.navbar.branded-navbar(ng-controller='LoginCtrl')
+         .branded-logo-bar-container(
                ng-class='{"with-top-border": isBrandedRoute}'
                data-applies-branding
                data-branding-type='top-bar')
