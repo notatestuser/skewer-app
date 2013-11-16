@@ -33,6 +33,20 @@ app.constant('SFConfig', SFConfig)
 
    platformProvider.set 'https://goinstant.net/sdavyson/Skewer', rooms: rooms
 
+   ### Route resolver hashes ###
+
+   resolvePageBrandingForEditor =
+      pageBrandingData: ['$q', '$rootScope', 'AngularForce', 'pageBrandingService',
+      ($q, $rootScope, AngularForce, pageBrandingService) ->
+         deferred = $q.defer()
+         if AngularForce.authenticated()
+            pageBrandingService.fetchPageBrandingDescriptor (err, brandingData) ->
+               $rootScope.$apply ->
+                  deferred.resolve brandingData
+         else
+            deferred.resolve {}
+         deferred.promise
+      ]
 
    ### Route configuration ###
 
@@ -49,6 +63,7 @@ app.constant('SFConfig', SFConfig)
       controller: 'PitchEditorCtrl'
       templateUrl: 'partials/editor.html'
       showBranding: true
+      resolve: resolvePageBrandingForEditor
    )
 
    # the editor
@@ -56,6 +71,7 @@ app.constant('SFConfig', SFConfig)
       controller: 'PitchEditorCtrl'
       templateUrl: 'partials/editor.html'
       showBranding: true
+      resolve: resolvePageBrandingForEditor
    )
 
    # share route

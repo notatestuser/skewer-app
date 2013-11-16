@@ -97,7 +97,7 @@ window.app
       "&via=SkewerApp"
 )
 
-.controller('PitchEditorCtrl', ($routeParams, $location, $timeout, $rootScope, $scope, AngularForce, GoAngular, pageBrandingService, pitchesService, shareService) ->
+.controller('PitchEditorCtrl', ($routeParams, $location, $timeout, $rootScope, $scope, AngularForce, GoAngular, pitchesService, shareService, pageBrandingData) ->
    return $location.path('/contacts') if not $routeParams?.opportunityId or not $routeParams?.roomId
 
    [opportunityId, pitchId, roomId] = [$routeParams?.opportunityId, $routeParams?.pitchId, $routeParams?.roomId]
@@ -151,7 +151,7 @@ window.app
       allComponents = existingComponents.slice(0, index+1)
          .concat(newComponents.concat existingComponents.slice(index+1))
       $scope.components = allComponents
-      fetchAndApplyOrgBranding()
+      applyOrgBranding()
       $rootScope.$broadcast 'component:editme', newComponents[0], true
 
    $scope.removeComponentAt = (index=-1) ->
@@ -189,12 +189,9 @@ window.app
             alert "Couldn't sync with GoInstant :("
 
    # fetch and configure page branding colours & logo in edit mode
-   fetchAndApplyOrgBranding = ->
-      pageBrandingService.fetchPageBrandingDescriptor (err, _brandingData) ->
-         return if err
-         $scope.$apply ->
-            # this is caught by the appliesBranding directive
-            $scope.branding = JSON.stringify _brandingData
+   applyOrgBranding = ->
+      return if not pageBrandingData
+      $scope.branding = JSON.stringify pageBrandingData
 
    # when branding is updated on the scope, by GI or otherwise, we'll have to apply it
    $scope.$watch 'branding', (newValue) ->
@@ -208,7 +205,7 @@ window.app
 
    if $scope.inEditMode
       # we need to apply corpo branding here
-      fetchAndApplyOrgBranding()
+      applyOrgBranding()
    else
       # when "edit mode" is off on load we should sync with GoInstant but not redirect
       inEditModeWatchCallbackFn(false)
