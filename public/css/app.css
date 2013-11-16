@@ -94,7 +94,7 @@ button {
 .ng-view.with-branding-borders {
    border-left:   .2rem solid transparent;
    border-right:  .2rem solid transparent;
-   border-bottom: .2rem solid transparent;
+   border-bottom: .6rem solid transparent;
 }
 
 /* *** */
@@ -196,7 +196,7 @@ h3.list-page-header {
    height: auto;
    overflow-y: auto;
    box-sizing: border-box;
-   border-bottom: 2rem solid transparent;
+   border-bottom: 2.8rem solid transparent;
 }
 
 .pitch-component {
@@ -461,9 +461,27 @@ ul.component-adjustment-buttons.twosie {
    text-shadow: none;
 }
 
+.author-contact-details-footer-label {
+   position: relative;
+   top: -2.3rem;
+   color: white;
+   font-size: .9rem;
+   font-weight: 500;
+   text-align: center;
+   margin-bottom: -18px;
+}
+
+.author-contact-details-footer-label .contact-field:before {
+   content: ", ";
+}
+
+.author-contact-details-footer-label .contact-field-0:before {
+   content: "";
+}
+
 .share-url-page-heading-text {
    color: #333;
-   font-size: 2.3rem;
+   font-size: 2.4rem;
 }
 
 .twitter-share-button {
@@ -571,3 +589,4 @@ ul.component-adjustment-buttons.twosie {
    -moz-transform: rotateX(-180deg);
    transform: rotateX(-180deg);
 }
+
