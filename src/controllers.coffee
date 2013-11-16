@@ -160,7 +160,7 @@ window.app
       compactComponents()
 
    $scope.shouldShowSaveButton = ->
-      $scope.saveInProgress or $scope.inEditMode
+      $scope.saveInProgress or ($scope.inEditMode and $scope.components?.length)
 
    $scope.save = ->
       $scope.saveInProgress = yes
