@@ -84,14 +84,6 @@ window.app
          elem.css backgroundImage: "url(#{newValue})"
 ])
 
-.directive('placeholderComponentBody', [->
-   restrict: 'AC'
-   link: ($scope, elem) ->
-      newBackgroundImage = "url(http://lorempixel.com/1024/768/)"
-      return if elem.css('background-image') is newBackgroundImage
-      elem.css backgroundImage: newBackgroundImage
-])
-
 .directive('componentEditModal', ['contentAssetsService', (contentAssetsService) ->
    scope: {}
    restrict: 'A'

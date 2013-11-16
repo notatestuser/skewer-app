@@ -30,13 +30,6 @@ section.pitch-editor(
             data-type='{{component.type}}',
             class='{{getComponentClasses(component)}}')
 
-      div.component-body.placeholder-component-body(
-            ng-switch-when='placeholder',
-            data-index='{{$index}}',
-            data-is-first='{{$first}}',
-            data-type='{{component.type}}',
-            class='{{getComponentClasses(component)}}')
-
       div.component-body.loading-component-body(
             ng-switch-when='loading'
             class='{{getComponentClasses(component)}}')

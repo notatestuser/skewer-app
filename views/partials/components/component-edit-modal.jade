@@ -71,16 +71,6 @@ section.modal.modal-adjust-component.hide.fade(
             label Select a content type
             ul.component-adjustment-buttons.btn-group.btn-group-vertical
                li.btn.btn-link.btn-large.btn-block-level(
-                     ng-click='doAndClose(setType("placeholder"))'
-                     ng-class='{"active-type": component.type == "placeholder" || !component.type}')
-                  | Placeholder
-
-               li.btn.btn-link.btn-large.btn-block-level(
-                     ng-click='doAndShowEditContentSlide(setType("document"))'
-                     ng-class='{"active-type": component.type == "document"}')
-                  | Document content
-
-               li.btn.btn-link.btn-large.btn-block-level(
                      ng-click='doAndShowEditContentSlide(setType("text"))'
                      ng-class='{"active-type": component.type == "text"}')
                   | Text content
@@ -89,6 +79,11 @@ section.modal.modal-adjust-component.hide.fade(
                      ng-click='doAndShowEditContentSlide(setType("image"))'
                      ng-class='{"active-type": component.type == "image"}')
                   | Image content
+
+               li.btn.btn-link.btn-large.btn-block-level(
+                     ng-click='doAndShowEditContentSlide(setType("document"))'
+                     ng-class='{"active-type": component.type == "document"}')
+                  | Document link
 
                li.btn.btn-link.btn-large.btn-block-level(
                      ng-click='doAndShowEditContentSlide(setType("carousel"))'
