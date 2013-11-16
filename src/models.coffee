@@ -71,3 +71,17 @@ angular.module('ForceModels', [])
       limit: 1
    AngularForceObjectFactory(objDesc)
 ])
+
+.factory('User', ['AngularForceObjectFactory',
+   (AngularForceObjectFactory) ->
+      objDesc = 
+         type: 'User',
+         fields: [
+            'Id',
+            'Email',
+            'Phone']
+         where: 'User_Is_Me__c = 1'
+         orderBy: ''
+         limit: 1
+      AngularForceObjectFactory(objDesc)
+   ])
