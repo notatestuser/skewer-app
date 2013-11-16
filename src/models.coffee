@@ -4,7 +4,14 @@ angular.module('ForceModels', [])
 (AngularForceObjectFactory) ->
    objDesc =
       type: 'Contact'
-      fields: ['FirstName', 'LastName', 'Title', 'Phone', 'Email', 'Id', 'Account.Name']
+      fields: [
+         'FirstName',
+         'LastName',
+         'Title',
+         'Phone',
+         'Email',
+         'Id',
+         'Account.Name']
       where: ''
       orderBy: 'LastName'
       limit: 20
@@ -15,8 +22,15 @@ angular.module('ForceModels', [])
 (AngularForceObjectFactory, SFConfig) -> ->
    objDesc =
       type: 'Opportunity'
-      fields: ['Id', 'Name', 'OwnerId', 'StageName','CreatedDate','Owner.Name','Probability']
-      where: 'skewerapp__Show_In_Skewer__c = 1'
+      fields: [
+         'Id',
+         'Name',
+         'OwnerId',
+         'StageName',
+         'CreatedDate',
+         'Owner.Name',
+         'Probability']
+      where: 'getskewer__Show_In_Skewer__c = 1'
       orderBy: 'Probability DESC'
       limit: 20
    AngularForceObjectFactory(objDesc)
@@ -25,14 +39,14 @@ angular.module('ForceModels', [])
 .factory('Pitch', ['AngularForceObjectFactory',
 (AngularForceObjectFactory) ->
    objDesc =
-      type: 'skewerapp__Pitch__c'
+      type: 'getskewer__Skewer__c'
       fields: [
          'Id',
-         'skewerapp__Pitch_Link__c', # what is this?
-         'skewerapp__roomId__c',
-         'skewerapp__opportunityId__c',
-         'skewerapp__fileList__c',
-         'skewerapp__userId__c']
+         'getskewer__Skewer_Link__c', # what is this?
+         'getskewer__roomId__c',
+         'getskewer__opportunityId__c',
+         'getskewer__fileList__c',
+         'getskewer__userId__c']
       where: ''
       orderBy: 'Name'
       limit: 10
@@ -43,14 +57,14 @@ angular.module('ForceModels', [])
 (AngularForceObjectFactory) ->
    (type='image') ->
       objDesc =
-         type: 'skewerapp__Pitch_Asset__c'
+         type: 'getskewer__Skewer_Asset__c'
          fields: [
             'Id',
             'Name',
-            'skewerapp__Source__c',
-            'skewerapp__Tracked_Link__c',
-            'skewerapp__Text__c']
-         where: "skewerapp__Type__c = '#{type}' and skewerapp__Show_In_Skewer__c = 1"
+            'getskewer__Source__c',
+            'getskewer__Tracked_Link__c',
+            'getskewer__Text__c']
+         where: "getskewer__Type__c = '#{type}' and getskewer__Show_In_Skewer__c = 1"
          orderBy: 'Name'
          limit: 15
       AngularForceObjectFactory(objDesc)
@@ -59,13 +73,13 @@ angular.module('ForceModels', [])
 .factory('Setting', ['AngularForceObjectFactory',
 (AngularForceObjectFactory) ->
    objDesc =
-      type: 'skewerapp__Pitch_Settings__c'
+      type: 'getskewer__Skewer_Settings__c'
       fields: [
          'Id',
-         'skewerapp__Logo_Bar_Background_Colour__c', # what is this?
-         'skewerapp__Page_Background_Colour__c',
-         'skewerapp__Text_Colour__c',
-         'skewerapp__Logo_Link__c']
+         'getskewer__Logo_Bar_Background_Colour__c', # what is this?
+         'getskewer__Page_Background_Colour__c',
+         'getskewer__Text_Colour__c',
+         'getskewer__Logo_Link__c']
       where: ''
       orderBy: 'Name'
       limit: 1
@@ -74,7 +88,7 @@ angular.module('ForceModels', [])
 
 .factory('User', ['AngularForceObjectFactory',
    (AngularForceObjectFactory) ->
-      objDesc = 
+      objDesc =
          type: 'User',
          fields: [
             'Id',

@@ -67,7 +67,28 @@ window.app
    $location.path "/contacts"
 )
 
-.controller('PitchShareCtrl', ($location, $scope, shareService, urlShortenerService, pitchesService, salesforcePitchId) ->
+.controller('OpportunityListCtrl', ($scope, AngularForce, $location, GoInstantRoomId, Opportunity, SFConfig) ->
+   return $location.path("/home")  unless AngularForce.authenticated()
+   $scope.giRoomId = GoInstantRoomId.getRoomId()
+   $scope.searchTerm = ""
+   $scope.working = false
+   Opportunity().query ((data) ->
+      $scope.opportunities = data.records
+      $scope.$apply() #Required coz sfdc uses jquery.ajax
+   ), (data) ->
+      alert "Query Error"
+
+   $scope.isWorking = ->
+      $scope.working
+
+   $scope.doSearch = ->
+      Opportunity().search $scope.searchTerm, ((data) ->
+         $scope.opportunities = data
+         $scope.$apply() #Required coz sfdc uses jquery.ajax
+      ), (data) ->
+)
+
+.controller('SkewerShareCtrl', ($location, $scope, shareService, urlShortenerService, pitchesService, salesforcePitchId) ->
    [roomId, fileIdList, opportunityId] = [
       shareService.get('roomId'),
       shareService.get('fileIdList'),
@@ -97,7 +118,7 @@ window.app
       "&via=SkewerApp"
 )
 
-.controller('PitchEditorCtrl', ($routeParams, $location, $timeout, $rootScope, $scope, AngularForce, GoAngular, pitchesService, shareService, pageBrandingData) ->
+.controller('SkewerEditorCtrl', ($routeParams, $location, $timeout, $rootScope, $scope, AngularForce, GoAngular, pitchesService, shareService, pageBrandingData) ->
    return $location.path('/contacts') if not $routeParams?.opportunityId or not $routeParams?.roomId
 
    [opportunityId, pitchId, roomId] = [$routeParams?.opportunityId, $routeParams?.pitchId, $routeParams?.roomId]
@@ -173,7 +194,7 @@ window.app
       # GoAngular initialisation when not in edit mode
       new GoAngular(
             $scope,
-            'PitchEditorCtrl',
+            'SkewerEditorCtrl',
             include: ['inEditMode', 'aspectRatio', 'components', 'branding']
             room: $routeParams.roomId)
          .initialize()
@@ -211,26 +232,4 @@ window.app
       inEditModeWatchCallbackFn(false)
       # track a page view if not authed
       pitchesService.trackPageViewInSalesforce roomId, opportunityId, pitchId
-)
-
-.controller('OpportunityListCtrl', ($scope, AngularForce, $location, GoInstantRoomId, Opportunity, SFConfig) ->
-   return $location.path("/home")  unless AngularForce.authenticated()
-   $scope.giRoomId = GoInstantRoomId.getRoomId()
-   $scope.searchTerm = ""
-   $scope.working = false
-   Opportunity().query ((data) ->
-      $scope.opportunities = data.records
-      $scope.$apply() #Required coz sfdc uses jquery.ajax
-   ), (data) ->
-      alert "Query Error"
-
-   $scope.isWorking = ->
-      $scope.working
-
-   $scope.doSearch = ->
-      Opportunity().search $scope.searchTerm, ((data) ->
-         $scope.opportunities = data
-         $scope.$apply() #Required coz sfdc uses jquery.ajax
-      ), (data) ->
-
 )

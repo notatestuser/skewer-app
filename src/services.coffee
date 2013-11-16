@@ -1,8 +1,8 @@
 # Services
 
 # ... but first some constants
-APEX_REST_PITCH_CREATE_URL = 'https://pitch-developer-edition.na15.force.com/services/apexrest/skewerapp/SkewerCreate'
-APEX_REST_PITCH_UPDATE_URL = 'https://pitch-developer-edition.na15.force.com/services/apexrest/skewerapp/SkewerUpdate'
+APEX_REST_PITCH_CREATE_URL = 'https://skewer-developer-edition.eu2.force.com/services/apexrest/getskewer/SkewerCreate'
+APEX_REST_PITCH_UPDATE_URL = 'https://skewer-developer-edition.eu2.force.com/services/apexrest/getskewer/SkewerUpdate'
 #####
 
 angular.module('skewer.services', [])
@@ -26,8 +26,8 @@ angular.module('skewer.services', [])
             prev.push
                id:       current.Id
                name:     current.Name
-               linkHref: current.skewerapp__Tracked_Link__c
-               content:  current.skewerapp__Source__c or current.skewerapp__Text__c
+               linkHref: current.getskewer__Tracked_Link__c
+               content:  current.getskewer__Source__c or current.getskewer__Text__c
             prev
          , []
          callback null, obj
@@ -42,10 +42,10 @@ angular.module('skewer.services', [])
          setting = data.records?[0]
          return callback('no settings available') if not setting
          obj =
-            pageBgColour: setting.skewerapp__Page_Background_Colour__c
-            barBgColour:  setting.skewerapp__Logo_Bar_Background_Colour__c
-            textColour:   setting.skewerapp__Text_Colour__c
-            logoSrcUrl:   setting.skewerapp__Logo_Link__c
+            pageBgColour: setting.getskewer__Page_Background_Colour__c
+            barBgColour:  setting.getskewer__Logo_Bar_Background_Colour__c
+            textColour:   setting.getskewer__Text_Colour__c
+            logoSrcUrl:   setting.getskewer__Logo_Link__c
          callback? null, obj
       ), (err) ->
          alert "Query Error"
@@ -64,7 +64,7 @@ angular.module('skewer.services', [])
       paramMap =
          'SalesforceProxy-Endpoint': APEX_REST_PITCH_CREATE_URL
       SFConfig.client.apexrest(
-         '/PitchCreate',
+         '/SkewerCreate',
          callbackFn,
          null,
          'PUT',

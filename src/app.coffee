@@ -60,7 +60,7 @@ app.constant('SFConfig', SFConfig)
 
    # the editor
    .when('/skewer/:opportunityId/:roomId',
-      controller: 'PitchEditorCtrl'
+      controller: 'SkewerCanvasCtrl'
       templateUrl: 'partials/editor.html'
       showBranding: true
       resolve: resolvePageBrandingForEditor
@@ -68,7 +68,7 @@ app.constant('SFConfig', SFConfig)
 
    # the editor
    .when('/skewer/:opportunityId/:pitchId/:roomId',
-      controller: 'PitchEditorCtrl'
+      controller: 'SkewerEditorCtrl'
       templateUrl: 'partials/editor.html'
       showBranding: true
       resolve: resolvePageBrandingForEditor
@@ -76,7 +76,7 @@ app.constant('SFConfig', SFConfig)
 
    # share route
    .when('/skewer/share',
-      controller: 'PitchShareCtrl'
+      controller: 'SkewerShareCtrl'
       templateUrl: 'partials/share.html'
       showBranding: true
       resolve:
