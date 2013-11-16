@@ -99,7 +99,9 @@ window.app
    controller: ['$scope', ($scope) ->
       $scope.doAndClose = (fn) ->
          result = fn() if fn
-         $scope.modalEl.modal 'hide' if result or not fn
+         if result or not fn
+            $scope.modalEl.modal 'hide'
+            $('.modal-backdrop').removeClass 'in'
          # ⚑
          # TODO: Replace with scope fn that actually sets the content
          $scope.choosingContent = false
@@ -193,23 +195,26 @@ window.app
    link: ($scope, elem, attrs) ->
       $rootScope.$on 'branding:apply', (ev, _brandingData={}) ->
          return if not _.isObject(_brandingData) or _.isEmpty(_brandingData)
-         _styles = switch attrs?.brandingType or 'page'
-            when 'page'
-               color: _brandingData.textColour
-               backgroundColor:   _brandingData.pageBgColour
-            when 'top-bar'
-               display: 'block'
-               backgroundColor:   _brandingData.barBgColour
-            when 'editor-bottom-buffer'
-               borderBottomColor: _brandingData.barBgColour
-            when 'left-right-borders'
-               borderLeftColor:    _brandingData.barBgColour
-               borderRightColor:   _brandingData.barBgColour
-            else {}
-         _attrs = switch attrs?.brandingType or 'page'
-            when 'top-bar-logo'
-               src: _brandingData.logoSrcUrl
-            else {}
+         [_styles, _attrs] = [{}, {}]
+         (attrs?.brandingType or 'page')
+         .split(' ').forEach (_brandingType) ->
+            _.extend _styles, switch _brandingType
+               when 'page', 'main-view-container'
+                  color:             _brandingData.textColour
+                  backgroundColor:   _brandingData.pageBgColour
+               when 'left-and-right-borders'
+                  borderLeftColor:   _brandingData.barBgColour
+                  borderRightColor:  _brandingData.barBgColour
+               when 'editor-viewer'
+                  borderBottomColor: _brandingData.barBgColour
+               when 'top-bar'
+                  display: 'block'
+                  backgroundColor:   _brandingData.barBgColour
+               else {}
+            _.extend _attrs, switch _brandingType
+               when 'top-bar-logo'
+                  src: _brandingData.logoSrcUrl
+               else {}
          elem.attr _attrs
          elem.css  _styles
 ])

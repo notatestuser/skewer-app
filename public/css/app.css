@@ -19,14 +19,17 @@
 }
 
 @media (min-width: 768px) {
+   body {
+      padding: 60px 0;
+   }
    .pitch-editor {
-      padding: 0 25px;
+      padding: 0 12px;
    }
 }
 
 @media (min-width: 825px) {
    .document-component {
-      background-size: 82% !important;
+      background-size: 88% !important;
    }
 }
 
@@ -39,7 +42,7 @@
       padding: 1rem;
    }
    .pitch-component .control-buttons .btn-link {
-      left: -0.5rem;
+      left: -0.3rem;
    }
 }
 
@@ -50,8 +53,11 @@ body, input, button {
    -moz-osx-font-smoothing: grayscale;
 }
 
-body.with-fixed-navbar {
-   padding-top: 60px;
+body {
+   background-color: #eee;
+   transition: padding 0.3s ease;
+   -moz-transition: padding 0.3s ease;
+   -webkit-transition: padding 0.3s ease;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -67,8 +73,11 @@ button {
 
 .ng-view {
    padding-top: 1rem;
-   border-left: .2rem solid red;
-   border-right: .2rem solid red;
+   max-width: 768px;
+   margin: auto auto;
+   box-sizing: border-box;
+   border-left:  .2rem solid #333;
+   border-right: .2rem solid #333;
 }
 
 /* *** */
@@ -85,6 +94,11 @@ button {
 
 .navbar-inner.top-level-navbar-inner {
    box-shadow: 1px -0.4rem 2rem #333
+}
+
+.branded-navbar {
+   max-width: 768px;
+   margin: auto auto;
 }
 
 .modal {
