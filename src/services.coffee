@@ -46,20 +46,21 @@ angular.module('skewer.services', [])
             barBgColour:  setting.skewerapp__Logo_Bar_Background_Colour__c
             textColour:   setting.skewerapp__Text_Colour__c
             logoSrcUrl:   setting.skewerapp__Logo_Link__c
-         callback null, obj
-      ), (data) ->
+         callback? null, obj
+      ), (err) ->
          alert "Query Error"
+         callback? err
 ])
 
 .factory('pitchesService', ['$http', 'SFConfig', ($http, SFConfig) ->
    convertComponentsToFileIdList: (components=[]) ->
       _.compact(_.pluck components, 'id').toString()
-   createPitchInSalesforce: (roomId, opportunityId, fileIdList='', callbackFn) ->
+   createPitchInSalesforce: (roomId, opportunityId, fileIdList, callbackFn) ->
       data = p:
          roomId: roomId
-         fileList: fileIdList
          opportunityId: opportunityId
          userId: SFConfig.client.userId
+      data.p.fileList = fileIdList if _.isString(fileIdList)
       paramMap =
          'SalesforceProxy-Endpoint': APEX_REST_PITCH_CREATE_URL
       SFConfig.client.apexrest(
