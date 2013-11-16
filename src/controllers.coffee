@@ -128,7 +128,7 @@ window.app
          rowScale:  2
          colDivide: 2
          type: 'text'
-         content: 'Creating your Skewer is easy. Just tap on the placeholder to the right of this message to place your first chunk.'
+         content: 'Creating a Skewer is easy. Just tap on the placeholder to the right of this message to place your first chunk.'
       ]
 
    compactComponents = ->
