@@ -1,23 +1,5 @@
 angular.module('ForceModels', [])
 
-.factory('Contact', ['AngularForceObjectFactory',
-(AngularForceObjectFactory) ->
-   objDesc =
-      type: 'Contact'
-      fields: [
-         'FirstName',
-         'LastName',
-         'Title',
-         'Phone',
-         'Email',
-         'Id',
-         'Account.Name']
-      where: ''
-      orderBy: 'LastName'
-      limit: 20
-   AngularForceObjectFactory(objDesc)
-])
-
 .factory('Opportunity', ['AngularForceObjectFactory', 'SFConfig',
 (AngularForceObjectFactory, SFConfig) -> ->
    objDesc =
@@ -29,7 +11,8 @@ angular.module('ForceModels', [])
          'StageName',
          'CreatedDate',
          'Owner.Name',
-         'Probability']
+         'Probability'
+         'getskewer__Skewer_Site_URL__c']
       where: 'getskewer__Show_In_Skewer__c = 1'
       orderBy: 'Probability DESC'
       limit: 20
@@ -43,8 +26,8 @@ angular.module('ForceModels', [])
       fields: [
          'Id',
          'getskewer__Skewer_Link__c', # what is this?
-         'getskewer__roomId__c',
          'getskewer__opportunityId__c',
+         'getskewer__roomId__c',
          'getskewer__fileList__c',
          'getskewer__userId__c']
       where: ''
@@ -99,3 +82,4 @@ angular.module('ForceModels', [])
          limit: 1
       AngularForceObjectFactory(objDesc)
    ])
+

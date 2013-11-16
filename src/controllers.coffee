@@ -92,37 +92,7 @@ window.app
       ), (data) ->
 )
 
-.controller('SkewerShareCtrl', ($location, $scope, shareService, urlShortenerService, pitchesService, salesforcePitchId) ->
-   [roomId, fileIdList, opportunityId] = [
-      shareService.get('roomId'),
-      shareService.get('fileIdList'),
-      shareService.get('opportunityId')
-   ]
-
-   urlShortenerService.generateShortUrlToSkewer(roomId, opportunityId, salesforcePitchId)
-   .then (url) ->
-      _shareUrl = $scope.shareUrl = url?.data?.url
-      # update the URL in salesforce (this can & will happen in the background)
-      pitchesService.updatePitchShortUrlInSalesforce salesforcePitchId, _shareUrl
-
-   $scope.getMailtoLink = ->
-      return '' if not shareUrl = $scope.shareUrl
-      "mailto:"+
-      "&X-Sent-Via=Skewer"+
-      "?subject="+encodeURIComponent('Following up on our meeting')+
-      "&body=#{encodeURIComponent('Please check this information I have put together for you. '+shareUrl)}"
-
-   $scope.getTwitterTweetButtonLink = ->
-      return '' if not shareUrl = $scope.shareUrl
-      "https://twitter.com/intent/tweet"+
-      "?original_referer=https%3A%2F%2Fapp.getskewer.com%2F"+
-      "&text="+encodeURIComponent("Here's some follow-up information that I think you'll find useful")+
-      "&url=#{encodeURIComponent(shareUrl)}"+
-      "&tw_p=tweetbutton"+
-      "&via=SkewerApp"
-)
-
-.controller('SkewerEditorCtrl', ($routeParams, $location, $timeout, $rootScope, $scope, AngularForce, GoAngular, pitchesService, shareService, pageBrandingData) ->
+.controller('SkewerCanvasCtrl', ($routeParams, $location, $timeout, $rootScope, $scope, AngularForce, GoAngular, pitchesService, shareService, pageBrandingData, salesforceOrgSiteHost) ->
    return $location.path('/contacts') if not $routeParams?.opportunityId or not $routeParams?.roomId
 
    [opportunityId, pitchId, roomId] = [$routeParams?.opportunityId, $routeParams?.pitchId, $routeParams?.roomId]
@@ -235,5 +205,35 @@ window.app
       # when "edit mode" is off on load we should sync with GoInstant but not redirect
       inEditModeWatchCallbackFn(false)
       # track a page view if not authed
-      pitchesService.trackPageViewInSalesforce roomId, opportunityId, pitchId
+      pitchesService.trackPageViewInSalesforce salesforceOrgSiteHost, roomId, opportunityId, pitchId
+)
+
+.controller('SkewerShareCtrl', ($location, $scope, shareService, urlShortenerService, pitchesService, salesforcePitchId) ->
+   [roomId, fileIdList, opportunityId] = [
+      shareService.get('roomId'),
+      shareService.get('fileIdList'),
+      shareService.get('opportunityId')
+   ]
+
+   urlShortenerService.generateShortUrlToSkewer(roomId, opportunityId, salesforcePitchId)
+   .then (url) ->
+      _shareUrl = $scope.shareUrl = url?.data?.url
+      # update the URL in salesforce (this can & will happen in the background)
+      pitchesService.updatePitchShortUrlInSalesforce $scope.salesforceOrgSiteHost, salesforcePitchId, _shareUrl
+
+   $scope.getMailtoLink = ->
+      return '' if not shareUrl = $scope.shareUrl
+      "mailto:"+
+      "?X-Sent-Via=Skewer"+
+      "&subject="+encodeURIComponent('Following up on our meeting')+
+      "&body=#{encodeURIComponent('Please check this information I have put together for you. '+shareUrl)}"
+
+   $scope.getTwitterTweetButtonLink = ->
+      return '' if not shareUrl = $scope.shareUrl
+      "https://twitter.com/intent/tweet"+
+      "?original_referer=https%3A%2F%2Fapp.getskewer.com%2F"+
+      "&text="+encodeURIComponent("Here's some follow-up information that I think you'll find useful")+
+      "&url=#{encodeURIComponent(shareUrl)}"+
+      "&tw_p=tweetbutton"+
+      "&via=SkewerApp"
 )
