@@ -197,8 +197,8 @@ window.app
       $rootScope.$on 'branding:apply', (ev, _brandingData={}) ->
          return if not _.isObject(_brandingData) or _.isEmpty(_brandingData)
          [_styles, _attrs] = [{}, {}]
-         types = (attrs?.brandingType or 'page')
-         .split(' ').forEach (_brandingType) ->
+         types = (attrs?.brandingType or 'page').split(' ')
+         types.forEach (_brandingType) ->
             _.extend _styles, switch _brandingType
                when 'page', 'main-view-container'
                   color:             _brandingData.textColour
@@ -228,6 +228,7 @@ window.app
 ])
 
 .directive('loadingSpinner', [ ->
+   restrict: 'AC'
    link: ($scope, elem, attrs) ->
       Spinner = require('spinner')
       spinner = new Spinner
