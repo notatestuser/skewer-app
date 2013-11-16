@@ -29,11 +29,14 @@
 
 @media (min-width: 825px) {
    .document-component {
-      background-size: 88% !important;
+      background-size: 88%;
    }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
+   html, body {
+      overflow-y: hidden;
+   }
    .responsive-item-list-table {
       font-size: 1.5rem;
    }
@@ -72,12 +75,13 @@ button {
 /* *** */
 
 .ng-view {
-   padding-top: 1rem;
+   padding-top: .7rem;
    max-width: 768px;
    margin: auto auto;
    box-sizing: border-box;
-   border-left:  .2rem solid #333;
-   border-right: .2rem solid #333;
+   border-left:   .2rem solid #333;
+   border-right:  .2rem solid #333;
+   border-bottom: .2rem solid #333;
 }
 
 /* *** */
@@ -90,6 +94,9 @@ button {
    min-height: 55px;
    margin: 3px;
    padding: 0 !important;
+   -webkit-border-radius: 2px;
+   -moz-border-radius: 2px;
+   border-radius: 2px;
 }
 
 .navbar-inner.top-level-navbar-inner {
@@ -166,10 +173,12 @@ h3.list-page-header {
 }
 
 .pitch-editor {
+   margin: 0;
    width: 100%;
-   height: 100vh;
+   height: auto;
+   overflow-y: auto;
    box-sizing: border-box;
-   border-bottom: 5rem solid #333;
+   border-bottom: 2rem solid #333;
 }
 
 .pitch-component {
@@ -222,6 +231,14 @@ h3.list-page-header {
    height: 88%;
 }
 
+.pitch-component.row-scale-4 .component-body,
+.pitch-component.row-scale-5 .component-body,
+.pitch-component.row-scale-6 .component-body,
+.pitch-component.row-scale-7 .component-body,
+.pitch-component.row-scale-8 .component-body {
+   background-size: cover !important;
+}
+
 .pitch-component .control-buttons {
    position: absolute;
    left: 8px;
@@ -265,10 +282,6 @@ h3.list-page-header {
    background-size: cover;
    height: 100%;
    box-sizing: border-box;
-}
-
-.image-component-body {
-   /* TODO */
 }
 
 .text-component-body {
