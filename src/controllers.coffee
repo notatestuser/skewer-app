@@ -5,6 +5,8 @@ create an 'Contact' object. And then set its type, fields, where-clause etc.
 PS: This module is injected into ListCtrl, EditCtrl etc. controllers to further consume the object.
 ###
 
+GOINSTANT_SCOPE_SYNC_INCLUDE = ['inEditMode', 'aspectRatio', 'components', 'branding', /^contact.+/]
+
 window.app
 
 .controller('HomeCtrl', ($scope, AngularForce, $location, $route) ->
@@ -67,49 +69,24 @@ window.app
    $location.path "/contacts"
 )
 
-.controller('PitchShareCtrl', ($location, $scope, shareService, urlShortenerService, pitchesService, salesforcePitchId) ->
-   [roomId, fileIdList, opportunityId] = [
-      shareService.get('roomId'),
-      shareService.get('fileIdList'),
-      shareService.get('opportunityId')
-   ]
-
-   urlShortenerService.generateShortUrlToSkewer(roomId, opportunityId, salesforcePitchId)
-   .then (url) ->
-      _shareUrl = $scope.shareUrl = url?.data?.url
-      # update the URL in salesforce (this can & will happen in the background)
-      pitchesService.updatePitchShortUrlInSalesforce salesforcePitchId, _shareUrl
-
-   $scope.getMailtoLink = ->
-      return '' if not shareUrl = $scope.shareUrl
-      "mailto:"+
-      "&X-Sent-Via=Skewer"+
-      "?subject="+encodeURIComponent('Following up on our meeting')+
-      "&body=#{encodeURIComponent('Please check this information I have put together for you. '+shareUrl)}"
-
-   $scope.getTwitterTweetButtonLink = ->
-      return '' if not shareUrl = $scope.shareUrl
-      "https://twitter.com/intent/tweet"+
-      "?original_referer=https%3A%2F%2Fapp.getskewer.com%2F"+
-      "&text="+encodeURIComponent("Here's some follow-up information that I think you'll find useful")+
-      "&url=#{encodeURIComponent(shareUrl)}"+
-      "&tw_p=tweetbutton"+
-      "&via=SkewerApp"
-)
-
-.controller('PitchEditorCtrl', ($routeParams, $location, $timeout, $rootScope, $scope, AngularForce, GoAngular, pitchesService, shareService, pageBrandingData) ->
+.controller('PitchEditorCtrl', ($routeParams, $location, $timeout, $rootScope, $scope, AngularForce, GoAngular, pitchesService, shareService, pageBrandingData, userContactDetails) ->
    return $location.path('/contacts') if not $routeParams?.opportunityId or not $routeParams?.roomId
 
    [opportunityId, pitchId, roomId] = [$routeParams?.opportunityId, $routeParams?.pitchId, $routeParams?.roomId]
 
    # so apparently GoInstant wasn't syncing these when they were in a hash, so I moved 'em out
    $scope.inEditMode = AngularForce.authenticated()
-   $scope.branding = '{}'
-   $scope.aspectRatio = 1.777 # mobile-esque default
    $scope.saveInProgress = no
+   $scope.aspectRatio = 1.777 # mobile-esque default
+   $scope.branding = '{}'
 
    # the pitchId is only available when in "view mode"
    $scope.pitchId = pitchId
+
+   # grab the author's contact info (email, phone) for storing in the scope
+   $scope.contactName  = userContactDetails?.name
+   $scope.contactEmail = userContactDetails?.email
+   $scope.contactPhone = userContactDetails?.phone
 
    # initialise an array of page components
    #  | example component:
@@ -174,7 +151,7 @@ window.app
       new GoAngular(
             $scope,
             'PitchEditorCtrl',
-            include: ['inEditMode', 'aspectRatio', 'components', 'branding']
+            include: GOINSTANT_SCOPE_SYNC_INCLUDE
             room: $routeParams.roomId)
          .initialize()
          .then ->
@@ -190,8 +167,8 @@ window.app
 
    # fetch and configure page branding colours & logo in edit mode
    applyOrgBranding = ->
-      return if not pageBrandingData
-      $scope.branding = JSON.stringify pageBrandingData
+      return if not brandingData = pageBrandingData
+      $scope.branding = JSON.stringify brandingData
 
    # when branding is updated on the scope, by GI or otherwise, we'll have to apply it
    $scope.$watch 'branding', (newValue) ->
@@ -213,6 +190,36 @@ window.app
       pitchesService.trackPageViewInSalesforce roomId, opportunityId, pitchId
 )
 
+.controller('PitchShareCtrl', ($location, $scope, shareService, urlShortenerService, pitchesService, salesforcePitchId) ->
+   [roomId, fileIdList, opportunityId] = [
+      shareService.get('roomId'),
+      shareService.get('fileIdList'),
+      shareService.get('opportunityId')
+   ]
+
+   urlShortenerService.generateShortUrlToSkewer(roomId, opportunityId, salesforcePitchId)
+   .then (url) ->
+      _shareUrl = $scope.shareUrl = url?.data?.url
+      # update the URL in salesforce (this can & will happen in the background)
+      pitchesService.updatePitchShortUrlInSalesforce salesforcePitchId, _shareUrl
+
+   $scope.getMailtoLink = ->
+      return '' if not shareUrl = $scope.shareUrl
+      "mailto:"+
+      "&X-Sent-Via=Skewer"+
+      "?subject="+encodeURIComponent('Following up on our meeting')+
+      "&body=#{encodeURIComponent('Please check this information I have put together for you. '+shareUrl)}"
+
+   $scope.getTwitterTweetButtonLink = ->
+      return '' if not shareUrl = $scope.shareUrl
+      "https://twitter.com/intent/tweet"+
+      "?original_referer=https%3A%2F%2Fapp.getskewer.com%2F"+
+      "&text="+encodeURIComponent("Here's some follow-up information that I think you'll find useful")+
+      "&url=#{encodeURIComponent(shareUrl)}"+
+      "&tw_p=tweetbutton"+
+      "&via=SkewerApp"
+)
+
 .controller('OpportunityListCtrl', ($scope, AngularForce, $location, GoInstantRoomId, Opportunity, SFConfig) ->
    return $location.path("/home")  unless AngularForce.authenticated()
    $scope.giRoomId = GoInstantRoomId.getRoomId()
@@ -232,5 +239,4 @@ window.app
          $scope.opportunities = data
          $scope.$apply() #Required coz sfdc uses jquery.ajax
       ), (data) ->
-
 )

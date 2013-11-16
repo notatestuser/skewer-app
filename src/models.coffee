@@ -15,7 +15,14 @@ angular.module('ForceModels', [])
 (AngularForceObjectFactory, SFConfig) -> ->
    objDesc =
       type: 'Opportunity'
-      fields: ['Id', 'Name', 'OwnerId', 'StageName','CreatedDate','Owner.Name','Probability']
+      fields: [
+         'Id',
+         'Name',
+         'OwnerId',
+         'StageName',
+         'CreatedDate',
+         'Owner.Name',
+         'Probability']
       where: 'skewerapp__Show_In_Skewer__c = 1'
       orderBy: 'Probability DESC'
       limit: 20
@@ -73,15 +80,16 @@ angular.module('ForceModels', [])
 ])
 
 .factory('User', ['AngularForceObjectFactory',
-   (AngularForceObjectFactory) ->
-      objDesc = 
-         type: 'User',
-         fields: [
-            'Id',
-            'Email',
-            'Phone']
-         where: 'User_Is_Me__c = 1'
-         orderBy: ''
-         limit: 1
-      AngularForceObjectFactory(objDesc)
-   ])
+(AngularForceObjectFactory) ->
+   objDesc =
+      type: 'User',
+      fields: [
+         'Id',
+         'skewerapp__Skewer_Name__c',
+         'skewerapp__Skewer_Email__c',
+         'skewerapp__Skewer_Phone__c']
+      where: 'skewerapp__User_Is_Me__c = 1'
+      orderBy: ''
+      limit: 1
+   AngularForceObjectFactory(objDesc)
+])

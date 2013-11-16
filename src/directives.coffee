@@ -219,6 +219,24 @@ window.app
          elem.addClass 'hide'
 ])
 
+.directive('authorContactDetailsFooterLabel', [ ->
+   scope =
+      contactName:  '='
+      contactEmail: '='
+      contactPhone: '='
+   {
+      scope: scope
+      restrict: 'AC'
+      template: '<span class="author-contact-details-footer-list"></span>'
+      link: ($scope, elem, attrs) ->
+         values = Object.keys(scope).map (key) ->
+            $scope[key]
+         values = _.compact values
+         values.forEach (value) ->
+            $("<span>#{value}</span>").appendTo elem
+   }
+])
+
 .directive('loadingSpinner', [ ->
    restrict: 'AC'
    link: ($scope, elem, attrs) ->
