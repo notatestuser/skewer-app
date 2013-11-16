@@ -20,8 +20,14 @@ div(ng-show='!isWorking()')
          tbody
             tr(ng-repeat='opportunity in opportunities')
                td
-                  a(href='#/skewer/{{opportunity.Id}}/{{giRoomId}}')
+                  a.pull-left(
+                        href='#/skewer/{{opportunity.Id}}/{{giRoomId}}'
+                        ng-click='opportunity.isLoading = true')
                      | {{opportunity.Name}}
+                  span.pull-right(ng-switch='opportunity.isLoading'): span(
+                     ng-switch-when='true'
+                     data-loading-spinner
+                     data-spinner-size='16')
                td {{opportunity.StageName}}
                td {{opportunity.Probability}}
                td {{opportunity.Owner.Name}}
@@ -38,5 +44,11 @@ div(ng-show='!isWorking()')
       table.table.responsive-item-list-table
          tr(ng-click='doView(opportunity.Id)', ng-repeat='opportunity in opportunities')
             td
-               a(href='#/skewer/{{opportunity.Id}}/{{giRoomId}}')
+               a.pull-left(
+                     href='#/skewer/{{opportunity.Id}}/{{giRoomId}}'
+                     ng-click='opportunity.isLoading = true')
                   | {{opportunity.Name}}
+               span.loading-spinner-container.pull-left(ng-switch='opportunity.isLoading'): span(
+                  ng-switch-when='true'
+                  data-loading-spinner
+                  data-spinner-size='25')

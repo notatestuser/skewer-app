@@ -37,9 +37,16 @@
    .responsive-item-list-table {
       font-size: 1.5rem;
    }
+   .responsive-item-list-table td {
+      overflow-x: hidden;
+      white-space: nowrap;
+   }
    .responsive-item-list-table td a {
       display: block;
       padding: 1rem;
+   }
+   .responsive-item-list-table .loading-spinner-container {
+      padding: .6rem 0;
    }
    .pitch-component .control-buttons .btn-link {
       left: -0.3rem;
