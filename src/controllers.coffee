@@ -220,8 +220,8 @@ window.app
    $scope.getMailtoLink = ->
       return '' if not shareUrl = $scope.shareUrl
       "mailto:"+
-      "&X-Sent-Via=Skewer"+
-      "?subject="+encodeURIComponent('Following up on our meeting')+
+      "?X-Sent-Via=Skewer"+
+      "&subject="+encodeURIComponent('Following up on our meeting')+
       "&body=#{encodeURIComponent('Please check this information I have put together for you. '+shareUrl)}"
 
    $scope.getTwitterTweetButtonLink = ->
