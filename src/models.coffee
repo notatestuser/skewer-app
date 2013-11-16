@@ -1,7 +1,7 @@
 angular.module('ForceModels', [])
 
-.factory('Opportunity', ['AngularForceObjectFactory',
-(AngularForceObjectFactory) ->
+.factory('Opportunity', ['AngularForceObjectFactory', 'SFConfig',
+(AngularForceObjectFactory, SFConfig) -> ->
    objDesc =
       type: 'Opportunity'
       fields: [
