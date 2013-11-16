@@ -454,6 +454,11 @@ ul.component-adjustment-buttons.twosie {
    text-shadow: none;
 }
 
+.share-url-page-heading-text {
+   color: #333;
+   font-size: 2.3rem;
+}
+
 .twitter-share-button {
    -webkit-transform: scale(1.6);
    transform: scale(1.6);
