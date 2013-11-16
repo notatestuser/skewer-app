@@ -50,7 +50,7 @@ angular.module('ForceModels', [])
             'skewerapp__Source__c',
             'skewerapp__Tracked_Link__c',
             'skewerapp__Text__c']
-         where: "skewerapp__Type__c = '#{type}'"
+         where: "skewerapp__Type__c = '#{type}' and skewerapp__Show_In_Skewer__c = 1"
          orderBy: 'Name'
          limit: 15
       AngularForceObjectFactory(objDesc)
