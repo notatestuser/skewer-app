@@ -9,7 +9,9 @@ div.modal-body.clearfix
          a(ng-show='shareUrl', href='{{shareUrl}}', target='_blank')
             | {{shareUrl}}
 
-      .modal-body.btn-group.btn-group-vertical
+      .modal-body.btn-group.btn-group-vertical.fade(
+            ng-class='{"in":shareUrl}')
+
          a.btn.btn-large.btn-primary(
                target='_blank'
                href='{{getTwitterTweetButtonLink()}}')
