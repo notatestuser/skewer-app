@@ -2,11 +2,22 @@ COMPONENT_LINK_PID_PLACEHOLDER = '[PITCHID]'
 
 window.app
 
-.filter('curtailLength', ->
-    (str='', maxChars=33) ->
-        return str if not str?.length or str.length <= maxChars
-        "#{str.substring(0, maxChars)} ..."
-)
+.directive('appliesAdaptiveFontSizing', [->
+   restrict: 'A'
+   link: ($scope, elem, attrs={}) ->
+      [minSize, maxSize]   = [attrs.minFontSize or 11, attrs.maxFontSize or 15]
+      [minWidth, maxWidth] = [320, 768]
+      sizeDelta  = maxSize - minSize
+      minMaxDelta = maxWidth - minWidth
+      sizePerPixel = sizeDelta / minMaxDelta
+      setFontSizeFn = ->
+         windowWidth = $(window).outerWidth()
+         return if windowWidth < minWidth
+         rootFontSize = minSize + (Math.min(windowWidth - minWidth, minMaxDelta) * sizePerPixel)
+         elem.css fontSize: "#{rootFontSize}px"
+      $(window).resize _.debounce(setFontSizeFn, 100)
+      setFontSizeFn()
+])
 
 .directive('pitchEditor', [->
    restrict: 'AC'
@@ -27,7 +38,7 @@ window.app
          if $scope.$$phase isnt '$digest'
             $scope.$apply()
       # on resize figure out what our aspect ratio is
-      $(window).resize _.debounce(setRatioFn, 60)
+      $(window).resize _.debounce(setRatioFn, 100)
       $scope.$watch 'aspectRatio', setRatioFn
       $scope.$watch 'inEditMode',  setRatioFn
       $scope.$watch 'components',  setRatioFn, yes
@@ -43,15 +54,12 @@ window.app
       link: ($scope, elem) ->
          component = $scope.component
          return if not _.isObject(component)
-
          reconcileRowScaleClassFn = ->
             removeScaleClassesFn(elem)
             elem.addClass "row-scale-#{component.rowScale} col-divide-#{component.colDivide}"
-
          $scope.$watch 'component.rowScale+component.colDivide', (newValue, oldValue) ->
             return unless newValue isnt oldValue
             reconcileRowScaleClassFn()
-
          reconcileRowScaleClassFn()
    }
 ])
