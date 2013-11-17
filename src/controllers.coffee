@@ -78,12 +78,32 @@ window.app
    $location.path "/contacts"
 )
 
-.controller('OpportunityListCtrl',
-($scope, AngularForce, $location, GoInstantRoomId, sfOpportunities, Opportunity, SFConfig) ->
+.controller('SkewerListCtrl',
+($routeParams, $scope, AngularForce, $location, GoInstantRoomId, sfSkewersForOpportunity) ->
    return $location.path("/home")  unless AngularForce.authenticated()
+
    $scope.giRoomId = GoInstantRoomId.getRoomId()
+   $scope.opportunityId = $routeParams.opportunityId
+   $scope.skewers = sfSkewersForOpportunity
    $scope.searchTerm = ""
+
+   $scope.showLoadingState = ->
+      $scope.isLoading = true
+
+   $scope.doSearch = ->
+      Opportunity().search $scope.searchTerm, ((data) ->
+         $scope.opportunities = data
+         $scope.$apply() #Required coz sfdc uses jquery.ajax
+      ), (data) ->
+)
+
+.controller('OpportunityListCtrl',
+($scope, AngularForce, $location, GoInstantRoomId, sfOpportunities, Opportunity) ->
+   return $location.path("/home")  unless AngularForce.authenticated()
+
+   $scope.giRoomId = GoInstantRoomId.getRoomId()
    $scope.opportunities = sfOpportunities
+   $scope.searchTerm = ""
 
    $scope.selectOpportunity = (opportunity) ->
       $scope.isLoading = opportunity.isLoading = true

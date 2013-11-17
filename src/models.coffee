@@ -19,21 +19,27 @@ angular.module('ForceModels', [])
    AngularForceObjectFactory(objDesc)
 ])
 
-.factory('Pitch', ['AngularForceObjectFactory',
+.factory('Skewer', ['AngularForceObjectFactory',
 (AngularForceObjectFactory) ->
-   objDesc =
-      type: 'getskewer__Skewer__c'
-      fields: [
-         'Id',
-         'getskewer__Skewer_Link__c', # what is this?
-         'getskewer__opportunityId__c',
-         'getskewer__roomId__c',
-         'getskewer__fileList__c',
-         'getskewer__userId__c']
-      where: ''
-      orderBy: 'Name'
-      limit: 10
-   AngularForceObjectFactory(objDesc)
+   (byUserId, byOpportunityId) ->
+      where  = "getskewer__Created_By_ID__c = '#{byUserId}'" if byUserId
+      where += "and getskewer__Opportunity__c = '#{byOpportunityId}'" if byOpportunityId
+      objDesc =
+         type: 'getskewer__Skewer__c'
+         fields: [
+            'Id',
+            'Name',
+            'CreatedDate',
+            'getskewer__Short_URL__c'
+            'getskewer__Opportunity__c'
+            'getskewer__Room_ID__c'
+            'getskewer__File_List__c'
+            'getskewer__Created_By_ID__c'
+            'getskewer__Created_By_Name__c']
+         where: where or ''
+         orderBy: 'CreatedDate DESC'
+         limit: 30
+      AngularForceObjectFactory(objDesc)
 ])
 
 .factory('Assets', ['AngularForceObjectFactory',

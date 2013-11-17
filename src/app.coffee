@@ -30,9 +30,8 @@ app.constant('GoInstantAppUrl', 'https://goinstant.net/sdavyson/Skewer')
       # no. generate one
       rooms.push Math.random().toString(36).substring(2)
    GoInstantRoomIdProvider.setRoomId roomId = rooms[0]
-   console.log "GoInstant room ID configured as #{roomId}"
-
    platformProvider.set GoInstantAppUrl, rooms: rooms
+   console.log "Default GoInstant room ID configured as #{roomId}"
 
    ### Route resolver hashes ###
 
@@ -135,7 +134,28 @@ app.constant('GoInstantAppUrl', 'https://goinstant.net/sdavyson/Skewer')
       showBranding: false
    )
 
-   # contacts editor routes
+   # model lists
+   # ... list of skewers
+   .when('/skewers/:opportunityId',
+      controller: 'SkewerListCtrl'
+      templateUrl: 'partials/skewer-list.html'
+      resolve:
+         sfSkewersForOpportunity: ['$q', '$rootScope', '$route', 'SFConfig', 'Skewer',
+         ($q, $rootScope, $route, SFConfig, Skewer) ->
+            deferred = $q.defer()
+            {opportunityId} = $route.current.params
+            Skewer(SFConfig.client.userId, opportunityId)
+            .query ((data) ->
+               $rootScope.$apply ->
+                  deferred.resolve data.records
+            ), (err) ->
+               $rootScope.$apply ->
+                  deferred.reject err
+            deferred.promise
+         ]
+   )
+
+   # ... list of opportunities
    .when('/contacts',
       controller: 'OpportunityListCtrl'
       templateUrl: 'partials/contact/list.html'
@@ -143,7 +163,8 @@ app.constant('GoInstantAppUrl', 'https://goinstant.net/sdavyson/Skewer')
          sfOpportunities: ['$q', '$rootScope', 'Opportunity',
          ($q, $rootScope, Opportunity) ->
             deferred = $q.defer()
-            Opportunity().query ((data) ->
+            Opportunity()
+            .query ((data) ->
                $rootScope.$apply ->
                   deferred.resolve data.records
             ), (err) ->
@@ -172,6 +193,8 @@ app.constant('GoInstantAppUrl', 'https://goinstant.net/sdavyson/Skewer')
 
 .run(['$rootScope', '$route', '$location',
 ($rootScope, $route, $location) ->
+   $rootScope.hostedAppRootUrl = 'https://app.getskewer.com/#'
+
    $rootScope.navigateBackHome = ->
       $location.path '/login'
 

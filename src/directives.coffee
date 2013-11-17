@@ -2,6 +2,11 @@ COMPONENT_LINK_PID_PLACEHOLDER = '[PITCHID]'
 
 window.app
 
+.filter('afterAndIncluding', [->
+   (str='', token='') ->
+      str.substring str.indexOf(token)
+])
+
 .directive('appliesAdaptiveFontSizing', [->
    restrict: 'A'
    link: ($scope, elem, attrs={}) ->

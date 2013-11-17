@@ -1,0 +1,55 @@
+div.opportunities-list-view
+
+   .hidden-phone.fade(ng-class='{"in":!isLoading}')
+      div(style='margin-bottom: 10px;')
+         input.search-query(type='text', ng-model='searchTerm', placeholder='Search')
+         p.btn.btn-primary(ng-click='doSearch(searchString)')
+            |  Go
+
+         a.btn.btn-primary.pull-right(
+               href='#/skewer/{{opportunityId}}/{{giRoomId}}'
+               ng-click='showLoadingState()')
+            | + Create a Skewer
+
+      table.table(width='80%')
+         thead
+            tr
+               th Name
+               th Owner
+               th Created at
+         tbody
+            tr(ng-repeat='skewer in skewers')
+               td
+                  a.pull-left(
+                        href='{{hostedAppRootUrl}}/skewer/{{opportunityId}}/{{skewer.Id}}/{{skewer.getskewer__Room_ID__c}}')
+                     | {{skewer.Name}}
+               td {{skewer.getskewer__Created_By_Name__c}}
+               td {{skewer.CreatedDate}}
+
+   // This div is only displayed in mobile phones (see above for desktops)
+   .visible-phone(ng-class='{"slide":isLoading}')
+      h3.list-page-header Pick a Skewer
+
+      //- form.form-inline
+         input.input-medium.search-query(type='text', ng-model='searchTerm', placeholder='Search')
+         button.btn.btn-primary(ng-click='doSearch(searchString)')
+            | Go
+
+      table.table.responsive-item-list-table
+         tr(ng-click='doView(opportunityId)')
+            td: a.pull-left(
+                  href='#/skewer/{{opportunityId}}/{{giRoomId}}'
+                  ng-click='showLoadingState()')
+               i.fa.fa-plus
+               |  Create a new Skewer
+
+         tr(ng-repeat='skewer in skewers')
+            td: a.pull-left(
+                  target='_blank'
+                  href='{{hostedAppRootUrl}}/skewer/{{opportunityId}}/{{skewer.Id}}/{{skewer.getskewer__Room_ID__c}}')
+               | {{skewer.Name | afterAndIncluding:"Skewer"}} by {{skewer.getskewer__Created_By_Name__c}}
+
+   .loading-component-body(ng-switch='isLoading')
+      span(ng-switch-when='true')
+         .loading-spinner
+         p: small Almost there
