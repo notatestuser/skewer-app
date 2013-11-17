@@ -19,6 +19,10 @@
 }
 
 @media (min-width: 768px) {
+   body, html {
+      /* always permit scrolling on the desktop */
+      overflow-y: auto !important;
+   }
    body {
       padding: 60px 0;
    }
