@@ -1,5 +1,7 @@
 !!! 5
-html
+html( ng-app='AngularSFDemo'
+      data-applies-branding
+      data-branding-type='html-and-body')
    head
       title Skewer App
       meta(name='viewport', content='width=device-width, initial-scale=1.0')
@@ -13,7 +15,8 @@ html
       link(href='css/font-awesome.min.css', rel='stylesheet')
       link(href='css/app.css', rel='stylesheet')
 
-   body(ng-app='AngularSFDemo')
+   body(data-applies-branding
+        data-branding-type='html-and-body')
 
       .navbar.navbar-inverse.navbar-fixed-top(
             data-hides-when-branding-applied,

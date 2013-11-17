@@ -192,6 +192,9 @@ window.app
          types = (attrs?.brandingType or 'page').split(' ')
          types.forEach (_brandingType) ->
             _.extend _styles, switch _brandingType
+               when 'html-and-body'
+                  # when branded the html and body els should prevent vertical scrolling
+                  overflowY:         'hidden'
                when 'page', 'main-view-container'
                   color:             _brandingData.textColour
                   backgroundColor:   _brandingData.pageBgColour

@@ -32,7 +32,7 @@
 
 @media (max-width: 767px) {
    html, body {
-      overflow-y: hidden;
+      overflow-y: auto;
    }
    .responsive-item-list-table {
       font-size: 1.5rem;
@@ -101,6 +101,7 @@ button {
 
 .navbar-fixed-top {
    position: fixed;
+   background: rgb(80,148,200);
 }
 
 .navbar-inner {
@@ -113,7 +114,10 @@ button {
 }
 
 .navbar-inner.top-level-navbar-inner {
-   box-shadow: 1px -0.4rem 2rem #333
+   background: transparent url(../img/icon.png) no-repeat scroll center center;
+   background-size: contain;
+   border-bottom: none;
+   box-shadow: none;
 }
 
 .branded-navbar {
