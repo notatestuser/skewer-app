@@ -52,6 +52,9 @@ section.pitch-editor(
             class='{{getComponentClasses(component)}}')
 
       div.component-body.text-component-body.modal-body(
+            data-applies-adaptive-font-sizing
+            data-max-font-size='11'
+            data-max-font-size='30'
             ng-switch-when='text',
             data-index='{{$index}}',
             data-is-first='{{$first}}',
