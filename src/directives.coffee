@@ -26,7 +26,6 @@ window.app
             elem.height width * existingRatio
          if $scope.$$phase isnt '$digest'
             $scope.$apply()
-            console.trace "Phase is "+$scope.$$phase
       # on resize figure out what our aspect ratio is
       $(window).resize _.debounce(setRatioFn, 60)
       $scope.$watch 'aspectRatio', setRatioFn
