@@ -1,5 +1,8 @@
 !!! 5
-html
+html( ng-app='AngularSFDemo'
+      data-applies-branding
+      data-applies-adaptive-font-sizing
+      data-branding-type='html-and-body')
    head
       title Skewer App
       meta(name='viewport', content='width=device-width, initial-scale=1.0')
@@ -13,10 +16,12 @@ html
       link(href='css/font-awesome.min.css', rel='stylesheet')
       link(href='css/app.css', rel='stylesheet')
 
-   body(ng-app='AngularSFDemo')
+   body(data-applies-branding
+        data-branding-type='html-and-body')
 
       .navbar.navbar-inverse.navbar-fixed-top(
-            data-hides-when-branding-applied,
+            data-hides-when-branding-applied
+            ng-click='navigateBackHome()'
             ng-controller='LoginCtrl')
          .navbar-inner.top-level-navbar-inner: .container
             //- a.brand(href='#')
@@ -48,10 +53,10 @@ html
          configFromEnv.app_url   = '#{app_url}';
          configFromEnv.client_id = '#{client_id}';
 
-      script(src='https://cdn.goinstant.net/v1/platform.min.js')
+      script(src='js/vendor/goinstant/platform.min.js')
       script(src='js/vendor/build.js')
       script(src='js/vendor/vendor.js')
-      script(src='https://cdn.goinstant.net/integrations/goangular/latest/goangular.min.js')
+      script(src='js/vendor/goinstant/goangular.min.js')
       script(src='js/sdk/sdk.js')
       script(src='js/init.js')
       script(src='js/models.js')

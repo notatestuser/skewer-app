@@ -1,9 +1,6 @@
-div(ng-show='isWorking()')
-   p Working
-
-div(ng-show='!isWorking()')
+div.opportunities-list-view
    // This div is only displayed in deskcops (see below for mobile phones)
-   .hidden-phone
+   .hidden-phone.fade(ng-class='{"in":!isLoading}')
       div(style='float: left')
          div(style='margin-bottom: 10px;')
             input.search-query(type='text', ng-model='searchTerm', placeholder='Search')
@@ -22,19 +19,15 @@ div(ng-show='!isWorking()')
                td
                   a.pull-left(
                         href='#/skewer/{{opportunity.Id}}/{{giRoomId}}'
-                        ng-click='opportunity.isLoading = true')
+                        ng-click='selectOpportunity(opportunity)')
                      | {{opportunity.Name}}
-                  span.pull-right(ng-switch='opportunity.isLoading'): span(
-                     ng-switch-when='true'
-                     data-loading-spinner
-                     data-spinner-size='16')
                td {{opportunity.StageName}}
                td {{opportunity.Probability}}
                td {{opportunity.Owner.Name}}
 
    // This div is only displayed in mobile phones (see above for desktops)
-   .visible-phone
-      h3.list-page-header Opportunities
+   .visible-phone(ng-class='{"slide":isLoading}')
+      h3.list-page-header Pick an Opportunity
 
       //- form.form-inline
          input.input-medium.search-query(type='text', ng-model='searchTerm', placeholder='Search')
@@ -43,12 +36,12 @@ div(ng-show='!isWorking()')
 
       table.table.responsive-item-list-table
          tr(ng-click='doView(opportunity.Id)', ng-repeat='opportunity in opportunities')
-            td
-               a.pull-left(
-                     href='#/skewer/{{opportunity.Id}}/{{giRoomId}}'
-                     ng-click='opportunity.isLoading = true')
-                  | {{opportunity.Name}}
-               span.loading-spinner-container.pull-left(ng-switch='opportunity.isLoading'): span(
-                  ng-switch-when='true'
-                  data-loading-spinner
-                  data-spinner-size='25')
+            td: a.pull-left(
+                  href='#/skewer/{{opportunity.Id}}/{{giRoomId}}'
+                  ng-click='selectOpportunity(opportunity)')
+               | {{opportunity.Name}}
+
+   .loading-component-body(ng-switch='isLoading')
+      span(ng-switch-when='true')
+         .loading-spinner
+         p: small Almost there

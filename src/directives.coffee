@@ -2,6 +2,25 @@ COMPONENT_LINK_PID_PLACEHOLDER = '[PITCHID]'
 
 window.app
 
+.directive('appliesAdaptiveFontSizing', [->
+   restrict: 'A'
+   link: ($scope, elem, attrs={}) ->
+      [minSize, maxSize]   = [attrs.minFontSize or 11, attrs.maxFontSize or 15]
+      [minWidth, maxWidth] = [320, 768]
+      sizeDelta  = maxSize - minSize
+      minMaxDelta = maxWidth - minWidth
+      sizePerPixel = sizeDelta / minMaxDelta
+      setFontSizeFn = ->
+         windowWidth = $(window).outerWidth()
+         return if windowWidth < minWidth
+         fontSize = minSize + (Math.min(windowWidth - minWidth, minMaxDelta) * sizePerPixel)
+         elem.css fontSize: "#{fontSize}px"
+      $(window).resize _.debounce(setFontSizeFn, 100)
+      $(elem).resize   _.debounce(setFontSizeFn, 30)
+      $scope.$on 'adaptive-font-size:recalc', setFontSizeFn
+      setFontSizeFn()
+])
+
 .directive('pitchEditor', [->
    restrict: 'AC'
    link: ($scope, elem) ->
@@ -20,9 +39,8 @@ window.app
             elem.height width * existingRatio
          if $scope.$$phase isnt '$digest'
             $scope.$apply()
-            console.trace "Phase is "+$scope.$$phase
       # on resize figure out what our aspect ratio is
-      $(window).resize _.debounce(setRatioFn, 60)
+      $(window).resize _.debounce(setRatioFn, 100)
       $scope.$watch 'aspectRatio', setRatioFn
       $scope.$watch 'inEditMode',  setRatioFn
       $scope.$watch 'components',  setRatioFn, yes
@@ -38,15 +56,12 @@ window.app
       link: ($scope, elem) ->
          component = $scope.component
          return if not _.isObject(component)
-
          reconcileRowScaleClassFn = ->
             removeScaleClassesFn(elem)
             elem.addClass "row-scale-#{component.rowScale} col-divide-#{component.colDivide}"
-
          $scope.$watch 'component.rowScale+component.colDivide', (newValue, oldValue) ->
             return unless newValue isnt oldValue
             reconcileRowScaleClassFn()
-
          reconcileRowScaleClassFn()
    }
 ])
@@ -75,13 +90,44 @@ window.app
          $scope.handleComponentClick component
 ])
 
-.directive('imageComponentBody', [->
+.directive('textComponentBody', [->
    restrict: 'AC'
    link: ($scope, elem) ->
-      elem.css backgroundImage: "url(#{$scope.component.content})"
-      $scope.$watch 'component.content', (newValue, oldValue) ->
+      isOverflowing = (el) ->
+         el.clientHeight < el.scrollHeight
+      fitOverflowingTextFn = ->
+         el = elem[0]
+         return $scope.$emit('adaptive-font-size:recalc') unless isOverflowing(el)
+         while isOverflowing(el)
+            currentFontSize = parseFloat(el.style?.fontSize or elem.css 'font-size')
+            break if currentFontSize < 1 or not el.style
+            el.style.fontSize = "#{currentFontSize-.1}px"
+      $scope.$watch 'component.content', updateBodyFn = (newValue, oldValue) ->
          return if newValue is oldValue
-         elem.css backgroundImage: "url(#{newValue})"
+         content = $scope.component.content
+         if $scope.component?.renderUnsafeHtml
+            elem.html content
+         else
+            elem.text content
+         fitOverflowingTextFn()
+      $scope.$watch 'component.rowScale', _.debounce(fitOverflowingTextFn, 300)
+      $(window).resize _.debounce(fitOverflowingTextFn, 100)
+      updateBodyFn true
+      fitOverflowingTextFn()
+])
+
+.directive('imageComponentBody', [->
+   sslizeImageSrc = (src='') ->
+      src.replace 'http://', '//'
+   {
+      restrict: 'AC'
+      link: ($scope, elem) ->
+         $scope.$watch 'component.content', updateBodyFn = (newValue, oldValue) ->
+            return if newValue is oldValue
+            contentSrc = sslizeImageSrc($scope.component.content)
+            elem.css backgroundImage: "url(#{contentSrc})"
+         updateBodyFn true
+   }
 ])
 
 .directive('componentEditModal', ['contentAssetsService', (contentAssetsService) ->
@@ -184,33 +230,47 @@ window.app
       , true
 ])
 
-.directive('appliesBranding', ['$rootScope', ($rootScope) ->
-   link: ($scope, elem, attrs) ->
-      $rootScope.$on 'branding:apply', (ev, _brandingData={}) ->
-         return if not _.isObject(_brandingData) or _.isEmpty(_brandingData)
-         [_styles, _attrs] = [{}, {}]
-         types = (attrs?.brandingType or 'page').split(' ')
-         types.forEach (_brandingType) ->
-            _.extend _styles, switch _brandingType
-               when 'page', 'main-view-container'
-                  color:             _brandingData.textColour
-                  backgroundColor:   _brandingData.pageBgColour
-               when 'left-and-right-borders'
-                  borderLeftColor:   _brandingData.barBgColour
-                  borderRightColor:  _brandingData.barBgColour
-                  borderBottomColor: _brandingData.barBgColour
-               when 'editor-viewer'
-                  borderBottomColor: _brandingData.barBgColour
-               when 'top-bar'
-                  backgroundColor:   _brandingData.barBgColour
-               else {}
-            _.extend _attrs, switch _brandingType
-               when 'top-bar-logo'
-                  src: _brandingData.logoSrcUrl
-               else {}
-         elem.attr _attrs
-         elem.css  _styles
-         elem.addClass 'branding-applied' if types.length
+.directive('appliesBranding', ['$route', '$rootScope', ($route, $rootScope) ->
+   sslizeImageSrc = (src='') ->
+      src.replace 'http://', '//'
+   {
+      link: ($scope, elem, attrs) ->
+         $rootScope.$on 'branding:apply', (ev, _brandingData={}) ->
+            return if not _.isObject(_brandingData) or _.isEmpty(_brandingData)
+            [_styles, _attrs] = [{}, {}]
+            types = (attrs?.brandingType or 'page').split(' ')
+            types.forEach (_brandingType) ->
+               _.extend _styles, switch _brandingType
+                  when 'html-and-body'
+                     # when branded the html and body els should prevent vertical scrolling
+                     overflowY:          'hidden'
+                  when 'page', 'main-view-container'
+                     color:              _brandingData.textColour
+                     backgroundColor:    _brandingData.pageBgColour
+                  when 'left-and-right-borders'
+                     borderLeftColor:    _brandingData.barBgColour
+                     borderRightColor:   _brandingData.barBgColour
+                     borderBottomColor:  _brandingData.barBgColour
+                  when 'editor-viewer'
+                     borderBottomColor:  _brandingData.barBgColour
+                  when 'top-bar'
+                     backgroundColor:    _brandingData.barBgColour
+                  else {}
+               _.extend _attrs, switch _brandingType
+                  when 'top-bar-logo'
+                     src: sslizeImageSrc(_brandingData.logoSrcUrl)
+                  else {}
+            elem.attr _attrs
+            elem.css  _styles
+            elem.addClass 'branding-applied' if types.length
+
+         $rootScope.$on '$routeChangeSuccess', (event, current) ->
+            isBrandedRoute = $route.current?.$$route?.showBranding
+            unless isBrandedRoute
+               # remove branding on element
+               elem.attr style: ''
+               elem.removeClass 'branding-applied'
+   }
 ])
 
 .directive('hidesWhenBrandingApplied', ['$rootScope', ($rootScope) ->

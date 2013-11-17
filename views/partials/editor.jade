@@ -3,7 +3,7 @@ div.fixed-finish-and-save-toolbar
       button.btn.btn-small.btn-save-and-finish(
             ng-show='shouldShowSaveButton()'
             ng-disabled='saveInProgress')
-         | Save and share
+         | Finish
 
 section.pitch-editor(
          data-applies-branding,
@@ -33,15 +33,19 @@ section.pitch-editor(
       div.component-body.loading-component-body(
             ng-switch-when='loading'
             class='{{getComponentClasses(component)}}')
-         div.loading-spinner
+         .loading-spinner
+         p: small getskewer.com
 
-      div.component-body.image-component-body(
-            ng-switch-when='document',
+      div.component-body.text-component-body(
+            data-applies-adaptive-font-sizing
+            data-max-font-size='11'
+            data-max-font-size='28'
+            ng-switch-when='text',
             data-index='{{$index}}',
             data-is-first='{{$first}}',
             data-type='{{component.type}}',
             class='{{getComponentClasses(component)}}')
-         {{component.name}}
+         {{component.content}}
 
       div.component-body.image-component-body(
             ng-switch-when='image',
@@ -50,13 +54,13 @@ section.pitch-editor(
             data-type='{{component.type}}',
             class='{{getComponentClasses(component)}}')
 
-      div.component-body.text-component-body.modal-body(
-            ng-switch-when='text',
+      div.component-body.image-component-body(
+            ng-switch-when='document',
             data-index='{{$index}}',
             data-is-first='{{$first}}',
             data-type='{{component.type}}',
             class='{{getComponentClasses(component)}}')
-         {{component.content}}
+         {{component.name}}
 
    .pitch-component.flip-container.vertical.col-divide-2.row-scale-1(
          data-tap-to-add-component

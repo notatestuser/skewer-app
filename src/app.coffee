@@ -145,13 +145,25 @@ app.constant('GoInstantAppUrl', 'https://goinstant.net/sdavyson/Skewer')
                   deferred.resolve pitchId
             deferred.promise
          ]
-      showBranding: true
+      showBranding: false
    )
 
    # contacts editor routes
    .when('/contacts',
       controller: 'OpportunityListCtrl'
       templateUrl: 'partials/contact/list.html'
+      resolve:
+         sfOpportunities: ['$q', '$rootScope', 'Opportunity',
+         ($q, $rootScope, Opportunity) ->
+            deferred = $q.defer()
+            Opportunity().query ((data) ->
+               $rootScope.$apply ->
+                  deferred.resolve data.records
+            ), (err) ->
+               $rootScope.$apply ->
+                  deferred.reject err
+            deferred.promise
+         ]
    )
 
    # auth routes
@@ -165,14 +177,17 @@ app.constant('GoInstantAppUrl', 'https://goinstant.net/sdavyson/Skewer')
    )
    .when('/callback',
       controller: 'CallbackCtrl'
-      templateUrl: 'partials/callback.html'
+      templateUrl: 'partials/home.html'
    )
 
    .otherwise redirectTo: '/'
 ])
 
-.run(['$rootScope', '$route',
-($rootScope, $route) ->
-    $rootScope.$on '$routeChangeSuccess', (event, current) ->
+.run(['$rootScope', '$route', '$location',
+($rootScope, $route, $location) ->
+   $rootScope.navigateBackHome = ->
+      $location.path '/login'
+
+   $rootScope.$on '$routeChangeSuccess', (event, current) ->
       $rootScope.isBrandedRoute = $route.current?.$$route?.showBranding
 ])

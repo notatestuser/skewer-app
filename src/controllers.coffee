@@ -82,19 +82,15 @@ window.app
    $location.path "/contacts"
 )
 
-.controller('OpportunityListCtrl', ($scope, AngularForce, $location, GoInstantRoomId, Opportunity, SFConfig) ->
+.controller('OpportunityListCtrl',
+($scope, AngularForce, $location, GoInstantRoomId, sfOpportunities, Opportunity, SFConfig) ->
    return $location.path("/home")  unless AngularForce.authenticated()
    $scope.giRoomId = GoInstantRoomId.getRoomId()
    $scope.searchTerm = ""
-   $scope.working = false
-   Opportunity().query ((data) ->
-      $scope.opportunities = data.records
-      $scope.$apply() #Required coz sfdc uses jquery.ajax
-   ), (data) ->
-      alert "Query Error"
+   $scope.opportunities = sfOpportunities
 
-   $scope.isWorking = ->
-      $scope.working
+   $scope.selectOpportunity = (opportunity) ->
+      $scope.isLoading = opportunity.isLoading = true
 
    $scope.doSearch = ->
       Opportunity().search $scope.searchTerm, ((data) ->
@@ -145,7 +141,8 @@ window.app
          rowScale:  2
          colDivide: 2
          type: 'text'
-         content: 'Creating a Skewer is easy. Just tap on the placeholder to the right of this message to place your first chunk.'
+         renderUnsafeHtml: true
+         content: "Let's get started.<br>Just tap on the placeholder to the right of this message to place your first chunk."
       ]
 
    compactComponents = ->
