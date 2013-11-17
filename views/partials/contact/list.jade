@@ -1,11 +1,10 @@
 div.opportunities-list-view
-   // This div is only displayed in deskcops (see below for mobile phones)
+
    .hidden-phone.fade(ng-class='{"in":!isLoading}')
-      div(style='float: left')
-         div(style='margin-bottom: 10px;')
-            input.search-query(type='text', ng-model='searchTerm', placeholder='Search')
-            p.btn.btn-primary(ng-click='doSearch(searchString)')
-               |  Go
+      div(style='margin-bottom: 10px;')
+         input.search-query(type='text', ng-model='searchTerm', placeholder='Search')
+         p.btn.btn-primary(ng-click='doSearch(searchString)')
+            |  Go
 
       table.table(width='80%')
          thead
@@ -18,7 +17,7 @@ div.opportunities-list-view
             tr(ng-repeat='opportunity in opportunities')
                td
                   a.pull-left(
-                        href='#/skewer/{{opportunity.Id}}/{{giRoomId}}'
+                        href='#/skewers/{{opportunity.Id}}'
                         ng-click='selectOpportunity(opportunity)')
                      | {{opportunity.Name}}
                td {{opportunity.StageName}}
@@ -35,13 +34,12 @@ div.opportunities-list-view
             | Go
 
       table.table.responsive-item-list-table
-         tr(ng-click='doView(opportunity.Id)', ng-repeat='opportunity in opportunities')
+         tr(ng-repeat='opportunity in opportunities')
             td: a.pull-left(
-                  href='#/skewer/{{opportunity.Id}}/{{giRoomId}}'
+                  href='#/skewers/{{opportunity.Id}}'
                   ng-click='selectOpportunity(opportunity)')
                | {{opportunity.Name}}
 
    .loading-component-body(ng-switch='isLoading')
       span(ng-switch-when='true')
          .loading-spinner
-         p: small Almost there

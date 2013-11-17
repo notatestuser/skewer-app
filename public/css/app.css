@@ -225,6 +225,10 @@ h3.list-page-header {
    -webkit-transform: translate(-120%, 0);
 }
 
+.opportunities-list-view .visible-phone td i {
+   margin-right: 6px;
+}
+
 .opportunities-list-view .loading-component-body {
    position: absolute;
    top: 0;
