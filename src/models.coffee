@@ -15,7 +15,7 @@ angular.module('ForceModels', [])
          'getskewer__Skewer_Site_URL__c']
       where: 'getskewer__Show_In_Skewer__c = 1'
       orderBy: 'Probability DESC'
-      limit: 20
+      limit: 30
    AngularForceObjectFactory(objDesc)
 ])
 
