@@ -202,7 +202,7 @@ window.app
       , true
 ])
 
-.directive('appliesBranding', ['$rootScope', ($rootScope) ->
+.directive('appliesBranding', ['$route', '$rootScope', ($route, $rootScope) ->
    link: ($scope, elem, attrs) ->
       $rootScope.$on 'branding:apply', (ev, _brandingData={}) ->
          return if not _.isObject(_brandingData) or _.isEmpty(_brandingData)
@@ -232,6 +232,13 @@ window.app
          elem.attr _attrs
          elem.css  _styles
          elem.addClass 'branding-applied' if types.length
+
+      $rootScope.$on '$routeChangeSuccess', (event, current) ->
+         isBrandedRoute = $route.current?.$$route?.showBranding
+         unless isBrandedRoute
+            # remove branding on element
+            elem.attr style: ''
+            elem.removeClass 'branding-applied'
 ])
 
 .directive('hidesWhenBrandingApplied', ['$rootScope', ($rootScope) ->

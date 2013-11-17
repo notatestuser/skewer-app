@@ -132,7 +132,7 @@ app.constant('GoInstantAppUrl', 'https://goinstant.net/sdavyson/Skewer')
                   deferred.resolve pitchId
             deferred.promise
          ]
-      showBranding: true
+      showBranding: false
    )
 
    # contacts editor routes
@@ -172,6 +172,6 @@ app.constant('GoInstantAppUrl', 'https://goinstant.net/sdavyson/Skewer')
 
 .run(['$rootScope', '$route',
 ($rootScope, $route) ->
-    $rootScope.$on '$routeChangeSuccess', (event, current) ->
+   $rootScope.$on '$routeChangeSuccess', (event, current) ->
       $rootScope.isBrandedRoute = $route.current?.$$route?.showBranding
 ])

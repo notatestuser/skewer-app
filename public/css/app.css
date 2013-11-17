@@ -76,7 +76,7 @@ body, input, button {
 }
 
 body {
-   background-color: #eee;
+   background-color: #f8f8f8;
    transition: padding 0.3s ease;
    -moz-transition: padding 0.3s ease;
    -webkit-transition: padding 0.3s ease;
@@ -523,6 +523,11 @@ ul.component-adjustment-buttons.twosie {
 .share-url-page-heading-text {
    color: #333;
    font-size: 2.4rem;
+}
+
+.share-url-page-share-url {
+   margin: 2rem 0;
+   font-size: 2rem;
 }
 
 .twitter-share-button {
