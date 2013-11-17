@@ -1,6 +1,6 @@
 div.opportunities-list-view
    // This div is only displayed in deskcops (see below for mobile phones)
-   .hidden-phone
+   .hidden-phone.fade(ng-class='{"in":!isLoading}')
       div(style='float: left')
          div(style='margin-bottom: 10px;')
             input.search-query(type='text', ng-model='searchTerm', placeholder='Search')
@@ -21,10 +21,6 @@ div.opportunities-list-view
                         href='#/skewer/{{opportunity.Id}}/{{giRoomId}}'
                         ng-click='selectOpportunity(opportunity)')
                      | {{opportunity.Name}}
-                  span.pull-right(ng-switch='opportunity.isLoading'): span(
-                     ng-switch-when='true'
-                     data-loading-spinner
-                     data-spinner-size='16')
                td {{opportunity.StageName}}
                td {{opportunity.Probability}}
                td {{opportunity.Owner.Name}}
