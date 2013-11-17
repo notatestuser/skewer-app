@@ -81,12 +81,17 @@ window.app
 ])
 
 .directive('imageComponentBody', [->
-   restrict: 'AC'
-   link: ($scope, elem) ->
-      $scope.$watch 'component.content', updateBodyFn = (newValue, oldValue) ->
-         return if newValue is oldValue
-         elem.css backgroundImage: "url(#{$scope.component.content})"
-      updateBodyFn true
+   sslizeImageSrc = (src='') ->
+      src.replace 'http://', '//'
+   {
+      restrict: 'AC'
+      link: ($scope, elem) ->
+         $scope.$watch 'component.content', updateBodyFn = (newValue, oldValue) ->
+            return if newValue is oldValue
+            contentSrc = sslizeImageSrc($scope.component.content)
+            elem.css backgroundImage: "url(#{contentSrc})"
+         updateBodyFn true
+   }
 ])
 
 .directive('textComponentBody', [->
@@ -202,42 +207,46 @@ window.app
 ])
 
 .directive('appliesBranding', ['$route', '$rootScope', ($route, $rootScope) ->
-   link: ($scope, elem, attrs) ->
-      $rootScope.$on 'branding:apply', (ev, _brandingData={}) ->
-         return if not _.isObject(_brandingData) or _.isEmpty(_brandingData)
-         [_styles, _attrs] = [{}, {}]
-         types = (attrs?.brandingType or 'page').split(' ')
-         types.forEach (_brandingType) ->
-            _.extend _styles, switch _brandingType
-               when 'html-and-body'
-                  # when branded the html and body els should prevent vertical scrolling
-                  overflowY:         'hidden'
-               when 'page', 'main-view-container'
-                  color:             _brandingData.textColour
-                  backgroundColor:   _brandingData.pageBgColour
-               when 'left-and-right-borders'
-                  borderLeftColor:   _brandingData.barBgColour
-                  borderRightColor:  _brandingData.barBgColour
-                  borderBottomColor: _brandingData.barBgColour
-               when 'editor-viewer'
-                  borderBottomColor: _brandingData.barBgColour
-               when 'top-bar'
-                  backgroundColor:   _brandingData.barBgColour
-               else {}
-            _.extend _attrs, switch _brandingType
-               when 'top-bar-logo'
-                  src: _brandingData.logoSrcUrl
-               else {}
-         elem.attr _attrs
-         elem.css  _styles
-         elem.addClass 'branding-applied' if types.length
+   sslizeImageSrc = (src='') ->
+      src.replace 'http://', '//'
+   {
+      link: ($scope, elem, attrs) ->
+         $rootScope.$on 'branding:apply', (ev, _brandingData={}) ->
+            return if not _.isObject(_brandingData) or _.isEmpty(_brandingData)
+            [_styles, _attrs] = [{}, {}]
+            types = (attrs?.brandingType or 'page').split(' ')
+            types.forEach (_brandingType) ->
+               _.extend _styles, switch _brandingType
+                  when 'html-and-body'
+                     # when branded the html and body els should prevent vertical scrolling
+                     overflowY:          'hidden'
+                  when 'page', 'main-view-container'
+                     color:              _brandingData.textColour
+                     backgroundColor:    _brandingData.pageBgColour
+                  when 'left-and-right-borders'
+                     borderLeftColor:    _brandingData.barBgColour
+                     borderRightColor:   _brandingData.barBgColour
+                     borderBottomColor:  _brandingData.barBgColour
+                  when 'editor-viewer'
+                     borderBottomColor:  _brandingData.barBgColour
+                  when 'top-bar'
+                     backgroundColor:    _brandingData.barBgColour
+                  else {}
+               _.extend _attrs, switch _brandingType
+                  when 'top-bar-logo'
+                     src: sslizeImageSrc(_brandingData.logoSrcUrl)
+                  else {}
+            elem.attr _attrs
+            elem.css  _styles
+            elem.addClass 'branding-applied' if types.length
 
-      $rootScope.$on '$routeChangeSuccess', (event, current) ->
-         isBrandedRoute = $route.current?.$$route?.showBranding
-         unless isBrandedRoute
-            # remove branding on element
-            elem.attr style: ''
-            elem.removeClass 'branding-applied'
+         $rootScope.$on '$routeChangeSuccess', (event, current) ->
+            isBrandedRoute = $route.current?.$$route?.showBranding
+            unless isBrandedRoute
+               # remove branding on element
+               elem.attr style: ''
+               elem.removeClass 'branding-applied'
+   }
 ])
 
 .directive('hidesWhenBrandingApplied', ['$rootScope', ($rootScope) ->
