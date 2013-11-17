@@ -139,6 +139,18 @@ app.constant('GoInstantAppUrl', 'https://goinstant.net/sdavyson/Skewer')
    .when('/contacts',
       controller: 'OpportunityListCtrl'
       templateUrl: 'partials/contact/list.html'
+      resolve:
+         sfOpportunities: ['$q', '$rootScope', 'Opportunity',
+         ($q, $rootScope, Opportunity) ->
+            deferred = $q.defer()
+            Opportunity().query ((data) ->
+               $rootScope.$apply ->
+                  deferred.resolve data.records
+            ), (err) ->
+               $rootScope.$apply ->
+                  deferred.reject err
+            deferred.promise
+         ]
    )
 
    # auth routes
