@@ -2,6 +2,12 @@ COMPONENT_LINK_PID_PLACEHOLDER = '[PITCHID]'
 
 window.app
 
+.filter('curtailLength', ->
+    (str='', maxChars=33) ->
+        return str if not str?.length or str.length <= maxChars
+        "#{str.substring(0, maxChars)} ..."
+)
+
 .directive('pitchEditor', [->
    restrict: 'AC'
    link: ($scope, elem) ->

@@ -83,11 +83,10 @@ window.app
    return $location.path("/home")  unless AngularForce.authenticated()
    $scope.giRoomId = GoInstantRoomId.getRoomId()
    $scope.searchTerm = ""
-   $scope.working = false
    $scope.opportunities = sfOpportunities
 
-   $scope.isWorking = ->
-      $scope.working
+   $scope.selectOpportunity = (opportunity) ->
+      $scope.isLoading = opportunity.isLoading = true
 
    $scope.doSearch = ->
       Opportunity().search $scope.searchTerm, ((data) ->

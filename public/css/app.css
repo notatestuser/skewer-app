@@ -203,6 +203,32 @@ h3.list-page-header {
    font-size:     2.4rem;
 }
 
+.opportunities-list-view {
+   position: relative;
+}
+
+.opportunities-list-view .visible-phone {
+   transition: all 0.3s ease;
+   -moz-transition: all 0.3s ease;
+   -webkit-transition: all 0.3s ease;
+}
+
+.opportunities-list-view .visible-phone.slide {
+   transform: translate(-120%, 0);
+   -ms-transform: translate(-120%, 0);
+   -moz-transform: translate(-120%, 0);
+   -webkit-transform: translate(-120%, 0);
+}
+
+.opportunities-list-view .loading-component-body {
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   z-index: -1;
+   box-sizing: border-box;
+}
+
 .pitch-editor {
    margin: 0;
    width: 100%;
