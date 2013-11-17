@@ -78,10 +78,22 @@ window.app
 .directive('imageComponentBody', [->
    restrict: 'AC'
    link: ($scope, elem) ->
-      elem.css backgroundImage: "url(#{$scope.component.content})"
-      $scope.$watch 'component.content', (newValue, oldValue) ->
+      $scope.$watch 'component.content', updateBodyFn = (newValue, oldValue) ->
          return if newValue is oldValue
-         elem.css backgroundImage: "url(#{newValue})"
+         elem.css backgroundImage: "url(#{$scope.component.content})"
+      updateBodyFn true
+])
+
+.directive('textComponentBody', [->
+   restrict: 'AC'
+   link: ($scope, elem) ->
+      $scope.$watch 'component.content', updateBodyFn = (newValue, oldValue) ->
+         return if newValue is oldValue
+         if $scope.component?.renderUnsafeHtml
+            elem.html $scope.component.content
+         else
+            elem.text $scope.component.content
+      updateBodyFn true
 ])
 
 .directive('componentEditModal', ['contentAssetsService', (contentAssetsService) ->
