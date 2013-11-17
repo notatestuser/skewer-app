@@ -64,7 +64,6 @@ angular.module('AngularForce', ['fsCordova']).
          *  Note: This should be used when SalesForce *native-phonegap* plugin is used for logging in to SF
          */
         this.setCordovaLoginCred = function (callback) {
-            console.log("TESTING");
             CordovaService.ready.then(function(){
                 if (!cordova) throw 'Cordova/PhoneGap not found.';
                                       
@@ -90,8 +89,9 @@ angular.module('AngularForce', ['fsCordova']).
                     //Set sessionID to angularForce coz profileImages need them
                     self.sessionId = SFConfig.client.sessionId;
                     // Force init
+                    console.log('Before Init');
                     Force.init(creds, null, null, cordova.require("salesforce/plugin/oauth").forcetkRefresh);
-                    
+                    console.log('After Force');
                     callback && callback();
                 }
                                       

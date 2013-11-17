@@ -23,7 +23,7 @@ window.app
    isAuthenticated = AngularForce.authenticated()
    
    if AngularForce.inCordova
-      return $location.path("/contacts/")
+      return $location.path "/contacts/"
 
 
    #Offline support (only for Cordova)
@@ -31,9 +31,9 @@ window.app
    #If Both online and authenticated(Cordova), go directly to /contacts view. Else show login page.
    unless isOnline
       unless isAuthenticated #MobileWeb
-         return $location.path("/login")
+         return $location.path "/login"
       else #Cordova
-         return $location.path("/contacts/")
+         return $location.path "/contacts/"
 
 
    #If in visualforce, directly login

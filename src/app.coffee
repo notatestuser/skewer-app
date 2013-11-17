@@ -98,15 +98,19 @@ app.constant('GoInstantAppUrl', 'https://goinstant.net/sdavyson/Skewer')
       controller: 'HomeCtrl'
       templateUrl: 'partials/home.html'
       resolve: 
-         app: ($rootScope, $q, AngularForce) ->
-            deferred = $q.defer()
-            unless AngularForce.authenticated()
-               AngularForce.setCordovaLoginCred ->
-                  $rootScope.$apply ->
-                     deferred.resolve()
-            else 
-               deferred.resolve()   
-            deferred.promise
+         app: ($q, $rootScope, AngularForce) ->
+            if AngularForce.inCordova
+               deferred = $q.defer()
+               unless AngularForce.authenticated()
+                  console.log('Lets authenticate')
+                  AngularForce.setCordovaLoginCred ->
+                     $rootScope.$apply ->
+                        console.log('Ready')
+                        deferred.resolve()
+               else 
+                  console.log('Already Has')
+                  deferred.resolve()   
+               deferred.promise
    )
 
   # the editor

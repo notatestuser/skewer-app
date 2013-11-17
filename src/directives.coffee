@@ -118,7 +118,7 @@ window.app
 
 .directive('imageComponentBody', [->
    sslizeImageSrc = (src='') ->
-      src.replace 'http://', '//'
+      src.replace 'http://', 'https://'
    {
       restrict: 'AC'
       link: ($scope, elem) ->
@@ -232,7 +232,7 @@ window.app
 
 .directive('appliesBranding', ['$route', '$rootScope', ($route, $rootScope) ->
    sslizeImageSrc = (src='') ->
-      src.replace 'http://', '//'
+      src.replace 'http://', 'https://'
    {
       link: ($scope, elem, attrs) ->
          $rootScope.$on 'branding:apply', (ev, _brandingData={}) ->
