@@ -309,6 +309,8 @@ h3.list-page-header {
    background: none;
    text-align: center;
    padding: 6rem;
+   color: #333;
+   opacity: 0.5;
 }
 
 .loading-component-body .loading-spinner {
