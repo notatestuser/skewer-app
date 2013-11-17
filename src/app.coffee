@@ -170,8 +170,11 @@ app.constant('GoInstantAppUrl', 'https://goinstant.net/sdavyson/Skewer')
    .otherwise redirectTo: '/'
 ])
 
-.run(['$rootScope', '$route',
-($rootScope, $route) ->
+.run(['$rootScope', '$route', '$location',
+($rootScope, $route, $location) ->
+   $rootScope.navigateBackHome = ->
+      $location.path '/login'
+
    $rootScope.$on '$routeChangeSuccess', (event, current) ->
       $rootScope.isBrandedRoute = $route.current?.$$route?.showBranding
 ])

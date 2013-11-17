@@ -19,7 +19,8 @@ html( ng-app='AngularSFDemo'
         data-branding-type='html-and-body')
 
       .navbar.navbar-inverse.navbar-fixed-top(
-            data-hides-when-branding-applied,
+            data-hides-when-branding-applied
+            ng-click='navigateBackHome()'
             ng-controller='LoginCtrl')
          .navbar-inner.top-level-navbar-inner: .container
             //- a.brand(href='#')

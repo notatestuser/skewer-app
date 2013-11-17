@@ -113,6 +113,7 @@ button {
 /* *** */
 
 .navbar-fixed-top {
+   cursor: pointer;
    position: fixed;
    background: rgb(80,148,200);
 }
