@@ -152,7 +152,7 @@ app.constant('GoInstantAppUrl', 'https://goinstant.net/sdavyson/Skewer')
    )
    .when('/callback',
       controller: 'CallbackCtrl'
-      templateUrl: 'partials/callback.html'
+      templateUrl: 'partials/home.html'
    )
 
    .otherwise redirectTo: '/'
