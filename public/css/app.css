@@ -359,8 +359,8 @@ h3.list-page-header {
 
 .text-component-body {
    background: transparent;
+   padding: 1rem 1rem 1rem 2rem;
    overflow-y: hidden;
-   padding-left: 2rem;
    font-size: 1rem;
 }
 .modal-adjust-component {

@@ -13,9 +13,11 @@ window.app
       setFontSizeFn = ->
          windowWidth = $(window).outerWidth()
          return if windowWidth < minWidth
-         rootFontSize = minSize + (Math.min(windowWidth - minWidth, minMaxDelta) * sizePerPixel)
-         elem.css fontSize: "#{rootFontSize}px"
+         fontSize = minSize + (Math.min(windowWidth - minWidth, minMaxDelta) * sizePerPixel)
+         elem.css fontSize: "#{fontSize}px"
       $(window).resize _.debounce(setFontSizeFn, 100)
+      $(elem).resize   _.debounce(setFontSizeFn, 30)
+      $scope.$on 'adaptive-font-size:recalc', setFontSizeFn
       setFontSizeFn()
 ])
 
@@ -88,6 +90,32 @@ window.app
          $scope.handleComponentClick component
 ])
 
+.directive('textComponentBody', [->
+   restrict: 'AC'
+   link: ($scope, elem) ->
+      isOverflowing = (el) ->
+         el.clientHeight < el.scrollHeight
+      fitOverflowingTextFn = ->
+         el = elem[0]
+         return $scope.$emit('adaptive-font-size:recalc') unless isOverflowing(el)
+         while isOverflowing(el)
+            currentFontSize = parseFloat(el.style?.fontSize or elem.css 'font-size')
+            break if currentFontSize < 1 or not el.style
+            el.style.fontSize = "#{currentFontSize-.1}px"
+      $scope.$watch 'component.content', updateBodyFn = (newValue, oldValue) ->
+         return if newValue is oldValue
+         content = $scope.component.content
+         if $scope.component?.renderUnsafeHtml
+            elem.html content
+         else
+            elem.text content
+         fitOverflowingTextFn()
+      $scope.$watch 'component.rowScale', _.debounce(fitOverflowingTextFn, 300)
+      $(window).resize _.debounce(fitOverflowingTextFn, 100)
+      updateBodyFn true
+      fitOverflowingTextFn()
+])
+
 .directive('imageComponentBody', [->
    sslizeImageSrc = (src='') ->
       src.replace 'http://', '//'
@@ -100,18 +128,6 @@ window.app
             elem.css backgroundImage: "url(#{contentSrc})"
          updateBodyFn true
    }
-])
-
-.directive('textComponentBody', [->
-   restrict: 'AC'
-   link: ($scope, elem) ->
-      $scope.$watch 'component.content', updateBodyFn = (newValue, oldValue) ->
-         return if newValue is oldValue
-         if $scope.component?.renderUnsafeHtml
-            elem.html $scope.component.content
-         else
-            elem.text $scope.component.content
-      updateBodyFn true
 ])
 
 .directive('componentEditModal', ['contentAssetsService', (contentAssetsService) ->
