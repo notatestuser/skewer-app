@@ -11,6 +11,7 @@ div.opportunities-list-view
             tr
                th Name
                th Stage
+               th Amount
                th Probability
                th Owner
          tbody
@@ -21,6 +22,7 @@ div.opportunities-list-view
                         ng-click='selectOpportunity(opportunity)')
                      | {{opportunity.Name}}
                td {{opportunity.StageName}}
+               td {{opportunity.Amount}}
                td {{opportunity.Probability}}
                td {{opportunity.Owner.Name}}
 
