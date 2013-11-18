@@ -23,20 +23,22 @@ section.pitch-editor(
                ng-click='addComponentAfter($index)')
             | +
 
-      div.component-body.placeholder-component-body(
+      //- here come the visual representations of components (aka. chunks)
+
+      .component-body.placeholder-component-body(
             ng-switch-when='null',
             data-index='{{$index}}',
             data-is-first='{{$first}}',
             data-type='{{component.type}}',
             class='{{getComponentClasses(component)}}')
 
-      div.component-body.loading-component-body(
+      .component-body.loading-component-body(
             ng-switch-when='loading'
             class='{{getComponentClasses(component)}}')
          .loading-spinner
          p: small getskewer.com
 
-      div.component-body.text-component-body(
+      .component-body.text-component-body(
             data-applies-adaptive-font-sizing
             data-max-font-size='11'
             data-max-font-size='28'
@@ -47,14 +49,25 @@ section.pitch-editor(
             class='{{getComponentClasses(component)}}')
          {{component.content}}
 
-      div.component-body.image-component-body(
+      .component-body.contact-details-component-body(
+            data-author-contact-details-footer-label
+            data-applies-adaptive-font-sizing
+            data-max-font-size='11'
+            data-max-font-size='28'
+            ng-switch-when='contact-details',
+            data-index='{{$index}}',
+            data-is-first='{{$first}}',
+            data-type='{{component.type}}',
+            class='{{getComponentClasses(component)}}')
+
+      .component-body.image-component-body(
             ng-switch-when='image',
             data-index='{{$index}}',
             data-is-first='{{$first}}',
             data-type='{{component.type}}',
             class='{{getComponentClasses(component)}}')
 
-      div.component-body.image-component-body(
+      .component-body.image-component-body(
             ng-switch-when='document',
             data-index='{{$index}}',
             data-is-first='{{$first}}',
