@@ -290,7 +290,7 @@ window.app
       contactEmail: '='
       contactPhone: '='
    {
-      restrict: 'AC'
+      restrict: 'A'
       link: ($scope, elem, attrs) ->
          refreshContactInfoFn = ->
             elem.empty()

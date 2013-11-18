@@ -13,6 +13,7 @@ GOINSTANT_CANVAS_SCOPE_SYNC_INCLUDES = [
    'contactName'
    'contactEmail'
    'contactPhone'
+   'contactCompanyName'
    'salesforceOrgSiteHost'
 ]
 
@@ -78,8 +79,7 @@ window.app
    $location.path "/contacts"
 )
 
-.controller('SkewerListCtrl',
-($routeParams, $scope, AngularForce, $location, GoInstantRoomId, sfSkewersForOpportunity) ->
+.controller('SkewerListCtrl', ($routeParams, $scope, AngularForce, $location, GoInstantRoomId, sfSkewersForOpportunity) ->
    return $location.path("/home")  unless AngularForce.authenticated()
 
    $scope.giRoomId = GoInstantRoomId.getRoomId()
@@ -97,8 +97,7 @@ window.app
       ), (data) ->
 )
 
-.controller('OpportunityListCtrl',
-($scope, AngularForce, $location, GoInstantRoomId, sfOpportunities, Opportunity) ->
+.controller('OpportunityListCtrl', ($scope, AngularForce, $location, GoInstantRoomId, sfOpportunities, Opportunity) ->
    return $location.path("/home")  unless AngularForce.authenticated()
 
    $scope.giRoomId = GoInstantRoomId.getRoomId()
@@ -115,14 +114,14 @@ window.app
       ), (data) ->
 )
 
-.controller('SkewerCanvasCtrl', ($routeParams, $location, $timeout, $rootScope, $scope, AngularForce, GoAngular, pitchesService, shareService, pageBrandingData, salesforceOrgSiteHost, userContactDetails) ->
+.controller('SkewerCanvasCtrl', ($routeParams, $location, $timeout, $rootScope, $scope, AngularForce, GoAngular, pitchesService, shareService, pageBrandingData, salesforceOpportunity, userContactDetails) ->
    return $location.path('/contacts') if not $routeParams?.opportunityId or not $routeParams?.roomId
 
    [opportunityId, pitchId, roomId] = [$routeParams?.opportunityId, $routeParams?.pitchId, $routeParams?.roomId]
 
    # so apparently GoInstant wasn't syncing these when they were in a hash, so I moved 'em out
    $scope.inEditMode = AngularForce.authenticated()
-   $scope.salesforceOrgSiteHost = salesforceOrgSiteHost
+   $scope.salesforceOrgSiteHost = $scope.salesforceOrgSiteHost
    $scope.saveInProgress = no
    $scope.aspectRatio = 1.777 # mobile-esque default
    $scope.branding = '{}'
@@ -134,6 +133,7 @@ window.app
    $scope.contactName  = userContactDetails?.name  or ''
    $scope.contactEmail = userContactDetails?.email or ''
    $scope.contactPhone = userContactDetails?.phone or ''
+   $scope.contactCompanyName = salesforceOpportunity?.getskewer__Company_Name__c or ''
 
    # initialise an array of page components
    #  | example component:

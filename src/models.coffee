@@ -13,6 +13,7 @@ angular.module('ForceModels', [])
          'CreatedDate'
          'Owner.Name'
          'Probability'
+         'getskewer__Company_Name__c'
          'getskewer__Skewer_Site_URL__c'
       ]
       where: 'getskewer__Show_In_Skewer__c = 1'
