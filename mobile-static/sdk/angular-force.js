@@ -25,7 +25,7 @@ angular.module('AngularForce', ['fsCordova']).
 
         var href =  document.location.href;
         this.inVisualforce = href.indexOf('visual.force.com') > 0 || href.indexOf('salesforce.com/apex/') > 0;
-        this.inCordova = location.protocol === 'file:' && cordova;
+        this.inCordova = location.protocol === 'file:';
         this.refreshToken = localStorage.getItem('ftkui_refresh_token');
 
         this.isOnline = function () {
@@ -80,19 +80,26 @@ angular.module('AngularForce', ['fsCordova']).
                     var credsData = creds;
                     if (creds.data)  // Event sets the `data` object with the auth data.
                     credsData = creds.data;
+                    
+
+                    cordova.require("salesforce/plugin/oauth").authenticate(function(oauthResponse) {              
+                        
+                        SFConfig.client = new forcetk.Client(credsData.clientId, credsData.loginUrl);
+                        SFConfig.client.setSessionToken(credsData.accessToken, apiVersion, credsData.instanceUrl);
+                        SFConfig.client.setRefreshToken(credsData.refreshToken);
+                        SFConfig.client.setIdentityUrl(credsData.id);
                                       
-                    SFConfig.client = new forcetk.Client(credsData.clientId, credsData.loginUrl);
-                    SFConfig.client.setSessionToken(credsData.accessToken, apiVersion, credsData.instanceUrl);
-                    SFConfig.client.setRefreshToken(credsData.refreshToken);
-                    SFConfig.client.setIdentityUrl(credsData.id);
-                                      
-                    //Set sessionID to angularForce coz profileImages need them
-                    self.sessionId = SFConfig.client.sessionId;
-                    // Force init
-                    console.log('Before Init');
-                    Force.init(creds, null, null, cordova.require("salesforce/plugin/oauth").forcetkRefresh);
-                    console.log('After Force');
-                    callback && callback();
+                        //Set sessionID to angularForce coz profileImages need them
+                        self.sessionId = SFConfig.client.sessionId;
+                   
+                        SFConfig.client.userId = oauthResponse.userId;
+
+                         // Force init
+                        console.log('Before Init');
+                        Force.init(creds, null, null, cordova.require("salesforce/plugin/oauth").forcetkRefresh);
+                        console.log('After Force');
+                        callback && callback();
+                    });
                 }
                                       
                 function getAuthCredentialsError(error) {

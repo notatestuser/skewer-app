@@ -39,7 +39,7 @@ app.constant('GoInstantAppUrl', 'https://goinstant.net/sdavyson/Skewer')
    ### Route resolver hashes ###
 
    resolvePageBrandingForEditor =
-      salesforceOrgSiteHost: ['$q', '$rootScope', '$route', 'AngularForce', 'Opportunity',
+      salesforceOpportunity: ['$q', '$rootScope', '$route', 'AngularForce', 'Opportunity',
       ($q, $rootScope, $route, AngularForce, Opportunity) ->
          deferred = $q.defer()
          {opportunityId} = $route.current.params
@@ -47,9 +47,10 @@ app.constant('GoInstantAppUrl', 'https://goinstant.net/sdavyson/Skewer')
             Opportunity().get id: opportunityId, (opportunity={}) ->
                $rootScope.$apply ->
                   $rootScope.salesforceOrgSiteHost = opportunity.getskewer__Skewer_Site_URL__c
-                  deferred.resolve $rootScope.salesforceOrgSiteHost
+                  deferred.resolve opportunity
          else
-            deferred.resolve ''
+            # GI will get this for us
+            deferred.resolve {}
          deferred.promise
       ]
       pageBrandingData: ['$q', '$rootScope', 'AngularForce', 'pageBrandingService',

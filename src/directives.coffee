@@ -290,7 +290,7 @@ window.app
       contactEmail: '='
       contactPhone: '='
    {
-      restrict: 'AC'
+      restrict: 'A'
       link: ($scope, elem, attrs) ->
          refreshContactInfoFn = ->
             elem.empty()
@@ -299,7 +299,7 @@ window.app
             values = _.compact values
             values.forEach (value, idx) ->
                $("<span class='contact-field contact-field-#{idx}'>#{value}</span>").appendTo elem
-            $("<span>Contact </span>").prependTo(elem) if values.length
+            $("<p>Your contact </p>").prependTo(elem) if values.length
          Object.keys(scope).map (key) ->
             $scope.$watch key, refreshContactInfoFn
          refreshContactInfoFn()

@@ -82,7 +82,6 @@
             innerForcetkClient = new forcetk.Client(creds.clientId, creds.loginUrl, creds.proxyUrl, reauth);
             innerForcetkClient.setSessionToken(creds.accessToken, apiVersion, creds.instanceUrl);
             innerForcetkClient.setRefreshToken(creds.refreshToken);
-            innerForcetkClient.setIdentityUrl(creds.id);
             innerForcetkClient.setUserAgentString(patchUserAgent(creds.userAgent || innerForcetkClient.getUserAgentString()));
         }
 

@@ -361,12 +361,24 @@ h3.list-page-header {
    margin-bottom: 1.3rem;
 }
 
-.text-component-body {
+.text-component-body,
+.contact-details-component-body {
    background: transparent;
    padding: 1rem 1rem 1rem 2rem;
    overflow-y: hidden;
    font-size: 1rem;
 }
+
+.contact-details-component-body .contact-field {
+   display: block;
+}
+
+.contact-details-component-body *:first-child {
+   font-weight: 400;
+   margin-bottom: .7rem;
+   border-bottom: 1px solid #ccc;
+}
+
 .modal-adjust-component {
    color: #333;
 }
@@ -521,6 +533,10 @@ ul.component-adjustment-buttons.twosie {
    margin-bottom: -18px;
 }
 
+.author-contact-details-footer-label *:first-child {
+   display: inline;
+}
+
 .author-contact-details-footer-label .contact-field:before {
    content: ", ";
 }
@@ -539,11 +555,17 @@ ul.component-adjustment-buttons.twosie {
    font-size: 2rem;
 }
 
-.twitter-share-button {
+.share-page-view .share-buttons .btn {
+   font-size: 1.5rem;
+}
+
+.share-page-view .twitter-share-button {
    -webkit-transform: scale(1.6);
    transform: scale(1.6);
 }
 
+/* *** */
+/* Flipping "add component" button (credit: David Walsh) */
 /* *** */
 
 /* simple */

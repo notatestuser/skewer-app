@@ -21,7 +21,8 @@ div.opportunities-list-view
             tr(ng-repeat='skewer in skewers')
                td
                   a.pull-left(
-                        href='{{hostedAppRootUrl}}/#/skewer/{{opportunityId}}/{{skewer.Id}}/{{skewer.getskewer__Room_ID__c}}')
+                        target='_blank'
+                        href='{{hostedAppRootUrl}}/skewer/{{opportunityId}}/{{skewer.Id}}/{{skewer.getskewer__Room_ID__c}}')
                      | {{skewer.Name}}
                td {{skewer.getskewer__Created_By_Name__c}}
                td {{skewer.CreatedDate}}

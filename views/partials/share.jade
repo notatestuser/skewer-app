@@ -1,4 +1,4 @@
-div.clearfix
+div.share-page-view.clearfix
 
    .modal-body(style='text-align: center')
       h2.share-url-page-heading-text.modal-body
@@ -9,7 +9,7 @@ div.clearfix
          a(ng-show='shareUrl', href='{{shareUrl}}', target='_blank')
             | {{shareUrl}}
 
-      .modal-body.btn-group.btn-group-vertical.fade(
+      .share-buttons.modal-body.btn-group.btn-group-vertical.fade(
             ng-class='{"in":shareUrl}')
 
          a.btn.btn-large.btn-primary(
@@ -19,6 +19,6 @@ div.clearfix
             |  Tweet it
 
          a.btn.btn-large.btn-primary(
-               href='{{getMailtoLink()}}')
+               ng-click="composeEmail()")
             i.fa.fa-envelope
             |  Send by email
