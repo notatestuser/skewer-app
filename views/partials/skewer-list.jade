@@ -21,7 +21,7 @@ div.opportunities-list-view
             tr(ng-repeat='skewer in skewers')
                td
                   a.pull-left(
-                        href='{{hostedAppRootUrl}}/skewer/{{opportunityId}}/{{skewer.Id}}/{{skewer.getskewer__Room_ID__c}}')
+                        href='{{hostedAppRootUrl}}/#/skewer/{{opportunityId}}/{{skewer.Id}}/{{skewer.getskewer__Room_ID__c}}')
                      | {{skewer.Name}}
                td {{skewer.getskewer__Created_By_Name__c}}
                td {{skewer.CreatedDate}}
@@ -46,7 +46,7 @@ div.opportunities-list-view
          tr(ng-repeat='skewer in skewers')
             td: a.pull-left(
                   target='_blank'
-                  href='{{hostedAppRootUrl}}/skewer/{{opportunityId}}/{{skewer.Id}}/{{skewer.getskewer__Room_ID__c}}')
+                  href='{{hostedAppRootUrl}}/#/skewer/{{opportunityId}}/{{skewer.Id}}/{{skewer.getskewer__Room_ID__c}}')
                | {{skewer.Name | afterAndIncluding:"Skewer"}} by {{skewer.getskewer__Created_By_Name__c}}
 
    .loading-component-body(ng-switch='isLoading')

@@ -272,4 +272,12 @@ window.app
       "&url=#{encodeURIComponent(shareUrl)}"+
       "&tw_p=tweetbutton"+
       "&via=SkewerApp"
+
+   $scope.composeTweet = ->
+      return '' if not shareUrl = $scope.shareUrl
+      window.plugins.twitter.composeTweet (s) ->
+         console.log("tweet success")
+      , (e) ->
+         console.log("tweet failure: " + e)
+      , "Text, URL", urlAttach: shareUrl
 )

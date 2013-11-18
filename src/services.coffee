@@ -112,11 +112,11 @@ angular.module('skewer.services', [])
    }
 ])
 
-.factory('urlShortenerService', ['$http', ($http) ->
+.factory('urlShortenerService', ['$rootScope', '$http', ($rootScope, $http) ->
    generateShortUrlToSkewer: (roomId, opportunityId, pitchId) ->
       data =
          roomId: roomId
          pitchId: pitchId
          opportunityId: opportunityId
-      $http.post '/shortener', data
+      $http.post "#{$rootScope.hostedAppRootUrl}/shortener", data
 ])

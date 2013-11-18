@@ -138,7 +138,7 @@ window.app
 .directive('componentEditModal', ['contentAssetsService', (contentAssetsService) ->
    scope: {}
    restrict: 'A'
-   templateUrl: '/partials/components/component-edit-modal.html'
+   templateUrl: 'partials/components/component-edit-modal.html'
    controller: ['$scope', ($scope) ->
       $scope.doAndClose = (fn) ->
          result = fn() if fn
@@ -185,7 +185,7 @@ window.app
          true
    ]
    link: ($scope, elem) ->
-      w1 = $scope.$on 'component:editme', (ev, component, isNewComponent) ->
+       w1 = $scope.$on 'component:editme', (ev, component, isNewComponent) ->
          modalEl = $scope.modalEl = elem.children('.modal').first()
          $scope.component = component
          $scope.choosingType = isNewComponent
@@ -193,7 +193,7 @@ window.app
          $scope.$apply()
          modalEl.modal()
          false
-      w2 = $scope.$watch 'choosingContent', (newValue, oldValue) ->
+       w2 = $scope.$watch 'choosingContent', (newValue, oldValue) ->
          return if newValue is oldValue
          return $scope.availableContentItems = null if newValue isnt true
          Spinner = require('spinner')
@@ -206,10 +206,10 @@ window.app
             $scope.availableContentItems = items
             $scope.$apply() if $scope.$$phase isnt '$digest'
             undefined
-      # clean up when the scope is destroyed
-      $scope.$on 'destroy', ->
-         w1()
-         w2()
+       # clean up when the scope is destroyed
+       $scope.$on 'destroy', ->
+          w1()
+          w2()
 ])
 
 .directive('tapToAddComponent', ['$timeout', ($timeout) ->

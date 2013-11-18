@@ -98,8 +98,9 @@ app.constant('GoInstantAppUrl', 'https://goinstant.net/sdavyson/Skewer')
       templateUrl: 'partials/home.html'
       resolve: 
          app: ($q, $rootScope, AngularForce) ->
-            if AngularForce.inCordova
-               deferred = $q.defer()
+            deferred = $q.defer()
+            console.log('start cordova login')
+            if AngularForce.inCordova 
                unless AngularForce.authenticated()
                   console.log('Lets authenticate')
                   AngularForce.setCordovaLoginCred ->
@@ -109,7 +110,10 @@ app.constant('GoInstantAppUrl', 'https://goinstant.net/sdavyson/Skewer')
                else 
                   console.log('Already Has')
                   deferred.resolve()   
-               deferred.promise
+            else 
+               console.log('Already Has')
+               deferred.resolve()   
+            deferred.promise
    )
 
   # the editor
@@ -210,7 +214,7 @@ app.constant('GoInstantAppUrl', 'https://goinstant.net/sdavyson/Skewer')
 
 .run(['$rootScope', '$route', '$location',
 ($rootScope, $route, $location) ->
-   $rootScope.hostedAppRootUrl = 'https://app.getskewer.com/#'
+   $rootScope.hostedAppRootUrl = 'https://app.getskewer.com'
 
    $rootScope.navigateBackHome = ->
       $location.path '/login'
