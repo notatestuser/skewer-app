@@ -53,6 +53,7 @@ angular.module('skewer.services', [])
 ])
 
 .factory('pitchesService', ['$http', 'SFConfig', ($http, SFConfig) ->
+   lastViewTrackedPitchId = null
    getServiceUrlFn = (orgSiteHost, servicePath) ->
       console.log("orgSiteHost is #{orgSiteHost}")
       "https://#{orgSiteHost}#{servicePath}"
@@ -86,6 +87,8 @@ angular.module('skewer.services', [])
             'PUT',
             JSON.stringify(data), paramMap)
       trackPageViewInSalesforce: (orgSiteHost, roomId, opportunityId, pitchId) ->
+         return if pitchId is lastViewTrackedPitchId
+         lastViewTrackedPitchId = pitchId
          data = p: id: pitchId
          $http
             method: 'PUT'

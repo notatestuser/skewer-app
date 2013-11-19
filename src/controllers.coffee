@@ -14,7 +14,6 @@ GOINSTANT_CANVAS_SCOPE_SYNC_INCLUDES = [
    'contactEmail'
    'contactPhone'
    'contactCompanyName'
-   'salesforceOrgSiteHost'
 ]
 
 window.app
@@ -67,8 +66,6 @@ window.app
 
    $scope.logout = ->
       AngularForce.logout ->
-
-         #Now go to logout page
          $location.path "/logout"
          $scope.$apply()
 )
@@ -118,22 +115,21 @@ window.app
       ), (data) ->
 )
 
-.controller('SkewerCanvasCtrl', ($routeParams, $location, $timeout, $rootScope, $scope, AngularForce, GoAngular, pitchesService, shareService, pageBrandingData, salesforceOpportunity, userContactDetails) ->
+.controller('SkewerCanvasCtrl', ($routeParams, $location, $filter, $timeout, $rootScope, $scope, AngularForce, GoAngular, pitchesService, shareService, pageBrandingData, salesforceOpportunity, userContactDetails) ->
    return $location.path('/contacts') if not $routeParams?.opportunityId or not $routeParams?.roomId
 
    [opportunityId, pitchId, roomId] = [$routeParams?.opportunityId, $routeParams?.pitchId, $routeParams?.roomId]
 
    # so apparently GoInstant wasn't syncing these when they were in a hash, so I moved 'em out
    $scope.inEditMode = AngularForce.authenticated()
-   $scope.salesforceOrgSiteHost = $scope.salesforceOrgSiteHost
    $scope.saveInProgress = no
    $scope.aspectRatio = 1.777 # mobile-esque default
-   $scope.branding = '{}'
+   $scope.branding = JSON.stringify orgSiteHost: $scope.salesforceOrgSiteHost
 
    # the pitchId is only available when in "view mode"
    $scope.pitchId = pitchId
 
-   # grab the author's contact info (email, phone) for storing in the scope
+   # grab the author's contact info (email, phone) and the company name for storing in the scope
    $scope.contactName  = userContactDetails?.name  or ''
    $scope.contactEmail = userContactDetails?.email or ''
    $scope.contactPhone = userContactDetails?.phone or ''
@@ -162,7 +158,7 @@ window.app
          colDivide: 2
          type: 'text'
          renderUnsafeHtml: true
-         content: "Let's get started.<br>Just tap on the placeholder to the right of this message to place your first chunk."
+         content: "Let's get started.<br>Just tap on the box to the right of this message to place your first chunk.<br>Tap \"Finish\" when done."
       ]
 
    compactComponents = ->
@@ -219,14 +215,20 @@ window.app
 
    # fetch and configure page branding colours & logo in edit mode
    applyOrgBranding = ->
-      return if not brandingData = pageBrandingData
-      $scope.branding = JSON.stringify brandingData
+      return if not _brandingData = pageBrandingData
+      _existingBrandingData = if _.isString($scope.branding) then JSON.parse($scope.branding) else {}
+      _allBrandingData = _.extend {}, _existingBrandingData, _brandingData
+      $scope.branding  = JSON.stringify _allBrandingData
 
    # when branding is updated on the scope, by GI or otherwise, we'll have to apply it
    $scope.$watch 'branding', (newValue) ->
       return if not newValue or not _.isString(newValue)
-      $scope.$emit 'branding:apply', JSON.parse(newValue)
+      _branding = JSON.parse newValue
+      $scope.$emit 'branding:apply', _branding
       $scope.$emit 'branding:hidechrome' if not $scope.inEditMode
+      # when GoInstant has synced we should track a page view
+      orgSiteHost = $filter('orgSiteHostFromBranding') _branding
+      pitchesService.trackPageViewInSalesforce orgSiteHost, roomId, opportunityId, pitchId
    , true
 
    # if the user changes `inEditMode` we know it's high time for some syncin'
@@ -238,10 +240,6 @@ window.app
    else
       # when "edit mode" is off on load we should sync with GoInstant but not redirect
       inEditModeWatchCallbackFn(false)
-      # when GoInstant has synced we should track a page view
-      $scope.$watch 'salesforceOrgSiteHost', (newValue, oldValue) ->
-         return if newValue is oldValue
-         pitchesService.trackPageViewInSalesforce newValue, roomId, opportunityId, pitchId
 )
 
 .controller('SkewerShareCtrl', ($location, $scope, shareService, urlShortenerService, pitchesService, salesforcePitchId) ->
