@@ -232,8 +232,12 @@ if (forcetk.Client === undefined) {
     forcetk.Client.prototype.setIdentityUrl = function(identityUrl) {
         var matches;
         this.identityUrl = identityUrl;
+        console.log('INFOTEST: ' +  identityUrl);
         if (identityUrl !== undefined && identityUrl !== null) {
             matches = identityUrl.match(/\/([0-9a-zA-Z]+)$/);
+            console.log("Matches");
+            console.log(matches);
+            console.log(identityUrl);
             if (matches && matches.length >= 2) {
                 this.userId = matches[1];
             }
@@ -414,10 +418,13 @@ if (forcetk.Client === undefined) {
     forcetk.Client.prototype.apexrest = function(path, callback, error, method, payload, paramMap, retry) {
         var that = this;
         var url = this.instanceUrl + '/services/apexrest' + path;
+        if (!this.proxyUrl && paramMap && paramMap['SalesforceProxy-Endpoint']) {
+            url = paramMap['SalesforceProxy-Endpoint'];
+        }
         return $j.ajax({
             type: method || "GET",
             async: this.asyncAjax,
-            url: (this.proxyUrl !== null) ? this.proxyUrl: url,
+            url: (this.proxyUrl !== null) ? this.proxyUrl : url,
             contentType: 'application/json',
             cache: false,
             processData: false,
