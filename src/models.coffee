@@ -56,9 +56,10 @@ angular.module('ForceModels', [])
          fields: [
             'Id'
             'Name'
-            'getskewer__Source__c'
-            'getskewer__Tracked_Link__c'
             'getskewer__Text__c'
+            'getskewer__Source__c'
+            'getskewer__Rich_Text__c'
+            'getskewer__Tracked_Link__c'
          ]
          where: "getskewer__Type__c = '#{type}' and getskewer__Show_In_Skewer__c = 1"
          orderBy: 'Name'
@@ -72,10 +73,10 @@ angular.module('ForceModels', [])
       type: 'getskewer__Skewer_Settings__c'
       fields: [
          'Id'
-         'getskewer__Logo_Bar_Background_Colour__c' # what is this?
-         'getskewer__Page_Background_Colour__c'
-         'getskewer__Text_Colour__c'
          'getskewer__Logo_Link__c'
+         'getskewer__Text_Colour__c'
+         'getskewer__Page_Background_Colour__c'
+         'getskewer__Logo_Bar_Background_Colour__c' # what is this?
       ]
       where: ''
       orderBy: 'Name'

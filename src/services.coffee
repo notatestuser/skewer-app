@@ -27,7 +27,7 @@ angular.module('skewer.services', [])
                id:       current.Id
                name:     current.Name
                linkHref: current.getskewer__Tracked_Link__c
-               content:  current.getskewer__Source__c or current.getskewer__Text__c
+               content:  current.getskewer__Source__c or current.getskewer__Rich_Text__c or current.getskewer__Text__c
             prev
          , []
          callback null, obj

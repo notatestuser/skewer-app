@@ -136,10 +136,7 @@ window.app
       $scope.$watch 'component.content', updateBodyFn = (newValue, oldValue) ->
          return if newValue is oldValue
          content = $scope.component.content
-         if $scope.component?.renderUnsafeHtml
-            elem.html content
-         else
-            elem.text content
+         elem.html content
          fitOverflowingTextFn()
       $scope.$watch 'component.rowScale', _.debounce(fitOverflowingTextFn, 300)
       $(window).resize _.debounce(fitOverflowingTextFn, 100)
