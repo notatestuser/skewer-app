@@ -49,6 +49,9 @@
       overflow-x: hidden;
       white-space: nowrap;
    }
+   .responsive-item-list-table td a.highlighted-first-item {
+      font-weight: 400;
+   }
    .responsive-item-list-table td a {
       width: 100vw;
       display: block;
@@ -58,6 +61,9 @@
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;
+   }
+   .responsive-item-list-table td aside {
+      color: #777;
    }
    .responsive-item-list-table .loading-spinner-container {
       padding: .6rem 0;
@@ -90,6 +96,13 @@ body {
 h1, h2, h3, h4, h5, h6 {
    font-family: 'Helvetica Neue', 'Helvetica', Arial;
    font-weight: 200;
+}
+
+a,
+a:hover,
+a:active,
+a:visited {
+   text-decoration: none;
 }
 
 button {

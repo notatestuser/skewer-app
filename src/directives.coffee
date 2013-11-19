@@ -4,9 +4,23 @@ window.app
 
 ####
 
+.filter('pluralizeIfSeveral', ->
+    (str, qty=0) ->
+      qty = parseInt qty
+      return 'once'  if qty is 1
+      return 'twice' if qty is 2
+      str += 's'     if qty > 1 or qty is 0
+      str
+)
+
 .filter('afterAndIncluding', ->
    (str='', token='') ->
       str.substring str.indexOf(token)
+)
+
+.filter('beforeAndExcluding', ->
+   (str='', token='') ->
+      str.substring 0, str.indexOf(token)
 )
 
 .filter('orgSiteHostFromBranding', ->
@@ -122,10 +136,7 @@ window.app
       $scope.$watch 'component.content', updateBodyFn = (newValue, oldValue) ->
          return if newValue is oldValue
          content = $scope.component.content
-         if $scope.component?.renderUnsafeHtml
-            elem.html content
-         else
-            elem.text content
+         elem.html content
          fitOverflowingTextFn()
       $scope.$watch 'component.rowScale', _.debounce(fitOverflowingTextFn, 300)
       $(window).resize _.debounce(fitOverflowingTextFn, 100)
