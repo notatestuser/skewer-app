@@ -62,8 +62,6 @@ window.app
 
    $scope.logout = ->
       AngularForce.logout ->
-
-         #Now go to logout page
          $location.path "/logout"
          $scope.$apply()
 )
@@ -127,7 +125,7 @@ window.app
    # the pitchId is only available when in "view mode"
    $scope.pitchId = pitchId
 
-   # grab the author's contact info (email, phone) for storing in the scope
+   # grab the author's contact info (email, phone) and the company name for storing in the scope
    $scope.contactName  = userContactDetails?.name  or ''
    $scope.contactEmail = userContactDetails?.email or ''
    $scope.contactPhone = userContactDetails?.phone or ''
