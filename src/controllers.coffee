@@ -154,7 +154,7 @@ window.app
          colDivide: 2
          type: 'text'
          renderUnsafeHtml: true
-         content: "Let's get started.<br>Just tap on the placeholder to the right of this message to place your first chunk."
+         content: "Let's get started.<br>Just tap on the box to the right of this message to place your first chunk.<br>Tap \"Finish\" when done."
       ]
 
    compactComponents = ->
