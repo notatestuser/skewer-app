@@ -65,7 +65,7 @@ angular.module('AngularForce', ['fsCordova']).
          */
         this.setCordovaLoginCred = function (callback) {
             CordovaService.ready.then(function(){
-                if (!cordova) throw 'Cordova/PhoneGap not found.';
+                // if (!cordova) throw 'Cordova/PhoneGap not found.';
                                       
                 //Call getAuthCredentials to get the initial session credentials
                 cordova.require("salesforce/plugin/oauth").getAuthCredentials(salesforceSessionRefreshed, getAuthCredentialsError);
@@ -88,7 +88,9 @@ angular.module('AngularForce', ['fsCordova']).
                         SFConfig.client.setSessionToken(credsData.accessToken, apiVersion, credsData.instanceUrl);
                         SFConfig.client.setRefreshToken(credsData.refreshToken);
                         SFConfig.client.setIdentityUrl(credsData.id);
-                                      
+                        console.log("CREDSDATA:");
+                        console.log(credsData);
+                        console.log(oauthResponse);
                         //Set sessionID to angularForce coz profileImages need them
                         self.sessionId = SFConfig.client.sessionId;
                    

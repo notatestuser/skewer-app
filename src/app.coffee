@@ -166,6 +166,7 @@ app.constant('GoInstantAppUrl', 'https://goinstant.net/sdavyson/Skewer')
          ($q, $rootScope, $route, SFConfig, Skewer) ->
             deferred = $q.defer()
             {opportunityId} = $route.current.params
+            console.log(opportunityId);
             Skewer(SFConfig.client.userId, opportunityId)
             .query ((data) ->
                $rootScope.$apply ->
