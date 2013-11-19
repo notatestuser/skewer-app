@@ -112,6 +112,8 @@ angular.module('skewer.services', [])
       get: (key) ->
          return null if not store[key]
          store[key]
+      hasAttrs: ->
+         Boolean store.opportunityId
    }
 ])
 

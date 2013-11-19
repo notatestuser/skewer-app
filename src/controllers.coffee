@@ -53,9 +53,7 @@ window.app
       #If in visualforce, 'login' = initialize entity framework
       if AngularForce.inVisualforce
          AngularForce.login ->
-            console.log "Our userId is #{SFConfig.client.userId}"
-            console.log "Our instanceUrl is #{SFConfig.client.instanceUrl}"
-            $location.path "/contacts/"
+            $location.path '/contacts/'
       else
          AngularForce.login()
 

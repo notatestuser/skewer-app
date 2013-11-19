@@ -97,23 +97,23 @@ app.constant('GoInstantAppUrl', 'https://goinstant.net/sdavyson/Skewer')
    .when('/',
       controller: 'HomeCtrl'
       templateUrl: 'partials/home.html'
-      resolve: 
+      resolve:
          app: ($q, $rootScope, AngularForce) ->
             deferred = $q.defer()
             console.log('start cordova login')
-            if AngularForce.inCordova 
+            if AngularForce.inCordova
                unless AngularForce.authenticated()
                   console.log('Lets authenticate')
                   AngularForce.setCordovaLoginCred ->
                      $rootScope.$apply ->
                         console.log('Ready')
                         deferred.resolve()
-               else 
+               else
                   console.log('Already Has')
-                  deferred.resolve()   
-            else 
+                  deferred.resolve()
+            else
                console.log('Already Has')
-               deferred.resolve()   
+               deferred.resolve()
             deferred.promise
    )
 
@@ -138,19 +138,25 @@ app.constant('GoInstantAppUrl', 'https://goinstant.net/sdavyson/Skewer')
       controller: 'SkewerShareCtrl'
       templateUrl: 'partials/share.html'
       resolve:
-         salesforcePitchId: ['$route', '$q', '$rootScope', 'shareService', 'pitchesService',
-         ($route, $q, $rootScope, shareService, pitchesService) ->
+         salesforcePitchId: ['$q', '$route', '$location', '$rootScope', 'AngularForce', 'shareService', 'pitchesService',
+         ($q, $route, $location, $rootScope, AngularForce, shareService, pitchesService) ->
             deferred = $q.defer()
-            [roomId, fileIdList, opportunityId] = [
-               shareService.get('roomId'),
-               shareService.get('fileIdList'),
-               shareService.get('opportunityId')
-            ]
-            {salesforceOrgSiteHost} = $rootScope
-            pitchesService.createPitchInSalesforce salesforceOrgSiteHost, roomId, opportunityId, fileIdList,
-            (pitchId) ->
-               $rootScope.$apply ->
-                  deferred.resolve pitchId
+            if shareService.hasAttrs()
+               [roomId, fileIdList, opportunityId] = [
+                  shareService.get('roomId'),
+                  shareService.get('fileIdList'),
+                  shareService.get('opportunityId')
+               ]
+               {salesforceOrgSiteHost} = $rootScope
+               pitchesService.createPitchInSalesforce salesforceOrgSiteHost, roomId, opportunityId, fileIdList,
+               (pitchId) ->
+                  $rootScope.$apply ->
+                     deferred.resolve pitchId
+            else
+               # redirect back to login if we don't have the required attributes
+               AngularForce.login ->
+                  $location.path '/contacts/'
+               deferred.reject()
             deferred.promise
          ]
       showBranding: false
@@ -219,7 +225,12 @@ app.constant('GoInstantAppUrl', 'https://goinstant.net/sdavyson/Skewer')
    $rootScope.hostedAppRootUrl = 'https://app.getskewer.com'
 
    $rootScope.navigateBackHome = ->
-      $location.path '/login'
+      unless $location.path() is '/skewer/share'
+         # no need to reload
+         $location.path '/login'
+      else
+         # we must reinitialise our app and join a new GoInstant room
+         window.location.reload()
 
    $rootScope.$on '$routeChangeSuccess', (event, current) ->
       $rootScope.isBrandedRoute = $route.current?.$$route?.showBranding
