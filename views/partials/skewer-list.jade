@@ -15,6 +15,8 @@ div.opportunities-list-view
          thead
             tr
                th Name
+               th Views
+               th Clicks
                th Owner
                th Created at
          tbody
@@ -24,6 +26,8 @@ div.opportunities-list-view
                         target='_blank'
                         href='{{hostedAppRootUrl}}/skewer/{{opportunityId}}/{{skewer.Id}}/{{skewer.getskewer__Room_ID__c}}')
                      | {{skewer.Name}}
+               td {{skewer.getskewer__Total_Views__c}}
+               td {{skewer.getskewer__Total_Clicks__c}}
                td {{skewer.getskewer__Created_By_Name__c}}
                td {{skewer.CreatedDate}}
 

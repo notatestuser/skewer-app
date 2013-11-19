@@ -33,6 +33,8 @@ angular.module('ForceModels', [])
             'Id'
             'Name'
             'CreatedDate'
+            'getskewer__Total_Clicks__c'
+            'getskewer__Total_Views__c'
             'getskewer__Short_URL__c'
             'getskewer__Opportunity__c'
             'getskewer__Room_ID__c'
