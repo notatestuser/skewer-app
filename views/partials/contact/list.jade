@@ -30,11 +30,6 @@ div.opportunities-list-view
    .visible-phone(ng-class='{"slide":isLoading}')
       h3.list-page-header Pick an Opportunity
 
-      //- form.form-inline
-         input.input-medium.search-query(type='text', ng-model='searchTerm', placeholder='Search')
-         button.btn.btn-primary(ng-click='doSearch(searchString)')
-            | Go
-
       table.table.responsive-item-list-table
          tr(ng-repeat='opportunity in opportunities')
             td: a.pull-left(

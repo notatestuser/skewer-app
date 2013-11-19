@@ -4,9 +4,23 @@ window.app
 
 ####
 
+.filter('pluralizeIfSeveral', ->
+    (str, qty=0) ->
+      qty = parseInt qty
+      return 'once'  if qty is 1
+      return 'twice' if qty is 2
+      str += 's'     if qty > 1 or qty is 0
+      str
+)
+
 .filter('afterAndIncluding', ->
    (str='', token='') ->
       str.substring str.indexOf(token)
+)
+
+.filter('beforeAndExcluding', ->
+   (str='', token='') ->
+      str.substring 0, str.indexOf(token)
 )
 
 .filter('orgSiteHostFromBranding', ->
