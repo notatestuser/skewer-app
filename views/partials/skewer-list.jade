@@ -15,6 +15,8 @@ div.opportunities-list-view
          thead
             tr
                th Name
+               th Views
+               th Clicks
                th Owner
                th Created at
          tbody
@@ -24,6 +26,8 @@ div.opportunities-list-view
                         target='_blank'
                         href='{{hostedAppRootUrl}}/skewer/{{opportunityId}}/{{skewer.Id}}/{{skewer.getskewer__Room_ID__c}}')
                      | {{skewer.Name}}
+               td {{skewer.getskewer__Total_Views__c}}
+               td {{skewer.getskewer__Total_Clicks__c}}
                td {{skewer.getskewer__Created_By_Name__c}}
                td {{skewer.CreatedDate}}
 
@@ -31,14 +35,9 @@ div.opportunities-list-view
    .visible-phone(ng-class='{"slide":isLoading}')
       h3.list-page-header Pick a Skewer
 
-      //- form.form-inline
-         input.input-medium.search-query(type='text', ng-model='searchTerm', placeholder='Search')
-         button.btn.btn-primary(ng-click='doSearch(searchString)')
-            | Go
-
       table.table.responsive-item-list-table
          tr(ng-click='doView(opportunityId)')
-            td: a.pull-left(
+            td: a.highlighted-first-item.pull-left(
                   href='#/skewer/{{opportunityId}}/{{giRoomId}}'
                   ng-click='showLoadingState()')
                i.fa.fa-plus
@@ -47,8 +46,15 @@ div.opportunities-list-view
          tr(ng-repeat='skewer in skewers')
             td: a.pull-left(
                   target='_blank'
-                  href='{{hostedAppRootUrl}}/#/skewer/{{opportunityId}}/{{skewer.Id}}/{{skewer.getskewer__Room_ID__c}}')
-               | {{skewer.Name | afterAndIncluding:"Skewer"}} by {{skewer.getskewer__Created_By_Name__c}}
+                  href='{{hostedAppRootUrl}}/skewer/{{opportunityId}}/{{skewer.Id}}/{{skewer.getskewer__Room_ID__c}}')
+               | {{skewer.Name | afterAndIncluding:'Skewer'}} by {{skewer.getskewer__Created_By_Name__c}}
+               aside(ng-switch='views = skewer.getskewer__Total_Views__c')
+                  small
+                     | Created on {{skewer.CreatedDate | beforeAndExcluding:'T'}},
+                  small(ng-switch-default)
+                     |  viewed {{views + ' time' | pluralizeIfSeveral:views}}
+                  small(ng-switch-when='0')
+                     |  never viewed
 
    .loading-component-body(ng-switch='isLoading')
       span(ng-switch-when='true')
