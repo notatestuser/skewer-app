@@ -2,10 +2,22 @@ COMPONENT_LINK_PID_PLACEHOLDER = '[PITCHID]'
 
 window.app
 
-.filter('afterAndIncluding', [->
+####
+
+.filter('afterAndIncluding', ->
    (str='', token='') ->
       str.substring str.indexOf(token)
-])
+)
+
+.filter('orgSiteHostFromBranding', ->
+   (brandingHash={}) ->
+      source = brandingHash.orgSiteHost or brandingHash.logoSrcUrl
+      matches = source.match /([a-z0-9-.]+)(:(\d{1,5}))?((\/[a-z0-9]+)+|\/|$)/
+      return matches[1] if matches and matches.length >= 2
+      ''
+)
+
+####
 
 .directive('appliesAdaptiveFontSizing', [->
    restrict: 'A'
