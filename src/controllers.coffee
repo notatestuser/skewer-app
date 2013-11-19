@@ -21,10 +21,9 @@ window.app
 .controller('HomeCtrl', ($scope, AngularForce, $location, $route) ->
    isOnline = AngularForce.isOnline()
    isAuthenticated = AngularForce.authenticated()
-   
+
    if AngularForce.inCordova
       return $location.path "/contacts/"
-
 
    #Offline support (only for Cordova)
    #First check if we are online, then check if we are already authenticated (usually happens in Cordova),
@@ -34,7 +33,6 @@ window.app
          return $location.path "/login"
       else #Cordova
          return $location.path "/contacts/"
-
 
    #If in visualforce, directly login
    if AngularForce.inVisualforce
@@ -242,7 +240,7 @@ window.app
       inEditModeWatchCallbackFn(false)
 )
 
-.controller('SkewerShareCtrl', ($location, $scope, shareService, urlShortenerService, pitchesService, salesforcePitchId) ->
+.controller('SkewerShareCtrl', ($window, $location, $scope, AngularForce, shareService, urlShortenerService, pitchesService, salesforcePitchId) ->
    [roomId, fileIdList, opportunityId] = [
       shareService.get('roomId'),
       shareService.get('fileIdList'),
@@ -273,42 +271,23 @@ window.app
 
    $scope.composeTweet = ->
       return '' if not shareUrl = $scope.shareUrl
-      window.plugins.twitter.composeTweet (s) ->
-         console.log("tweet success")
-      , (e) ->
-         console.log("tweet failure: " + e)
-      , "Text, URL", urlAttach: shareUrl
+      if AngularForce.inCordova
+         window.plugins.twitter.composeTweet (s) ->
+            console.log("tweet success")
+         , (e) ->
+            console.log("tweet failure: " + e)
+         , "Text, URL", urlAttach: shareUrl
+      else
+         # just redirect there if we're on the web
+         $window.location.href = $scope.getTwitterTweetButtonLink()
 
    $scope.composeEmail = ->
       return '' if not shareUrl = $scope.shareUrl
-      window.plugins.emailComposer.show 
-            to: 'to@example.com',
-            cc: 'cc@example.com',
-            bcc: 'bcc@example.com',
-            subject: 'Example email message',
-            body: '<h1>Hello, world!</h1>',
-            isHtml: true,
-            attachments: [
-               # attach a HTML file using a UTF-8 encoded string
-               {
-                  mimeType: 'text/html',
-                  encoding: 'UTF-8',
-                  data: '<html><body><h1>Hello, World!</h1></body></html>',
-                  name: 'demo.html'
-               },
-               # // attach a base-64 encoding of http://incubator.apache.org/cordova/images/cordova_128.png
-               {
-                  mimeType: 'image/png',
-                  encoding: 'Base64',
-                  data: 'iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB1WlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNS4xLjIiPgogICA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICAgICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgICAgICAgICB4bWxuczp0aWZmPSJodHRwOi8vbnMuYWRvYmUuY29tL3RpZmYvMS4wLyI+CiAgICAgICAgIDx0aWZmOkNvbXByZXNzaW9uPjE8L3RpZmY6Q29tcHJlc3Npb24+CiAgICAgICAgIDx0aWZmOlBob3RvbWV0cmljSW50ZXJwcmV0YXRpb24+MjwvdGlmZjpQaG90b21ldHJpY0ludGVycHJldGF0aW9uPgogICAgICAgICA8dGlmZjpPcmllbnRhdGlvbj4xPC90aWZmOk9yaWVudGF0aW9uPgogICAgICA8L3JkZjpEZXNjcmlwdGlvbj4KICAgPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4K5JKPKQAAAtpJREFUOBFNU0toE1EUPTOZTJI2qbG0qUnwg1IFtSBI967cCBHcSsGFgktdC125EvwVLKi0FApaCChuRMSFqAitCNrGJE1DadpSYz5OvpPJ5Od5007xwc1998475513743U6/Uk7K1Op6O0Wq2pdrvt597odrugh/A0hcdk+luhUKhgY0Ryf5HsmizLNz0eN9qtNvRGA8xBdTohyxJjQ8TrBEzaIOk/BQNk3+YHL1WAKiyguL1Wr1tK3C6XteeZ01SRFCSy+Nlb07zdG0umcPvOXTyde8lbZbjcbjyYnsG5CxG8fvsBBJKs+8wG2QouMvFOJB9Mz+JnLA6P24UBnxcNo4nk2jpiiVWEQ2G8j87ApSqo643rgUBg1lJgGMaUAK/EkyhVaxg7eQLhoUEoThX9JBk54MVh/wDSm1uYj75Bv9eHRqNxL5PJTFpF1DRN8fX3oVKp4GhwGB6/H50eoO3sIBgYRpdvr/v8cCeS8KgOFHNZZLNZlfVTLQWKoixDkuElyeLXJdT7vGiHw/j+7QdezC9gCw6MX76Ezx+/QJYkVKiShU6y0MuWAjKlzJYJp+JAIZdDJl+AT3ZgM7OJYqGA4Jkx/C5X4XEpvMSDaq0K0zRTAmcRkCnZZutEm4p6A3MPn8Ahel/SoJstbEVf4dNCFIPBQ/ByRqpU0Gw2UyzbhkVAOSkywuGQMT5+HgOsuEtRIJ06jl63B4nqmuzGwZEAnE7FIhCYSCRSsggIXmcnxLtw4+oViNluc4Q7HCbbi4ES34tayRoyHknTdgdpdHQ0S4KcUJBKrdXuP3q8XGZH/uTzyOXyKJXLeD4zF1uJr2ZFnfh26Lq+sU8gSZJaLpfTBmWyQLWlxaWczlpoWskk2GzyefH4r7+JRGKHZ4WS9MTEREUQWJPIpJv7Y7SztCM0EYvV3XX7I28w3qbFaBtUotsEKhN+2hCtjybmwwZzay07pzMSf+cSCcx/K8WXLZEV/swAAAAASUVORK5CYII=',
-                  name: 'cordova.png'
-               },
-               #// attach a file using a hypothetical file path
-               #//,{ filePath: './path/to/your-file.jpg' }
-            ],
-            onSuccess: (winParam) ->
-               console.log('EmailComposer onSuccess - return code ' + winParam.toString());
-            ,
-            onError: (error) ->
-               console.log('EmailComposer onError - ' + error.toString());
+      if AngularForce.inCordova
+         window.plugins.emailComposer.show
+            subject: "Here's some information for you",
+            body: "<p>Here's some follow-up information that I think you'll find useful.</p><p><a href='#{shareUrl}'>#{shareUrl}</a></p>",
+            isHtml: true
+      else
+         $window.location.href = $scope.getMailtoLink()
 )
