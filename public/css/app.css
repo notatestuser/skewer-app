@@ -361,6 +361,11 @@ h3.list-page-header {
    margin-bottom: 1.3rem;
 }
 
+.document-component-body {
+   font-weight: 500;
+   background-position: top center;
+}
+
 .text-component-body,
 .contact-details-component-body {
    background: transparent;
