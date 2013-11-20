@@ -51,6 +51,8 @@ app.post('/shortener', function(req, res) {
       return res.json(400, {error: 'Unexpected input(s)'});
    }
    shorturl(rootUrl+'/#/skewer/'+body.opportunityId+'/'+body.pitchId+'/'+body.roomId,
+      'goo.gl',
+      {key: 'AIzaSyCIVwvSXOjf3Tof2UQ9BEViaBhRFUSXss0'},
       function(shortUrl) {
          res.json(201, {url: shortUrl});
       });
