@@ -6,7 +6,7 @@ div.share-page-view.clearfix
 
       h3.share-url-page-share-url.modal-body(ng-class='{"well":shareUrl}')
          span(ng-show='!shareUrl', loading-spinner, data-spinner-size='29')
-         a(ng-show='shareUrl', href='{{shareUrl}}', target='_blank')
+         a(ng-show='shareUrl', ng-click='openShareUrl()', href='javascript:void(0)', target='_blank')
             | {{shareUrl}}
 
       .share-buttons.modal-body.btn-group.btn-group-vertical.fade(

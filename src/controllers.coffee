@@ -258,6 +258,13 @@ window.app
       # update the URL in salesforce (this can & will happen in the background)
       pitchesService.updatePitchShortUrlInSalesforce $scope.salesforceOrgSiteHost, salesforcePitchId, _shareUrl
 
+   $scope.openShareUrl = ->
+      url = $scope.shareUrl
+      if AngularForce.inCordova
+         navigator.app.loadUrl url, openExternal: yes
+      else
+         window.open url
+
    $scope.getMailtoLink = ->
       return '' if not shareUrl = $scope.shareUrl
       "mailto:"+
