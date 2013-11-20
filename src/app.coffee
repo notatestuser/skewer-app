@@ -26,12 +26,12 @@ app.constant('GoInstantAppUrl', 'https://goinstant.net/sdavyson/Skewer')
 
    # do we already have a room id?
    rooms = []
-   matches = $window.$get().location.hash.match(/\/([a-z0-9]+)$/)
+   matches = $window.$get().location.hash.match(/\/(GIR[a-z0-9]+)$/)
    if matches
       rooms.push matches[1]
    else
       # no. generate one
-      rooms.push Math.random().toString(36).substring(2)
+      rooms.push 'GIR'+Math.random().toString(36).substring(2)
    GoInstantRoomIdProvider.setRoomId roomId = rooms[0]
    platformProvider.set GoInstantAppUrl, rooms: rooms
    console.log "Default GoInstant room ID configured as #{roomId}"

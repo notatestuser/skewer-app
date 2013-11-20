@@ -203,7 +203,7 @@ window.app
             $scope,
             'SkewerEditorCtrl',
             include: GOINSTANT_CANVAS_SCOPE_SYNC_INCLUDES
-            room: $routeParams.roomId)
+            room: roomId)
          .initialize()
          .then ->
             # take us to the "share" page!
