@@ -163,11 +163,12 @@ window.app
       "mailto:"+
       "?X-Sent-Via=Skewer"+
       "&to=#{contactName}%20<#{contactEmail}>"+
-      "&subject="+encodeURIComponent('In response to your Skewer')
+      "&subject="+encodeURIComponent('In response to your Skewer page')
    {
       restrict: 'AC'
       link: ($scope, elem) ->
          elem.click ->
+            return if $scope.inEditMode
             return if not ((contactName = $scope.contactName) and (contactEmail = $scope.contactEmail))
             if AngularForce.inCordova
                window.plugins.emailComposer.show
