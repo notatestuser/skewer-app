@@ -49,7 +49,9 @@ app.get('/partials/:folder/:filename.html', function (req, res) {
 });
 app.post('/shortener', function(req, res) {
    var body = req.body
-     , rootUrl = req.header('origin') || 'https://app.getskewer.com';
+     , origin = req.header('origin')
+     , rootUrl = origin.indexOf('http') === 0 ? origin : 'https://app.getskewer.com'
+     ;
    if (typeof(body) !== 'object' || !body.opportunityId || !body.pitchId || !body.roomId) {
       return res.json(400, {error: 'Unexpected input(s)'});
    }
