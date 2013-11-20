@@ -9,8 +9,11 @@ var express  = require('express')
   , shorturl = require('shorturl');
 
 //SET APP_RELATIVE_PATH to a folder where your app's index.html resides.
-var APP_RELATIVE_PATH = path.join(__dirname, '/public/');
-console.log(APP_RELATIVE_PATH);
+var APP_RELATIVE_PATH = path.join(__dirname, '/public/')
+  , URL_FORWARDER = 'goo.gl'
+  , URL_FORWARDER_KEY = 'AIzaSyCIVwvSXOjf3Tof2UQ9BEViaBhRFUSXss0'
+  , OUR_SHORT_URL_FORWARDING_DOMAIN = 'skwr.me'
+  ;
 
 var app = express();
 
@@ -51,9 +54,10 @@ app.post('/shortener', function(req, res) {
       return res.json(400, {error: 'Unexpected input(s)'});
    }
    shorturl(rootUrl+'/#/skewer/'+body.opportunityId+'/'+body.pitchId+'/'+body.roomId,
-      'goo.gl',
-      {key: 'AIzaSyCIVwvSXOjf3Tof2UQ9BEViaBhRFUSXss0'},
+      URL_FORWARDER,
+      {key: URL_FORWARDER_KEY},
       function(shortUrl) {
+         shortUrl = shortUrl.replace(URL_FORWARDER, OUR_SHORT_URL_FORWARDING_DOMAIN);
          res.json(201, {url: shortUrl});
       });
 });
