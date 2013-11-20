@@ -8,6 +8,9 @@ var express  = require('express')
   , request  = require('request')
   , shorturl = require('shorturl');
 
+var BITLY_LOGIN   = 'sdavyson'
+  , BITLY_API_KEY = 'R_b495fef45678f5ccb6b8e4696c1efed6';
+
 //SET APP_RELATIVE_PATH to a folder where your app's index.html resides.
 var APP_RELATIVE_PATH = path.join(__dirname, '/public/');
 console.log(APP_RELATIVE_PATH);
@@ -44,16 +47,21 @@ app.get('/partials/:filename.html', function (req, res) {
 app.get('/partials/:folder/:filename.html', function (req, res) {
    res.render("partials/"+req.params.folder+"/"+req.params.filename);
 });
+
 app.post('/shortener', function(req, res) {
    var body = req.body
-     , rootUrl = req.header('origin') || 'https://app.getskewer.com';
+     , rootUrl = req.header('origin') || 'https://app.getskewer.com'
+     , targetUrl;
    if (typeof(body) !== 'object' || !body.opportunityId || !body.pitchId || !body.roomId) {
       return res.json(400, {error: 'Unexpected input(s)'});
    }
-   shorturl(rootUrl+'/#/skewer/'+body.opportunityId+'/'+body.pitchId+'/'+body.roomId,
-      function(shortUrl) {
-         res.json(201, {url: shortUrl});
-      });
+   targetUrl = rootUrl+'/#/skewer/'+body.opportunityId+'/'+body.pitchId+'/'+body.roomId;
+   shorturl(targetUrl, 'bit.ly', {
+      login:  BITLY_LOGIN,
+      apiKey: BITLY_API_KEY
+   }, function(shortUrl) {
+      res.json(201, {url: shortUrl});
+   });
 });
 
 /* Salesforce proxy */
