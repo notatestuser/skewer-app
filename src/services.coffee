@@ -86,7 +86,7 @@ angular.module('skewer.services', [])
             'PUT',
             JSON.stringify(data), paramMap)
       trackPageViewInSalesforce: (orgSiteHost, roomId, opportunityId, pitchId) ->
-         return if pitchId is lastViewTrackedPitchId
+         return if pitchId is lastViewTrackedPitchId or not orgSiteHost
          lastViewTrackedPitchId = pitchId
          data = p: id: pitchId
          $http

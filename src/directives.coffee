@@ -26,6 +26,7 @@ window.app
 .filter('orgSiteHostFromBranding', ->
    (brandingHash={}) ->
       source = brandingHash.orgSiteHost or brandingHash.logoSrcUrl
+      return '' if not source
       matches = source.match /([a-z0-9-.]+)(:(\d{1,5}))?((\/[a-z0-9]+)+|\/|$)/
       return matches[1] if matches and matches.length >= 2
       ''
@@ -102,9 +103,8 @@ window.app
    restrict: 'AC'
    controller: ($scope) ->
       $scope.getComponentClasses = (component={}) ->
-         type = component.type or 'placeholder'
          baseClasses =  ''
-         baseClasses += " #{type}-component"
+         baseClasses += " #{component.type}-component"
          baseClasses
       $scope.handleComponentClick = (component={}) ->
          if $scope.inEditMode
@@ -155,6 +155,28 @@ window.app
             contentSrc = sslizeImageSrc($scope.component.content)
             elem.css backgroundImage: "url(#{contentSrc})"
          updateBodyFn true
+   }
+])
+
+.directive('contactDetailsComponentBody', ['$window', 'AngularForce', ($window, AngularForce) ->
+   getMailtoLink = (contactName, contactEmail) ->
+      "mailto:"+
+      "?X-Sent-Via=Skewer"+
+      "&to=#{contactName}%20<#{contactEmail}>"+
+      "&subject="+encodeURIComponent('In response to your Skewer')
+   {
+      restrict: 'AC'
+      link: ($scope, elem) ->
+         elem.click ->
+            return if not ((contactName = $scope.contactName) and (contactEmail = $scope.contactEmail))
+            if AngularForce.inCordova
+               window.plugins.emailComposer.show
+                  to: "#{contactName} <#{contactEmail}>"
+                  subject: 'In response to your Skewer',
+                  body: '',
+                  isHtml: true
+            else
+               $window.location.href = getMailtoLink(contactName, contactEmail)
    }
 ])
 
