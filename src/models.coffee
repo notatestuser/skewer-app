@@ -26,7 +26,6 @@ angular.module('ForceModels', [])
 (AngularForceObjectFactory) ->
    (byUserId, byOpportunityId) ->
       where  = "getskewer__Opportunity__c = '#{byOpportunityId}'" if byOpportunityId
-      where += " and getskewer__Created_By_ID__c = '#{byUserId}'" if byUserId
       objDesc =
          type: 'getskewer__Skewer__c'
          fields: [
