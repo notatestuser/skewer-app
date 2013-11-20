@@ -89,10 +89,7 @@ window.app
 
    $scope.openSkewer = (skewer={}) ->
       url = skewer.getskewer__Short_URL__c
-      if AngularForce.inCordova
-         navigator.app.loadUrl url, openExternal: yes
-      else
-         window.open url
+      window.open url, '_blank'
 
    $scope.doSearch = ->
       Opportunity().search $scope.searchTerm, ((data) ->
@@ -260,10 +257,7 @@ window.app
 
    $scope.openShareUrl = ->
       url = $scope.shareUrl
-      if AngularForce.inCordova
-         navigator.app.loadUrl url, openExternal: yes
-      else
-         window.open url
+      window.open url, '_blank'
 
    $scope.getMailtoLink = ->
       return '' if not shareUrl = $scope.shareUrl
