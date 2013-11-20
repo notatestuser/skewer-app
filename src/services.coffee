@@ -64,7 +64,6 @@ angular.module('skewer.services', [])
          data = p:
             roomId: roomId
             opportunityId: opportunityId
-            userId: SFConfig.client.userId
          data.p.fileList = fileIdList if _.isString(fileIdList)
          paramMap =
             'SalesforceProxy-Endpoint': getServiceUrlFn(orgSiteHost, APEX_REST_PITCH_CREATE_PATH)
