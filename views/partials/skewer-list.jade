@@ -2,11 +2,7 @@ div.opportunities-list-view
 
    .hidden-phone.fade(ng-class='{"in":!isLoading}')
       div(style='margin-bottom: 10px;')
-         input.search-query(type='text', ng-model='searchTerm', placeholder='Search')
-         p.btn.btn-primary(ng-click='doSearch(searchString)')
-            |  Go
-
-         a.btn.btn-primary.pull-right(
+         a.btn.btn-primary(
                href='#/skewer/{{opportunityId}}/{{giRoomId}}'
                ng-click='showLoadingState()')
             | + Create a Skewer
