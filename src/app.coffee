@@ -155,7 +155,7 @@ app.constant('GoInstantAppUrl', 'https://goinstant.net/sdavyson/Skewer')
             else
                # redirect back to login if we don't have the required attributes
                AngularForce.login ->
-                  $location.path '/contacts/'
+                  $location.path '/opportunities/'
                deferred.reject()
             deferred.promise
          ]
@@ -185,7 +185,7 @@ app.constant('GoInstantAppUrl', 'https://goinstant.net/sdavyson/Skewer')
    )
 
    # ... list of opportunities
-   .when('/contacts',
+   .when('/opportunities',
       controller: 'OpportunityListCtrl'
       templateUrl: 'partials/contact/list.html'
       resolve:

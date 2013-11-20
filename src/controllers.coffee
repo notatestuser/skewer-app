@@ -23,23 +23,23 @@ window.app
    isAuthenticated = AngularForce.authenticated()
 
    if AngularForce.inCordova
-      return $location.path "/contacts/"
+      return $location.path "/opportunities/"
 
    #Offline support (only for Cordova)
    #First check if we are online, then check if we are already authenticated (usually happens in Cordova),
-   #If Both online and authenticated(Cordova), go directly to /contacts view. Else show login page.
+   #If Both online and authenticated(Cordova), go directly to /opportunities view. Else show login page.
    unless isOnline
       unless isAuthenticated #MobileWeb
          return $location.path "/login"
       else #Cordova
-         return $location.path "/contacts/"
+         return $location.path "/opportunities/"
 
    #If in visualforce, directly login
    if AngularForce.inVisualforce
       $location.path "/login"
    else if AngularForce.refreshToken #If web, try to relogin using refresh-token
       AngularForce.login ->
-         $location.path "/contacts/"
+         $location.path "/opportunities/"
          $scope.$apply() #Required coz sfdc uses jquery.ajax
    else
       $location.path "/login"
@@ -47,13 +47,13 @@ window.app
 
 .controller('LoginCtrl', ($scope, AngularForce, $location, SFConfig) ->
    #Usually happens in Cordova
-   return $location.path("/contacts/")  if AngularForce.authenticated()
+   return $location.path("/opportunities/")  if AngularForce.authenticated()
 
    $scope.login = ->
       #If in visualforce, 'login' = initialize entity framework
       if AngularForce.inVisualforce
          AngularForce.login ->
-            $location.path '/contacts/'
+            $location.path '/opportunities/'
       else
          AngularForce.login()
 
@@ -69,11 +69,11 @@ window.app
 .controller('CallbackCtrl', ($scope, AngularForce, $location, SFConfig) ->
    AngularForce.oauthCallback document.location.href
 
-   #Note: Set hash to empty before setting path to /contacts to keep the url clean w/o oauth info.
+   #Note: Set hash to empty before setting path to /opportunities to keep the url clean w/o oauth info.
    #..coz oauth CB returns access_token in its own hash making it two hashes (1 from angular,
    # and another from oauth)
-   $location.hash ""
-   $location.path "/contacts"
+   $location.hash ''
+   $location.path '/opportunities'
 )
 
 .controller('SkewerListCtrl', ($routeParams, $scope, AngularForce, $location, GoInstantRoomId, sfSkewersForOpportunity) ->
@@ -116,7 +116,7 @@ window.app
 )
 
 .controller('SkewerCanvasCtrl', ($routeParams, $location, $filter, $timeout, $rootScope, $scope, AngularForce, GoAngular, pitchesService, shareService, pageBrandingData, salesforceOpportunity, userContactDetails) ->
-   return $location.path('/contacts') if not $routeParams?.opportunityId or not $routeParams?.roomId
+   return $location.path('/opportunities') if not $routeParams?.opportunityId or not $routeParams?.roomId
 
    [opportunityId, pitchId, roomId] = [$routeParams?.opportunityId, $routeParams?.pitchId, $routeParams?.roomId]
 
