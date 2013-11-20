@@ -285,7 +285,7 @@ window.app
          , "Text, URL", urlAttach: shareUrl
       else
          # just redirect there if we're on the web
-         $window.location.href = $scope.getTwitterTweetButtonLink()
+         window.open $scope.getTwitterTweetButtonLink()
 
    $scope.composeEmail = ->
       return '' if not shareUrl = $scope.shareUrl
