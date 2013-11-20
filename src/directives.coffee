@@ -71,11 +71,14 @@ window.app
             elem.height width * existingRatio
          if $scope.$$phase isnt '$digest'
             $scope.$apply()
+      checkInEditModeFn = ->
+         elem.addClass    'in-view-mode' if not $scope.inEditMode
+         elem.removeClass 'in-view-mode' if     $scope.inEditMode
       # on resize figure out what our aspect ratio is
       $(window).resize _.debounce(setRatioFn, 100)
       $scope.$watch 'aspectRatio', setRatioFn
-      $scope.$watch 'inEditMode',  setRatioFn
       $scope.$watch 'components',  setRatioFn, yes
+      $scope.$watch 'inEditMode',  _.compose(setRatioFn, checkInEditModeFn)
       setRatioFn()
 ])
 
@@ -295,6 +298,7 @@ window.app
                   when 'html-and-body'
                      # when branded the html and body els should prevent vertical scrolling
                      overflowY:          'hidden'
+                     backgroundColor:    _brandingData.barBgColour
                   when 'page', 'main-view-container'
                      color:              _brandingData.textColour
                      backgroundColor:    _brandingData.pageBgColour
