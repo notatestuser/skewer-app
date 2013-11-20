@@ -79,13 +79,20 @@ window.app
 .controller('SkewerListCtrl', ($routeParams, $scope, AngularForce, $location, GoInstantRoomId, sfSkewersForOpportunity) ->
    return $location.path("/home")  unless AngularForce.authenticated()
 
+   $scope.skewers = sfSkewersForOpportunity
    $scope.giRoomId = GoInstantRoomId.getRoomId()
    $scope.opportunityId = $routeParams.opportunityId
-   $scope.skewers = sfSkewersForOpportunity
    $scope.searchTerm = ""
 
    $scope.showLoadingState = ->
       $scope.isLoading = true
+
+   $scope.openSkewer = (skewer={}) ->
+      url = skewer.getskewer__Short_URL__c
+      if AngularForce.inCordova
+         navigator.app.loadUrl url, openExternal: yes
+      else
+         window.open url
 
    $scope.doSearch = ->
       Opportunity().search $scope.searchTerm, ((data) ->
