@@ -11,7 +11,7 @@ var express  = require('express')
 //SET APP_RELATIVE_PATH to a folder where your app's index.html resides.
 var APP_RELATIVE_PATH = path.join(__dirname, '/public/')
   , URL_FORWARDER = 'goo.gl'
-  , URL_FORWARDER_KEY = 'AIzaSyCIVwvSXOjf3Tof2UQ9BEViaBhRFUSXss0'
+  , URL_FORWARDER_KEY = 'xxx'
   , OUR_SHORT_URL_FORWARDING_DOMAIN = 'skwr.me'
   ;
 
